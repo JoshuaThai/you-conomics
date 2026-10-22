@@ -1,0 +1,128 @@
+[gd_scene format=3 uid="uid://c04cyinik45rl"]
+
+[ext_resource type="Texture2D" uid="uid://cgtruaxixdj37" path="res://Characters/Fry/Sprites/Fry.png" id="1_aycv7"]
+[ext_resource type="Script" uid="uid://v45st4hlcsra" path="res://Scripts/FS/fry.gd" id="1_yel8p"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aycv7"]
+bg_color = Color(0.2, 0.28627452, 0.37254903, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v0wua"]
+bg_color = Color(0.14901961, 0.21568628, 0.2784314, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yel8p"]
+bg_color = Color(0.2509804, 0.3647059, 0.47058824, 1)
+
+[node name="FryHome" type="Node2D" unique_id=857698565]
+script = ExtResource("1_yel8p")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1243142438]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.91723907, 0.7323783, 0.5555468, 1)
+
+[node name="FloorPlaceHolder" type="ColorRect" parent="." unique_id=48646194]
+offset_top = 760.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.5019608, 0.4, 0.3254902, 1)
+
+[node name="Fry" type="Sprite2D" parent="." unique_id=1782049508]
+texture_filter = 1
+position = Vector2(600, 690)
+scale = Vector2(8, 8)
+texture = ExtResource("1_aycv7")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1363549317]
+layer = 10
+
+[node name="HUD" type="Control" parent="UI" unique_id=431236435]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DayLabel" type="Label" parent="UI/HUD" unique_id=1488383751]
+layout_mode = 1
+offset_left = 70.0
+offset_top = 45.0
+offset_right = 390.0
+offset_bottom = 105.0
+theme_override_colors/font_color = Color(0.14901961, 0.19607843, 0.21960784, 1)
+theme_override_colors/font_outline_color = Color(0.9490196, 0.92156863, 0.8666667, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 38
+text = "DAY 1 / 30"
+vertical_alignment = 1
+
+[node name="MoneyLabel" type="Label" parent="UI/HUD" unique_id=1707583606]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -400.0
+offset_top = 45.0
+offset_right = -70.0
+offset_bottom = 105.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.18431373, 0.3647059, 0.22745098, 1)
+theme_override_colors/font_outline_color = Color(0.9098039, 0.88235295, 0.83137256, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 40
+text = "$100.00"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MoodLabel" type="Label" parent="UI/HUD" unique_id=117159045]
+layout_mode = 0
+offset_left = 1520.0
+offset_top = 110.0
+offset_right = 1850.0
+offset_bottom = 155.0
+theme_override_colors/font_color = Color(0.41568628, 0.23921569, 0.3647059, 1)
+theme_override_colors/font_outline_color = Color(0.9490196, 0.92156863, 0.8666667, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 28
+text = "Mood: 70"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="EnergyLabel" type="Label" parent="UI/HUD" unique_id=1333110607]
+layout_mode = 0
+offset_left = 1520.0
+offset_top = 150.0
+offset_right = 1850.0
+offset_bottom = 195.0
+theme_override_colors/font_color = Color(0.21176471, 0.35686275, 0.4509804, 1)
+theme_override_colors/font_outline_color = Color(0.9490196, 0.92156863, 0.8666667, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 28
+text = "Energy: 80"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="NextDayButton" type="Button" parent="UI/HUD" unique_id=1133312263]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -310.0
+offset_top = -150.0
+offset_right = -70.0
+offset_bottom = -74.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.9607843, 0.94509804, 0.9098039, 1)
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_aycv7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_v0wua")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yel8p")
+text = "NEXT DAY"
