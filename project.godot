@@ -11,9 +11,14 @@ config_version=5
 [application]
 
 config/name="You-conomics"
-run/main_scene="uid://ccmtb85us0fhl"
+run/main_scene="uid://c04cyinik45rl"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+DayManager="*uid://c0sdfo6d7nbvv"
+EventManager="*uid://dup68nu4muwrf"
 
 [display]
 
