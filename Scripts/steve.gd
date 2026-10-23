@@ -6,8 +6,11 @@ var debounce : bool = false
 func _physics_process(delta):
 	if Input.is_action_pressed("Clicked"):
 		if debounce: return
-		debounce = true
 		var mousePos : Vector2 = get_global_mouse_position()
+		if mousePos.x <= 0: 
+			print("Mouse Pos Blocked")
+			return
+		debounce = true
 		var walkDuration : float
 #		Dynamically Update Walk Duration based on how far the user is clicking.
 	# EDGE CASE I need to handle: Negative X units

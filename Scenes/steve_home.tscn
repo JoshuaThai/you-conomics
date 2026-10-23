@@ -7,23 +7,23 @@ size = Vector2(100, 20)
 
 [node name="Node2D" type="Node2D" unique_id=1590953351]
 
+[node name="Control" type="Control" parent="." unique_id=1375285827]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -100.0
+offset_right = 900.0
+offset_bottom = 512.0
+
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=519581919]
+layout_mode = 0
+offset_right = 1000.0
+offset_bottom = 512.0
+
+[node name="Steve" parent="." unique_id=2119416198 instance=ExtResource("1_fg468")]
+position = Vector2(220, 297)
+
 [node name="Platform" type="CharacterBody2D" parent="." unique_id=623532435]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Platform" unique_id=368129665]
 position = Vector2(122, 610)
 shape = SubResource("RectangleShape2D_yfxnn")
-
-[node name="Steve" parent="." unique_id=2119416198 instance=ExtResource("1_fg468")]
-position = Vector2(124, 561)
-
-[node name="Control" type="Control" parent="." unique_id=1375285827]
-layout_mode = 3
-anchors_preset = 0
-offset_top = 600.0
-offset_right = 40.0
-offset_bottom = 640.0
-
-[node name="ColorRect" type="ColorRect" parent="Control" unique_id=519581919]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
