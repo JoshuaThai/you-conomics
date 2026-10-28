@@ -1,29 +1,50 @@
-[gd_scene format=3 uid="uid://5055pxovm02n"]
+[gd_scene format=3 uid="uid://dnvjxcd4ulefs"]
 
-[ext_resource type="PackedScene" uid="uid://bmjykxtg5sbe5" path="res://Characters/Steve/steve.tscn" id="1_fg468"]
+[ext_resource type="Texture2D" uid="uid://cf85nylwsq4vv" path="res://Images/SteveHouse.png" id="1_fg468"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_yfxnn"]
-size = Vector2(100, 20)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fg468"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[node name="Node2D" type="Node2D" unique_id=1590953351]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_co4oi"]
+bg_color = Color(0.4117647, 0.4117647, 0.4117647, 0.49411765)
 
-[node name="Control" type="Control" parent="." unique_id=1375285827]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o68pl"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ga4n"]
+bg_color = Color(0.6, 0.6, 0.6, 0.4862745)
+
+[node name="SteveHome" type="Control" unique_id=1198867983]
 layout_mode = 3
-anchors_preset = 0
-offset_left = -100.0
-offset_right = 900.0
-offset_bottom = 512.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 80.0
+offset_bottom = -568.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="Control" unique_id=519581919]
+[node name="HomeBackground" type="Sprite2D" parent="." unique_id=359090353]
+texture_filter = 1
+position = Vector2(1000, 256)
+texture = ExtResource("1_fg468")
+
+[node name="DoorButton" type="Button" parent="." unique_id=788243306]
 layout_mode = 0
-offset_right = 1000.0
-offset_bottom = 512.0
+offset_left = 299.0
+offset_top = 309.0
+offset_right = 346.0
+offset_bottom = 388.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_fg468")
+theme_override_styles/hover = SubResource("StyleBoxFlat_co4oi")
 
-[node name="Steve" parent="." unique_id=2119416198 instance=ExtResource("1_fg468")]
-position = Vector2(220, 297)
-
-[node name="Platform" type="CharacterBody2D" parent="." unique_id=623532435]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform" unique_id=368129665]
-position = Vector2(122, 610)
-shape = SubResource("RectangleShape2D_yfxnn")
+[node name="CalendarButton" type="Button" parent="." unique_id=236515093]
+layout_mode = 0
+offset_left = 541.0
+offset_top = 329.0
+offset_right = 580.0
+offset_bottom = 370.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_o68pl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_4ga4n")
