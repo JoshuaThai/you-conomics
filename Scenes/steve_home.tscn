@@ -14,6 +14,18 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ga4n"]
 bg_color = Color(0.6, 0.6, 0.6, 0.4862745)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h5lkh"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dr8mt"]
+bg_color = Color(0.6, 0.6, 0.6, 0.4862745)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_njiju"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fmbli"]
+bg_color = Color(0.6, 0.6, 0.6, 0.4862745)
+
 [node name="SteveHome" type="Control" unique_id=1198867983]
 layout_mode = 3
 anchors_preset = 15
@@ -48,3 +60,23 @@ offset_bottom = 370.0
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_o68pl")
 theme_override_styles/hover = SubResource("StyleBoxFlat_4ga4n")
+
+[node name="ComputerButton" type="Button" parent="." unique_id=1036615719]
+layout_mode = 0
+offset_left = 622.0
+offset_top = 327.0
+offset_right = 674.0
+offset_bottom = 354.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_h5lkh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_dr8mt")
+
+[node name="BedButton" type="Button" parent="." unique_id=1297906385]
+layout_mode = 0
+offset_left = 206.0
+offset_top = 368.0
+offset_right = 268.0
+offset_bottom = 399.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_njiju")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fmbli")
