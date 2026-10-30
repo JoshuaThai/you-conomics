@@ -26,6 +26,21 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fmbli"]
 bg_color = Color(0.6, 0.6, 0.6, 0.4862745)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6o6un"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yf70o"]
+bg_color = Color(0.6, 0.6, 0.6, 0.4862745)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_11j4f"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nna63"]
+bg_color = Color(0.6, 0.6, 0.6, 0.4862745)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fg468"]
+size = Vector2(20, 284)
+
 [node name="SteveHome" type="Control" unique_id=1198867983]
 layout_mode = 3
 anchors_preset = 15
@@ -80,3 +95,39 @@ offset_bottom = 399.0
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_njiju")
 theme_override_styles/hover = SubResource("StyleBoxFlat_fmbli")
+
+[node name="FridgeButton" type="Button" parent="." unique_id=667555851]
+layout_mode = 0
+offset_left = 883.0
+offset_top = 309.0
+offset_right = 944.0
+offset_bottom = 388.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_6o6un")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yf70o")
+
+[node name="MailButton" type="Button" parent="." unique_id=1209495930]
+layout_mode = 0
+offset_left = 1291.0
+offset_top = 306.0
+offset_right = 1344.0
+offset_bottom = 388.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_11j4f")
+theme_override_styles/hover = SubResource("StyleBoxFlat_nna63")
+
+[node name="Boundaries" type="Node2D" parent="." unique_id=122191221]
+
+[node name="Wall" type="StaticBody2D" parent="Boundaries" unique_id=239971770]
+position = Vector2(725, 400)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/Wall" unique_id=1201765662]
+position = Vector2(0, -43)
+shape = SubResource("RectangleShape2D_fg468")
+
+[node name="Wall2" type="StaticBody2D" parent="Boundaries" unique_id=399614977]
+position = Vector2(174, 400)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/Wall2" unique_id=104042946]
+position = Vector2(0, -43)
+shape = SubResource("RectangleShape2D_fg468")

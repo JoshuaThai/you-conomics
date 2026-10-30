@@ -118,6 +118,8 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sl06h"]
 size = Vector2(38, 60)
 
+[sub_resource type="LabelSettings" id="LabelSettings_wwivn"]
+
 [node name="Steve" type="CharacterBody2D" unique_id=2119416198]
 script = ExtResource("1_kkqbf")
 
@@ -135,3 +137,28 @@ shape = SubResource("RectangleShape2D_sl06h")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=344067104]
 zoom = Vector2(5, 5)
+
+[node name="ButtonLabel" type="Label" parent="." unique_id=986715941]
+unique_name_in_owner = true
+texture_filter = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = 75.0
+offset_right = 20.0
+offset_bottom = 98.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Go to Kitchen"
+label_settings = SubResource("LabelSettings_wwivn")
+
+[node name="FrontRay" type="RayCast2D" parent="." unique_id=1714667026]
+unique_name_in_owner = true
+target_position = Vector2(50, 0)
+
+[node name="BackRay" type="RayCast2D" parent="." unique_id=1770814620]
+unique_name_in_owner = true
+target_position = Vector2(-50, 0)
