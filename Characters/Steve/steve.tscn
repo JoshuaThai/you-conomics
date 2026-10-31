@@ -3,6 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://dc37dax6rbxuk" path="res://Characters/Steve/Steve-Idle.png" id="1_2d6gj"]
 [ext_resource type="Script" uid="uid://bpib4w86k8h77" path="res://Scripts/steve.gd" id="1_kkqbf"]
 [ext_resource type="Texture2D" uid="uid://c8u5bq5ik3btg" path="res://Characters/Steve/Steve-Walking.png" id="3_wwivn"]
+[ext_resource type="Texture2D" uid="uid://rtrax0pda42h" path="res://Images/Phone App.png" id="4_brywt"]
+[ext_resource type="StyleBox" uid="uid://dx5ugkpst4r4u" path="res://Button Styles/default_button_color.tres" id="5_6id67"]
+[ext_resource type="Script" uid="uid://gny6u2md8wnu" path="res://Scripts/JT/steve_phone.gd" id="5_eomjc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kkqbf"]
 atlas = ExtResource("1_2d6gj")
@@ -118,6 +121,8 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sl06h"]
 size = Vector2(38, 60)
 
+[sub_resource type="LabelSettings" id="LabelSettings_wwivn"]
+
 [node name="Steve" type="CharacterBody2D" unique_id=2119416198]
 script = ExtResource("1_kkqbf")
 
@@ -134,4 +139,53 @@ position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_sl06h")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=344067104]
-zoom = Vector2(3, 3)
+zoom = Vector2(5, 5)
+
+[node name="ButtonLabel" type="Label" parent="." unique_id=986715941]
+unique_name_in_owner = true
+texture_filter = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = 75.0
+offset_right = 20.0
+offset_bottom = 98.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Go to Kitchen"
+label_settings = SubResource("LabelSettings_wwivn")
+
+[node name="FrontRay" type="RayCast2D" parent="." unique_id=1714667026]
+unique_name_in_owner = true
+target_position = Vector2(50, 0)
+
+[node name="BackRay" type="RayCast2D" parent="." unique_id=1770814620]
+unique_name_in_owner = true
+target_position = Vector2(-50, 0)
+
+[node name="PhoneUi" type="Sprite2D" parent="." unique_id=652756185]
+texture_filter = 1
+position = Vector2(154, 105)
+scale = Vector2(2, 2)
+texture = ExtResource("4_brywt")
+
+[node name="Button" type="Button" parent="PhoneUi" unique_id=1469971049]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -13.0
+offset_top = -16.0
+offset_right = -19.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = ExtResource("5_6id67")
+script = ExtResource("5_eomjc")
+
+[connection signal="mouse_entered" from="PhoneUi/Button" to="PhoneUi/Button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="PhoneUi/Button" to="PhoneUi/Button" method="_on_mouse_exited"]

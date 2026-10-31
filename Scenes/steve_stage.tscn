@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://5055pxovm02n"]
+
+[ext_resource type="PackedScene" uid="uid://bmjykxtg5sbe5" path="res://Characters/Steve/steve.tscn" id="1_350co"]
+[ext_resource type="PackedScene" uid="uid://dnvjxcd4ulefs" path="res://Scenes/steve_home.tscn" id="1_iwh43"]
+[ext_resource type="Script" uid="uid://clxkw3wyuqop4" path="res://Scripts/JT/steve_stage.gd" id="1_yl71a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yfxnn"]
+size = Vector2(100, 20)
+
+[node name="SteveStage" type="Node2D" unique_id=1590953351]
+script = ExtResource("1_yl71a")
+
+[node name="SteveHome" parent="." unique_id=1198867983 instance=ExtResource("1_iwh43")]
+offset_bottom = 0.0
+
+[node name="Steve" parent="." unique_id=2119416198 instance=ExtResource("1_350co")]
+unique_name_in_owner = true
+position = Vector2(273, 379)
+
+[node name="Platform" type="CharacterBody2D" parent="." unique_id=623532435]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform" unique_id=368129665]
+position = Vector2(122, 610)
+shape = SubResource("RectangleShape2D_yfxnn")
+
+[node name="KitchenSpawn" type="Marker2D" parent="." unique_id=278528654]
+unique_name_in_owner = true
+position = Vector2(890, 379)
