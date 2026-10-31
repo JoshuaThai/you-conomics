@@ -1,0 +1,146 @@
+[gd_scene format=3 uid="uid://dnvjxcd4ulefs"]
+
+[ext_resource type="Script" uid="uid://b26bhi3goqfgb" path="res://Scripts/JT/steve_home.gd" id="1_co4oi"]
+[ext_resource type="Texture2D" uid="uid://cf85nylwsq4vv" path="res://Images/SteveHouse.png" id="1_fg468"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fg468"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_co4oi"]
+bg_color = Color(0.4117647, 0.4117647, 0.4117647, 0.49411765)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o68pl"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ga4n"]
+bg_color = Color(0.6, 0.6, 0.6, 0.4862745)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h5lkh"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dr8mt"]
+bg_color = Color(0.6, 0.6, 0.6, 0.4862745)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_njiju"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fmbli"]
+bg_color = Color(0.6, 0.6, 0.6, 0.4862745)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6o6un"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yf70o"]
+bg_color = Color(0.6, 0.6, 0.6, 0.4862745)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_11j4f"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nna63"]
+bg_color = Color(0.6, 0.6, 0.6, 0.4862745)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fg468"]
+size = Vector2(20, 284)
+
+[node name="SteveHome" type="Control" unique_id=1198867983]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 80.0
+offset_bottom = -568.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_co4oi")
+
+[node name="HomeBackground" type="Sprite2D" parent="." unique_id=359090353]
+texture_filter = 1
+position = Vector2(1000, 256)
+texture = ExtResource("1_fg468")
+
+[node name="DoorButton" type="Button" parent="." unique_id=788243306]
+layout_mode = 0
+offset_left = 299.0
+offset_top = 309.0
+offset_right = 346.0
+offset_bottom = 388.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_fg468")
+theme_override_styles/hover = SubResource("StyleBoxFlat_co4oi")
+
+[node name="CalendarButton" type="Button" parent="." unique_id=236515093]
+layout_mode = 0
+offset_left = 541.0
+offset_top = 329.0
+offset_right = 580.0
+offset_bottom = 370.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_o68pl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_4ga4n")
+
+[node name="ComputerButton" type="Button" parent="." unique_id=1036615719]
+layout_mode = 0
+offset_left = 622.0
+offset_top = 327.0
+offset_right = 674.0
+offset_bottom = 354.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_h5lkh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_dr8mt")
+
+[node name="BedButton" type="Button" parent="." unique_id=1297906385]
+layout_mode = 0
+offset_left = 206.0
+offset_top = 368.0
+offset_right = 268.0
+offset_bottom = 399.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_njiju")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fmbli")
+
+[node name="FridgeButton" type="Button" parent="." unique_id=667555851]
+layout_mode = 0
+offset_left = 883.0
+offset_top = 309.0
+offset_right = 944.0
+offset_bottom = 388.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_6o6un")
+theme_override_styles/hover = SubResource("StyleBoxFlat_yf70o")
+
+[node name="MailButton" type="Button" parent="." unique_id=1209495930]
+layout_mode = 0
+offset_left = 1291.0
+offset_top = 306.0
+offset_right = 1344.0
+offset_bottom = 388.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_11j4f")
+theme_override_styles/hover = SubResource("StyleBoxFlat_nna63")
+
+[node name="Boundaries" type="Node2D" parent="." unique_id=122191221]
+
+[node name="Wall" type="StaticBody2D" parent="Boundaries" unique_id=239971770]
+position = Vector2(725, 400)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/Wall" unique_id=1201765662]
+position = Vector2(0, -43)
+shape = SubResource("RectangleShape2D_fg468")
+
+[node name="Wall2" type="StaticBody2D" parent="Boundaries" unique_id=399614977]
+position = Vector2(174, 400)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/Wall2" unique_id=104042946]
+position = Vector2(0, -43)
+shape = SubResource("RectangleShape2D_fg468")
+
+[node name="TransitionScreen" type="ColorRect" parent="." unique_id=1350767132]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+top_level = true
+layout_mode = 0
+offset_right = 2000.0
+offset_bottom = 512.0
+color = Color(0, 0, 0, 1)
+
+[connection signal="pressed" from="DoorButton" to="." method="_on_door_button_pressed"]

@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://dnvjxcd4ulefs"]
 
+[ext_resource type="Script" uid="uid://b26bhi3goqfgb" path="res://Scripts/JT/steve_home.gd" id="1_co4oi"]
 [ext_resource type="Texture2D" uid="uid://cf85nylwsq4vv" path="res://Images/SteveHouse.png" id="1_fg468"]
+[ext_resource type="Texture2D" uid="uid://cw40u64gk7i4u" path="res://Images/Green-Arrow.png" id="3_o68pl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fg468"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -41,6 +43,12 @@ bg_color = Color(0.6, 0.6, 0.6, 0.4862745)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fg468"]
 size = Vector2(20, 284)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m6swd"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fikte"]
+bg_color = Color(0, 0, 0, 0.24313726)
+
 [node name="SteveHome" type="Control" unique_id=1198867983]
 layout_mode = 3
 anchors_preset = 15
@@ -50,6 +58,7 @@ offset_right = 80.0
 offset_bottom = -568.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_co4oi")
 
 [node name="HomeBackground" type="Sprite2D" parent="." unique_id=359090353]
 texture_filter = 1
@@ -125,9 +134,50 @@ position = Vector2(725, 400)
 position = Vector2(0, -43)
 shape = SubResource("RectangleShape2D_fg468")
 
+[node name="Wall3" type="StaticBody2D" parent="Boundaries" unique_id=680471162]
+position = Vector2(848, 400)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/Wall3" unique_id=1263760796]
+position = Vector2(0, -43)
+shape = SubResource("RectangleShape2D_fg468")
+
+[node name="Wall4" type="StaticBody2D" parent="Boundaries" unique_id=1095406419]
+position = Vector2(1400, 400)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/Wall4" unique_id=762665188]
+position = Vector2(0, -43)
+shape = SubResource("RectangleShape2D_fg468")
+
 [node name="Wall2" type="StaticBody2D" parent="Boundaries" unique_id=399614977]
 position = Vector2(174, 400)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/Wall2" unique_id=104042946]
 position = Vector2(0, -43)
 shape = SubResource("RectangleShape2D_fg468")
+
+[node name="TransitionScreen" type="ColorRect" parent="." unique_id=1350767132]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0)
+top_level = true
+layout_mode = 0
+offset_right = 2000.0
+offset_bottom = 512.0
+color = Color(0, 0, 0, 1)
+
+[node name="BackToRoom" type="Sprite2D" parent="." unique_id=1111083787]
+texture_filter = 1
+position = Vector2(853.00006, 361)
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("3_o68pl")
+
+[node name="Button" type="Button" parent="BackToRoom" unique_id=1943658449]
+offset_left = -13.600037
+offset_top = -14.6666565
+offset_right = 10.666504
+offset_bottom = 14.6666565
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_m6swd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fikte")
+
+[connection signal="pressed" from="DoorButton" to="." method="_on_door_button_pressed"]

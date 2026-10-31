@@ -14,6 +14,7 @@ script = ExtResource("1_yl71a")
 offset_bottom = 0.0
 
 [node name="Steve" parent="." unique_id=2119416198 instance=ExtResource("1_350co")]
+unique_name_in_owner = true
 position = Vector2(273, 379)
 
 [node name="Platform" type="CharacterBody2D" parent="." unique_id=623532435]
@@ -21,3 +22,7 @@ position = Vector2(273, 379)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Platform" unique_id=368129665]
 position = Vector2(122, 610)
 shape = SubResource("RectangleShape2D_yfxnn")
+
+[node name="KitchenSpawn" type="Marker2D" parent="." unique_id=278528654]
+unique_name_in_owner = true
+position = Vector2(890, 379)
