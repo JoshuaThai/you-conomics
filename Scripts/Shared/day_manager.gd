@@ -15,11 +15,14 @@ signal month_completed
 #region Calendar Settings
 
 const TOTAL_DAYS: int = 30
-const PERIODS = ["Morning", "Afternoon", "Evening"]
+# PERIOD for the workdays (Monday - Friday)
+const PERIODS = ["Morning", "Noon", "Afternoon", "Evening", "Night"]
+#const WEEKEND_PERIODS = ["Morning", "Evening"]
 
 var current_day: int = 1
 var period_index: int = 0
 var finished: bool = false
+var isWeekend: bool = false
 
 #endregion
 
@@ -41,13 +44,22 @@ func advance_period() -> void:
 	if finished:
 		return
 	
-	if period_index < PERIODS.size() - 1:
+	if isWeekend:
+		if period_index == 0:
+			period_index = PERIODS.size() - 1
+		else:
+			isWeekend = false
+			
+	elif period_index < PERIODS.size() - 1:
 		period_index += 1
 	
 	elif current_day < TOTAL_DAYS:
 		current_day += 1
 		period_index = 0
 	
+#	If you are at the total days and you gone through 
+#   all of the periods
+
 	else:
 		finished = true
 		month_completed.emit()

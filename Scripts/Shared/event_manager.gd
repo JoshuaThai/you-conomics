@@ -52,6 +52,9 @@ func reset_run() -> void:
 
 #region Shared Event Definitions
 
+# The profile is being declared in character scripts
+# e.g. fry.gd
+
 func create_shared_event(
 	event_id: String,
 	profile: Dictionary
