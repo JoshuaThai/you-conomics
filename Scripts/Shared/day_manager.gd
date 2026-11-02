@@ -16,7 +16,7 @@ signal month_completed
 
 const TOTAL_DAYS: int = 30
 # PERIOD for the workdays (Monday - Friday)
-const PERIODS = ["Morning", "Noon", "Afternoon", "Evening", "Night"]
+const PERIODS = ["Morning", "Afternoon", "Evening", "Night"]
 #const WEEKEND_PERIODS = ["Morning", "Evening"]
 
 var current_day: int = 1
@@ -46,11 +46,11 @@ func advance_period() -> void:
 	
 	if isWeekend:
 		if period_index == 0:
-			period_index = PERIODS.size() - 1
+			period_index = PERIODS.size() - 2
 		else:
 			isWeekend = false
 			
-	elif period_index < PERIODS.size() - 1:
+	elif not isWeekend and period_index < PERIODS.size() - 1:
 		period_index += 1
 	
 	elif current_day < TOTAL_DAYS:
