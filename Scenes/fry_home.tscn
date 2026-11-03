@@ -6,6 +6,12 @@
 [ext_resource type="Shader" uid="uid://ijpdxi0qxgn7" path="res://Scripts/Shared/dialogue_blur.gdshader" id="3_v0wua"]
 [ext_resource type="Script" uid="uid://b13ibvkj30okq" path="res://Scripts/Shared/dialogue_manager.gd" id="4_8a10q"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yivqx"]
+size = Vector2(812, 250)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0icak"]
+size = Vector2(587, 300)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aycv7"]
 bg_color = Color(0.2, 0.28627452, 0.3529412, 0.8784314)
 corner_radius_top_left = 8
@@ -73,6 +79,18 @@ position = Vector2(1139.1112, 567.74994)
 scale = Vector2(1.5939817, 1.5939817)
 texture = ExtResource("2_yivqx")
 
+[node name="BedArea" type="Area2D" parent="." unique_id=212639112]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BedArea" unique_id=920782919]
+position = Vector2(563, 801)
+shape = SubResource("RectangleShape2D_yivqx")
+
+[node name="DeskArea" type="Area2D" parent="." unique_id=840538413]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeskArea" unique_id=185082893]
+position = Vector2(2133.5, 772)
+shape = SubResource("RectangleShape2D_0icak")
+
 [node name="CampusBackdrop" type="ColorRect" parent="." unique_id=260405293]
 visible = false
 offset_right = 1920.0
@@ -96,32 +114,44 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_lock_ = true
 
 [node name="DayLabel" type="Label" parent="UI/HUD" unique_id=1488383751]
 layout_mode = 1
-offset_left = 70.0
+offset_left = 60.0
 offset_top = 45.0
-offset_right = 390.0
+offset_right = 380.0
 offset_bottom = 105.0
-theme_override_colors/font_color = Color(0.14901961, 0.19607843, 0.21960784, 1)
+theme_override_colors/font_color = Color(0.9411765, 0.8980392, 0.84705883, 1)
 theme_override_colors/font_outline_color = Color(0.9490196, 0.92156863, 0.8666667, 1)
-theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 38
+theme_override_font_sizes/font_size = 34
 text = "DAY 1 / 30"
 vertical_alignment = 1
+metadata/_edit_lock_ = true
 
-[node name="PeriodLabel" type="Label" parent="UI/HUD" unique_id=636045673]
-layout_mode = 1
-offset_left = 70.0
-offset_top = 109.0
-offset_right = 390.0
-offset_bottom = 151.0
-theme_override_colors/font_color = Color(0.21176471, 0.35686275, 0.4509804, 1)
-theme_override_colors/font_outline_color = Color(0.9490196, 0.92156863, 0.8666667, 1)
+[node name="TimeRow" type="HBoxContainer" parent="UI/HUD" unique_id=178040871]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 108.0
+offset_right = 395.0
+offset_bottom = 144.0
+theme_override_constants/separation = 8
+
+[node name="WeekdayLabel" type="Label" parent="UI/HUD/TimeRow" unique_id=304788164]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.60784316, 0.76862746, 0.84313726, 1)
+theme_override_font_sizes/font_size = 26
+text = "PLACEHOLDER -"
+metadata/_edit_lock_ = true
+
+[node name="PeriodLabel" type="Label" parent="UI/HUD/TimeRow" unique_id=636045673]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.60784316, 0.76862746, 0.84313726, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 26
 text = "MORNING"
 vertical_alignment = 1
+metadata/_edit_lock_ = true
 
 [node name="TopRightStats" type="VBoxContainer" parent="UI/HUD" unique_id=1135915759]
 layout_mode = 1
@@ -189,6 +219,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_yel8p")
 text = "NEXT DAY"
 
 [node name="DialoguePanel" type="Panel" parent="UI/HUD" unique_id=126195794]
+visible = false
 material = SubResource("ShaderMaterial_8a10q")
 layout_mode = 1
 offset_left = 300.0

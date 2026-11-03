@@ -18,6 +18,7 @@ var active_event: Dictionary = {}
 
 #region Fry - Mood Icons
 
+# Five 64x64 mood sprites (kept in Fry's own folder).
 const MOOD_VERY_HAPPY: Texture2D = preload("res://Images/Icons/Fry/fry_very_happy.png")
 const MOOD_HAPPY: Texture2D = preload("res://Images/Icons/Fry/fry_happy.png")
 const MOOD_NEUTRAL: Texture2D = preload("res://Images/Icons/Fry/fry_neutral.png")
@@ -83,6 +84,17 @@ var campus_lines: Array[Dictionary] = []
 var after_campus_lines: String = ""
 var current_location: String = "bedroom"
 var transitioning: bool = false
+
+#endregion
+
+#region Fry - Free Time State
+
+const STUDY_ENERGY_COST: int = 12
+
+# These values persist throughout Fry's 30-day playthrough.
+var study_sessions: int = 0
+var activity_history: Array[Dictionary] = []
+var active_room_activity: String = ""
 
 #endregion
 
@@ -170,20 +182,23 @@ var scheduled_events: Dictionary = {
 #region Fry - Node References
 
 @onready var day_label: Label = $UI/HUD/DayLabel
-@onready var period_label: Label = $UI/HUD/PeriodLabel
-
+@onready var weekday_label: Label = $UI/HUD/TimeRow/WeekdayLabel
+@onready var period_label: Label = $UI/HUD/TimeRow/PeriodLabel
 
 @onready var money_label: Label = $UI/HUD/TopRightStats/MoneyLabel
 @onready var mood_label: Label = $UI/HUD/TopRightStats/MoodRow/MoodLabel
 @onready var mood_icon: TextureRect = $UI/HUD/TopRightStats/MoodRow/MoodIcon
 @onready var energy_label: Label = $UI/HUD/TopRightStats/EnergyLabel
 
-
 @onready var next_day_button: Button = $UI/HUD/NextDayButton
 
 @onready var dialogue_manager: DialogueManager = $UI/HUD/DialoguePanel
 @onready var campus_backdrop: ColorRect = $CampusBackdrop
 @onready var screen_fade: ColorRect = $UI/ScreenFade
+
+# These areas are invisible click targets placed over the bedroom artwork.
+@onready var bed_area: Area2D = $BedArea
+@onready var desk_area: Area2D = $DeskArea
 
 #endregion
 
@@ -196,8 +211,12 @@ func _ready() -> void:
 	screen_fade.color = Color.BLACK
 	screen_fade.modulate.a = 0.0
 	screen_fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# The full-screen HUD must not swallow clicks meant for bedroom objects.
+	# Child buttons and the visible dialogue panel keep their own input filters.
+	$UI/HUD.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 	DayManager.reset_calendar()
+	DayManager.schedule_night_for_day(5)
 	EventManager.reset_run()
 
 	next_day_button.pressed.connect(
@@ -211,6 +230,10 @@ func _ready() -> void:
 	DayManager.month_completed.connect(
 		_on_month_completed
 	)
+
+	# Optional bedroom interactions. Does not interfere with the dialogue signals.
+	bed_area.input_event.connect(_on_bed_input_event)
+	desk_area.input_event.connect(_on_desk_input_event)
 
 	update_ui()
 	start_current_period()
@@ -227,10 +250,11 @@ func update_ui() -> void:
 		DayManager.TOTAL_DAYS
 	]
 
+	weekday_label.text = DayManager.get_weekday_name().to_upper() + " •"
 	period_label.text = DayManager.get_period().to_upper()
+	update_period_color()
 
 	money_label.text = "$%.2f" % money
-	# The icon identifies the stat, so the label only needs the number.
 	mood_label.text = "Mood: %d" % mood
 	update_mood_icon()
 	energy_label.text = "Energy: %d" % energy
@@ -241,16 +265,32 @@ func update_ui() -> void:
 		next_day_button.text = "MONTH COMPLETE"
 		return
 
-	match DayManager.period_index:
-		0:
-			next_day_button.text = "TO AFTERNOON"
-		1:
-			next_day_button.text = "TO EVENING"
-		2:
-			if DayManager.current_day == DayManager.TOTAL_DAYS:
-				next_day_button.text = "FINISH MONTH"
-			else:
-				next_day_button.text = "NEXT DAY"
+	var next_time: Dictionary = DayManager.get_next_time()
+
+	if next_time.is_empty():
+		next_day_button.text = "FINISH MONTH"
+	elif int(next_time["day"]) != DayManager.current_day:
+		next_day_button.text = "NEXT DAY"
+	else:
+		next_day_button.text = "TO " + str(next_time["period"]).to_upper()
+
+
+func update_period_color() -> void:
+	var period_color: Color
+
+	match DayManager.get_period():
+		"Morning":
+			period_color = Color("#EBC477")
+		"Afternoon":
+			period_color = Color("#A9D2DE")
+		"Evening":
+			period_color = Color("#E6A078")
+		"Night":
+			period_color = Color("#B9A7E6")
+		_:
+			period_color = Color("#F0E5D8")
+
+	period_label.add_theme_color_override("font_color", period_color)
 
 #endregion
 
@@ -465,12 +505,148 @@ func get_unpaid_total() -> float:
 	
 #endregion
 
+#region Fry - Free Time Activities
+
+# Room interactions work only when Fry is home and no event is pending.
+# The button remains available, so the player can skip their free time.
+func can_use_room_activity() -> bool:
+	return (
+		current_location == "bedroom"
+		and not transitioning
+		and not DayManager.finished
+		and event_state == ""
+		and active_event.is_empty()
+		and period_queue.is_empty()
+	)
+
+
+func _on_bed_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if event is InputEventMouseButton:
+		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			show_room_activity("sleep")
+
+
+func _on_desk_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if event is InputEventMouseButton:
+		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			show_room_activity("study")
+
+
+
+func show_room_activity(activity: String) -> void:
+	if not can_use_room_activity():
+		return
+
+	active_room_activity = activity
+	event_state = "room_activity_choice"
+	next_day_button.hide()
+
+	match activity:
+		"sleep":
+			dialogue_manager.show_dialogue(
+				"FRY",
+				"I could use some rest. Should I sleep for a while?",
+				["Sleep (+25 Energy)", "Never mind"]
+			)
+
+		"study":
+			if energy < STUDY_ENERGY_COST:
+				event_state = "room_activity_unavailable"
+
+				dialogue_manager.show_dialogue(
+					"FRY",
+					"I'm too exhausted to concentrate right now. I should get some rest before studying.",
+					["Okay"]
+				)
+				return
+
+			dialogue_manager.show_dialogue(
+				"FRY",
+				"I have an exam to prepare for. I've studied %d time(s) so far." % study_sessions,
+				["Study (-%d Energy)" % STUDY_ENERGY_COST, "Never mind"]
+			)
+
+		_:
+			cancel_room_activity()
+
+
+
+func resolve_room_activity_choice(index: int) -> void:
+	if index == 1:
+		cancel_room_activity()
+		return
+
+	if index != 0:
+		return
+
+	var reaction: String = ""
+
+	match active_room_activity:
+		"sleep":
+			change_energy(25)
+			reaction = "That should help. Time to get some rest."
+
+		"study":
+			# Double-check before actually studying.
+			if energy < STUDY_ENERGY_COST:
+				event_state = "room_activity_unavailable"
+
+				dialogue_manager.show_dialogue(
+					"FRY",
+					"I'm too tired to study. I should rest first.",
+					["Okay"]
+				)
+				return
+
+			change_energy(-STUDY_ENERGY_COST)
+			study_sessions += 1
+
+			reaction = "I got some studying done. That's %d session(s) so far." % study_sessions
+
+		_:
+			cancel_room_activity()
+			return
+
+	activity_history.append({
+		"day": DayManager.current_day,
+		"period": DayManager.get_period(),
+		"activity": active_room_activity
+	})
+
+	event_state = "room_activity_result"
+
+	dialogue_manager.show_dialogue(
+		"FRY",
+		reaction,
+		["Continue"]
+	)
+
+
+
+func cancel_room_activity() -> void:
+	active_room_activity = ""
+	event_state = ""
+	dialogue_manager.close_dialogue()
+	next_day_button.show()
+
+
+func complete_room_activity() -> void:
+	# An activity consumes this period. Reset the dialogue state first,
+	# so Fry's existing advance_time() method is allowed to run.
+	active_room_activity = ""
+	event_state = ""
+	dialogue_manager.close_dialogue()
+	advance_time(true)
+
+#endregion
+
 #region Fry - Day Progression
 
 func start_current_period() -> void:
 	event_state = ""
 	active_event.clear()
 	active_bill_id = ""
+	active_room_activity = ""
 	period_queue.clear()
 
 	dialogue_manager.close_dialogue()
@@ -559,7 +735,7 @@ func load_period_event() -> void:
 	)
 
 
-func advance_time() -> void:
+func advance_time(force_fade: bool = false) -> void:
 	if event_state != "" or transitioning:
 		return
 
@@ -586,7 +762,7 @@ func advance_time() -> void:
 	)
 
 	# Fade overnight for the story, and whenever the place changes.
-	if destination != current_location or story_overnight:
+	if destination != current_location or story_overnight or force_fade:
 		await fade_to_location(destination)
 
 	start_current_period()
@@ -668,6 +844,15 @@ func finish_event() -> void:
 func _on_dialogue_choice_selected(index: int) -> void:
 
 	match event_state:
+
+		"room_activity_choice":
+			resolve_room_activity_choice(index)
+
+		"room_activity_result":
+			complete_room_activity()
+
+		"room_activity_unavailable":
+			cancel_room_activity()
 
 		"event_choice":
 			resolve_event_choice(index)
