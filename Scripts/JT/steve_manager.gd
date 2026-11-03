@@ -5,7 +5,8 @@ THIS SCRIPT WILL HANDLE STEVE'S SPECIFIC EVENTS
 # These are the events that you expect to occur on a weekday
 var steve_normal_events = [
 	"Breakfast", "Lunch", "Snack", "Dinner",
-	"Work on Hobby", "Sleep"
+	"Work on Hobby", "Sleep", "Scam Email",
+	"Legit Email"
 ]
 # These are the events that are character specific and
 # can randomly pop up on a weekday
@@ -20,6 +21,8 @@ var steve_weekly_events = [
 # Some other ways to make consequences more interesting
 # is to make player be only able to say yes to fun events 
 # if their mood is down
+
+# or Make player only able to say no when there energy is low!
 var steve_consequences_events = [
 	"Wager a bet", "Ask for Promotion", "Take out a loan"
 ]
