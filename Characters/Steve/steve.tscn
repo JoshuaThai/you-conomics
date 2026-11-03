@@ -248,6 +248,7 @@ theme_override_styles/normal = ExtResource("5_6id67")
 script = ExtResource("5_eomjc")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=54465791]
+unique_name_in_owner = true
 layer = 10
 
 [node name="HUD" type="Control" parent="UI" unique_id=968511520]
@@ -351,6 +352,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_1iva0")
 text = "NEXT DAY"
 
 [node name="DialoguePanel" type="Panel" parent="UI/HUD" unique_id=1909497215]
+unique_name_in_owner = true
 material = SubResource("ShaderMaterial_drbi8")
 layout_mode = 1
 offset_left = 300.0

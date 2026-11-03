@@ -1,0 +1,113 @@
+extends Node
+"""
+THIS SCRIPT WILL HANDLE STEVE'S SPECIFIC EVENTS
+"""
+# These are the events that you expect to occur on a weekday
+var steve_normal_events = [
+	"Breakfast", "Lunch", "Snack", "Dinner",
+	"Work on Hobby", "Sleep"
+]
+# These are the events that are character specific and
+# can randomly pop up on a weekday
+var steve_weekly_events = [
+	"Work a extra shift", "Pay Bonus", "Hate Mail",
+	"Buy New Computer", "Buy New Socks"
+]
+
+# These are events that can appear if the character is beginning to
+# stress out about their finances.
+
+# Some other ways to make consequences more interesting
+# is to make player be only able to say yes to fun events 
+# if their mood is down
+var steve_consequences_events = [
+	"Wager a bet", "Ask for Promotion", "Take out a loan"
+]
+
+var steve_special_events = [
+	"Hang out with friends", "Go to the movies",
+	"Buy Auto Theft 67"
+]
+# This will contain all relevant info to the special events
+# which will only happen during weekends
+# The info will be the caption and the corresponding options
+var steve_special_events_info = {
+#	Yes and No will contain the min/max amount of money you 
+# could lose and the min/max mood and energy you could lose
+	"Hang out with friends" : {
+		"Caption": "Your friends want to hang out today!",
+		"Options": ["Yes", "No"],
+		"Yes": {
+			"minCash": -20,
+			"maxCash": -50,
+			"minEnergy": -5,
+			"maxEnergy": -10,
+			"minMood": 5,
+			"maxMood": 10,
+		},
+		"No":{
+			"minCash": 0,
+			"maxCash": 0,
+			"minEnergy": 5,
+			"maxEnergy": 10,
+			"minMood": -5,
+			"maxMood": -10,
+		}
+	},
+	"Go to the movies" :{
+		"Caption": "You are thinking about going to the movies to watch",
+		"Options": ["Yes", "No", "Stream the movie"],
+		"Yes": {
+			"minCash": -10,
+			"maxCash": -20,
+			"minEnergy": -5,
+			"maxEnergy": -10,
+			"minMood": 5,
+			"maxMood": 10,
+		},
+		"No":{
+			"minCash": 0,
+			"maxCash": 0,
+			"minEnergy": 5,
+			"maxEnergy": 10,
+			"minMood": -5,
+			"maxMood": -15,
+		},
+		"Stream the movie": {
+			"minCash": -5,
+			"maxCash": -10,
+			"minEnergy": -1,
+			"maxEnergy": -2,
+			"minMood": 1,
+			"maxMood": 2,
+		}
+	},
+	"Buy Auto Theft 67" :{
+		"Caption": "You are thinking about buying that new Auto Theft 67 video game.",
+		"Options": ["Yes", "No", "Pirate it!"],
+		"Yes": {
+			"minCash": -60,
+			"maxCash": -100,
+			"minEnergy": -5,
+			"maxEnergy": -10,
+			"minMood": 10,
+			"maxMood": 20,
+		},
+		"No":{
+			"minCash": 0,
+			"maxCash": 0,
+			"minEnergy": 5,
+			"maxEnergy": 10,
+			"minMood": -10,
+			"maxMood": -20,
+		},
+		"Pirate it!": {
+			"minCash": 0,
+			"maxCash": -300,
+			"minEnergy": 5,
+			"maxEnergy": 10,
+			"minMood": 20,
+			"maxMood": -20,
+		}
+	}
+}

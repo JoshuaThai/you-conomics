@@ -128,7 +128,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_nna63")
 [node name="Boundaries" type="Node2D" parent="." unique_id=122191221]
 
 [node name="Wall" type="StaticBody2D" parent="Boundaries" unique_id=239971770]
-position = Vector2(725, 400)
+position = Vector2(709, 400)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/Wall" unique_id=1201765662]
 position = Vector2(0, -43)
@@ -167,7 +167,7 @@ color = Color(0, 0, 0, 1)
 
 [node name="BackToRoom" type="Sprite2D" parent="." unique_id=1111083787]
 texture_filter = 1
-position = Vector2(853.00006, 361)
+position = Vector2(860, 361.00003)
 scale = Vector2(1.25, 1.25)
 texture = ExtResource("3_o68pl")
 
