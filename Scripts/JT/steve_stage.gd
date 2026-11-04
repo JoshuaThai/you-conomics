@@ -16,3 +16,4 @@ var steve_profile = {
 func _ready():
 	steve_profile["debt_amount"] = randi() % 1000 + 800
 	steve_profile["salary"] = randi() % 200 + 150
+	%SteveEventHandler._show_current_period_dialogue()

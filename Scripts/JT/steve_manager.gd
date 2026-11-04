@@ -1,13 +1,40 @@
 extends Node
 """
-THIS SCRIPT WILL HANDLE STEVE'S SPECIFIC EVENTS
+THIS SCRIPT WILL CONTAIN DATA ON STEVE'S SPECIFIC EVENTS
 """
+
+
+var steve_profile: Dictionary = {
+	"name": "Steve",
+
+	"breakfast_cost": 29,
+	"home_breakfast_cost": 4,
+
+	"breakfast_dialogue":
+		"Ugh. Should I order breakfast or just make something at home?",
+
+	"breakfast_order_reaction":
+		"Yessir! ...Hold on, did I really just spend $29 on breakfast?",
+
+	"breakfast_cook_reaction":
+		"Required more effort than I thought. But worth it for the money being saved.",
+
+	"breakfast_skip_reaction":
+		"I will eat some other time. Money needs to be made! *yawns*"
+}
+
 # These are the events that you expect to occur on a weekday
 var steve_normal_events = [
-	"Breakfast", "Lunch", "Snack", "Dinner",
+	"Lunch", "Snack", "Dinner",
 	"Work on Hobby", "Sleep", "Scam Email",
 	"Legit Email"
 ]
+
+var steve_normal_events_info = {
+	"Breakfast" : {
+		
+	}
+}
 # These are the events that are character specific and
 # can randomly pop up on a weekday
 var steve_weekly_events = [
