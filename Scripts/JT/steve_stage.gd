@@ -1,4 +1,5 @@
-extends Node2D
+class_name SteveStage
+extends Node
 
 #region Steve - Starting Information
 var money: int = 100

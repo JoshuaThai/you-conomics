@@ -7,6 +7,11 @@ var movement_Tween : Tween
 # Player State
 var moving_Forward : bool = true
 
+# Available Choices Info
+# Store the current event that player is going through
+var available_choices_info= {}
+
+
 
 # Variables
 @onready var button_Label : Label = %ButtonLabel
@@ -20,9 +25,16 @@ func _ready():
 	%UI.visible = false
 	await steve_Home._trigger_transition_on_start()
 	%UI.visible = true
+	
+func pause_movement():
+	debounce = true
+	
+func unpause_movement():
+	debounce = false
 
 # Display Dialogue
 func show_dialogue(speaker: String, message: String, options: Array):
+	pause_movement()
 	dialogue_panel.show_dialogue(speaker, message, options)
 		
 func _physics_process(delta):

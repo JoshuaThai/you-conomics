@@ -21,6 +21,7 @@ var steve_profile: Dictionary = {
 
 	"breakfast_skip_reaction":
 		"I will eat some other time. Money needs to be made! *yawns*"
+		
 }
 
 # These are the events that you expect to occur on a weekday
