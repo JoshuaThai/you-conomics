@@ -10,4 +10,4 @@ func _show_current_period_dialogue():
 # Note: We will grab the breakfast info from steve_profile
 # Look at how freddie did it in his script.
 	if current_period == "Morning":
-		pass
+		var name = steve_manager.steve_profile["name"]
