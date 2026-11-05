@@ -12,8 +12,19 @@ var moving_Forward : bool = true
 @onready var button_Label : Label = %ButtonLabel
 @onready var front_Ray : RayCast2D = %FrontRay
 @onready var back_Ray : RayCast2D = %BackRay
+@onready var steve_Home = %SteveHome
+@onready var dialogue_panel = %DialoguePanel
 
-	
+func _ready():
+	print("Steve is ready!")
+	%UI.visible = false
+	await steve_Home._trigger_transition_on_start()
+	%UI.visible = true
+
+# Display Dialogue
+func show_dialogue(speaker: String, message: String, options: Array):
+	dialogue_panel.show_dialogue(speaker, message, options)
+		
 func _physics_process(delta):
 	if front_Ray.is_colliding():
 #		Only prevent user from walking forward
@@ -101,5 +112,3 @@ func _physics_process(delta):
 		if debounce: return
 		%AnimatedSprite2D.animation = "Idle"
 			
-	
-		
