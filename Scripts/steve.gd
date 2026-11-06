@@ -11,6 +11,18 @@ var moving_Forward : bool = true
 # Store the current event that player is going through
 var available_choices_info= {}
 
+#region Steve - Starting Information
+var money: int = 100
+var mood: int = 70
+var energy: int = 80
+
+var steve_profile = {
+	"name": "Steve",
+	"debt_amount": 1000,
+	"salary": 200,
+	"workplace": "You-ville IT Solutions" 
+}
+
 
 
 # Variables
@@ -21,7 +33,9 @@ var available_choices_info= {}
 @onready var dialogue_panel = %DialoguePanel
 
 func _ready():
-	print("Steve is ready!")
+	#print("Steve is ready!")
+	steve_profile["debt_amount"] = randi() % 1000 + 800
+	steve_profile["salary"] = randi() % 200 + 150
 	%UI.visible = false
 	await steve_Home._trigger_transition_on_start()
 	%UI.visible = true

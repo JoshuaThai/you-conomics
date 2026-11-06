@@ -32,8 +32,31 @@ var steve_normal_events = [
 ]
 
 var steve_normal_events_info = {
-	"Breakfast" : {
-		
+#	If player run out of food in fridge, they will only be allowed
+# to select order lunch or skip lunch
+	"Lunch" : {
+		"message": "What shall I do for Lunch?",
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Order Lunch",
+			"money": randi_range(-10, -5),
+			"energy": 10,
+			"mood": randi_range(5, 10),
+			"reaction": "Yay! Lunchtime is going to be fire!"
+			},
+			{"text": "Prepare Lunch Yourself",
+			"money": 0,
+			"energy": 5,
+			"mood": randi_range(5, 10),
+			"reaction": "Yay! Lunchtime is going to be fire!"
+			},
+			{"text": "Skip Lunch",
+			"money": 0,
+			"energy": -10,
+			"mood": randi_range(-10, -5),
+			"reaction": "Lunch, Smunch! I will be fine without it."
+			}
+		]
 	}
 }
 # These are the events that are character specific and
@@ -51,6 +74,8 @@ var steve_weekly_events = [
 # if their mood is down
 
 # or Make player only able to say no when there energy is low!
+# If steve becomes aware that he is struggling with money, he will
+# start to get risky in some events
 var steve_consequences_events = [
 	"Wager a bet", "Ask for Promotion", "Take out a loan"
 ]
@@ -66,79 +91,69 @@ var steve_special_events_info = {
 #	Yes and No will contain the min/max amount of money you 
 # could lose and the min/max mood and energy you could lose
 	"Hang out with friends" : {
-		"Caption": "Your friends want to hang out today!",
-		"Options": ["Yes", "No"],
-		"Yes": {
-			"minCash": -20,
-			"maxCash": -50,
-			"minEnergy": -5,
-			"maxEnergy": -10,
-			"minMood": 5,
-			"maxMood": 10,
-		},
-		"No":{
-			"minCash": 0,
-			"maxCash": 0,
-			"minEnergy": 5,
-			"maxEnergy": 10,
-			"minMood": -5,
-			"maxMood": -10,
-		}
+		"message": "My friends want to hang out today!",
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Yes",
+			"money": randi_range(-50, -20),
+			"energy": randi_range(-10, -5),
+			"mood": randi_range(5, 10),
+			"reaction": "We're going out today!"
+			},
+			{"text": "No",
+			"money": 0,
+			"energy": randi_range(5, 10),
+			"mood": randi_range(-10, -5),
+			"reaction": "Nope. Staying home!"
+			}
+		]
+
 	},
 	"Go to the movies" :{
-		"Caption": "You are thinking about going to the movies to watch",
-		"Options": ["Yes", "No", "Stream the movie"],
-		"Yes": {
-			"minCash": -10,
-			"maxCash": -20,
-			"minEnergy": -5,
-			"maxEnergy": -10,
-			"minMood": 5,
-			"maxMood": 10,
-		},
-		"No":{
-			"minCash": 0,
-			"maxCash": 0,
-			"minEnergy": 5,
-			"maxEnergy": 10,
-			"minMood": -5,
-			"maxMood": -15,
-		},
-		"Stream the movie": {
-			"minCash": -5,
-			"maxCash": -10,
-			"minEnergy": -1,
-			"maxEnergy": -2,
-			"minMood": 1,
-			"maxMood": 2,
-		}
+		"Caption": "I am thinking about going to the movies. ",
+		#"Options": ["Yes", "No", "Stream the movie"],
+		"choices": [{
+			"text": "Yes",
+			"money": randi_range(-20, -10),
+			"energy": randi_range(-10, -5),
+			"mood": randi_range(5, 10),
+			"reaction": "Movietime!"
+			},
+			{
+			"text": "No",
+			"money": 0,
+			"energy": randi_range(1, 2),
+			"mood": randi_range(-15, -5),
+			"reaction": "Probably for the best. I need to lay off the money."
+			},{
+			"text": "Stream the movie",
+			"money": randi_range(-10, -5),
+			"energy": randi_range(-2, -1),
+			"mood": randi_range(1, 2),
+			"reaction": "Let me save myself the trouble. I will just stream it!"
+		}],
 	},
 	"Buy Auto Theft 67" :{
-		"Caption": "You are thinking about buying that new Auto Theft 67 video game.",
-		"Options": ["Yes", "No", "Pirate it!"],
-		"Yes": {
-			"minCash": -60,
-			"maxCash": -100,
-			"minEnergy": -5,
-			"maxEnergy": -10,
-			"minMood": 10,
-			"maxMood": 20,
+		"message": "I am thinking about buying that new Auto Theft 67 video game.",
+		"choices": [{
+			"text": "Yes",
+			"money": randi_range(-100, -60),
+			"energy": randi_range(-10, -5),
+			"mood": randi_range(10,20),
+			"reaction": "Buying it because I am... Steve."
 		},
-		"No":{
-			"minCash": 0,
-			"maxCash": 0,
-			"minEnergy": 5,
-			"maxEnergy": 10,
-			"minMood": -10,
-			"maxMood": -20,
-		},
-		"Pirate it!": {
-			"minCash": 0,
-			"maxCash": -300,
-			"minEnergy": 5,
-			"maxEnergy": 10,
-			"minMood": 20,
-			"maxMood": -20,
-		}
+		{	"text": "No",
+			"money": 0,
+			"energy": randi_range(5, 10),
+			"mood": randi_range(-20,-10),
+			"reaction": "Going to look like such a lame-o. But bills gotta be paid!"
+			},
+			{
+			"text": "Pirate it!",
+			"money": randi_range(-100, 0),
+			"energy": randi_range(5, 10),
+			"mood": randi_range(-20,20),
+			"reaction": "Risking it for the biscuit? I am him!"
+		}]
 	}
 }

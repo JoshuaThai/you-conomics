@@ -300,7 +300,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.18431373, 0.3647059, 0.22745098, 1)
 theme_override_colors/font_outline_color = Color(0.9098039, 0.88235295, 0.83137256, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 42
 text = "$100.00"
 horizontal_alignment = 2
 vertical_alignment = 1
@@ -322,9 +322,10 @@ stretch_mode = 5
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.41568628, 0.23921569, 0.3647059, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0.9490196, 0.92156863, 0.8666667, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 28
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 32
 text = "Mood: 70"
 vertical_alignment = 1
 
@@ -333,26 +334,26 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.21176471, 0.35686275, 0.4509804, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0.9490196, 0.92156863, 0.8666667, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 28
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 32
 text = "Energy: 80"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="NextDayButton" type="Button" parent="UI/HUD" unique_id=1282750899]
-visible = false
+[node name="NextPeriodButton" type="Button" parent="UI/HUD" unique_id=1282750899]
 layout_mode = 1
-offset_left = 1647.0
-offset_top = 911.0
-offset_right = 1857.0
-offset_bottom = 975.0
+offset_left = 56.0
+offset_top = 176.0
+offset_right = 266.0
+offset_bottom = 240.0
 theme_override_colors/font_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_oj16r")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_tntse")
 theme_override_styles/hover = SubResource("StyleBoxFlat_1iva0")
-text = "NEXT DAY"
+text = "NEXT PERIOD"
 
 [node name="DialoguePanel" type="Panel" parent="UI/HUD" unique_id=1909497215]
 unique_name_in_owner = true
@@ -390,6 +391,7 @@ text = "FRY"
 vertical_alignment = 1
 
 [node name="DialogueLabel" type="Label" parent="UI/HUD/DialoguePanel/ContentMargin/VBox" unique_id=109308614]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
