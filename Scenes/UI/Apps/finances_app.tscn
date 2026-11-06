@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://kchvhqv1a1ax"]
+
+[ext_resource type="Script" uid="uid://co5c84dlgw4vh" path="res://Scripts/Shared/finances_app.gd" id="1_2g03r"]
+
+[node name="FinancesApp" type="VBoxContainer" unique_id=648969540]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_2g03r")

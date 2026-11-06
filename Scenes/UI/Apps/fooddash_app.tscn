@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://ccd6mjaryc8da"]
+
+[ext_resource type="Script" uid="uid://csj3qxm6wxh00" path="res://Scripts/Shared/fooddash_app.gd" id="1_sud15"]
+
+[node name="FooddashApp" type="VBoxContainer" unique_id=656978187]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_sud15")

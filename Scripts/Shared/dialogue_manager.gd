@@ -21,6 +21,11 @@ extends Panel
 
 signal choice_selected(index: int)
 
+# Used to show what character is speaking during dialogue.
+signal speaker_changed(speaker: String)
+signal dialogue_closed
+
+
 #endregion
 
 
@@ -54,10 +59,13 @@ func show_dialogue(speaker: String,message: String, options: Array) -> void:
 			button.hide()
 
 	show()
+	speaker_changed.emit(speaker)
 
 
 func close_dialogue() -> void:
 	hide()
+	dialogue_closed.emit()
+
 
 #endregion
 
