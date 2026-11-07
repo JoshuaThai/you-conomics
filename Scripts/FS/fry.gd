@@ -14,6 +14,9 @@ var energy: int = 80
 var event_state: String = ""
 var active_event: Dictionary = {}
 
+# Set this when the project's actual main menu scene is ready.
+const MAIN_MENU_SCENE_PATH: String = ""
+
 #endregion
 
 #region Fry - Mood Icons
@@ -84,8 +87,16 @@ var total_late_fees: float = 0.0
 # Personal story flags stay with Fry
 var story_flags: Dictionary = {
 	"attend_campus": false,
-	"packed_lunch": false
+	"packed_lunch": false,
+
+	# Student club storyline.
+	"club_helped": false,
+	"club_ready": false,
+	"club_supported": false,
+	
+	"caught_up_with_dulce": false
 }
+
 
 # Fry's textbook decisions and their consequences.
 var textbook_choice: String = ""
@@ -105,9 +116,14 @@ var after_campus_lines: String = ""
 var current_location: String = "bedroom"
 var transitioning: bool = false
 
-# Campus character positions -- May or may not be changed
+# Original two-character campus positions.
 const FRY_CAMPUS_POSITION: Vector2 = Vector2(650, 690)
 const DULCE_CAMPUS_POSITION: Vector2 = Vector2(1220, 690)
+
+# Group positions for scenes featuring all three friends.
+const FRY_GROUP_POSITION: Vector2 = Vector2(430, 690)
+const STEVE_GROUP_POSITION: Vector2 = Vector2(950, 720)
+const DULCE_GROUP_POSITION: Vector2 = Vector2(1470, 690)
 
 # Speaker presentation.
 const SPEAKER_SIZE_MULTIPLIER: float = 1.08
@@ -117,8 +133,10 @@ const INACTIVE_CHARACTER_COLOR: Color = Color(0.50, 0.50, 0.50, 1.0)
 var fry_bedroom_position: Vector2
 var fry_normal_scale: Vector2
 var dulce_normal_scale: Vector2
+var steve_normal_scale: Vector2
 
 var speaker_tween: Tween
+
 
 #endregion
 
@@ -143,6 +161,11 @@ var last_study_day: int = -1
 var event_consumes_period: bool = false
 
 var pending_after_period_reaction: String = ""
+
+# Multi-page end-of-month recap.
+var month_recap_pages: Array[Dictionary] = []
+var month_recap_page_index: int = 0
+
 
 #endregion
 
@@ -229,6 +252,229 @@ var scheduled_events: Dictionary = {
 
 }
 
+
+func add_late_month_events() -> void:
+
+	# Day 16 - College project expenses.
+	scheduled_events["16_Afternoon"] = {
+		"id": "fry_project_printing",
+		"speaker": "FRY",
+		"message": "Our class presentation is coming up. I still need to prepare the handouts. How should I do it?",
+		"choices": [
+			{
+				"text": "Color handouts - $18",
+				"money": -18,
+				"energy": -2,
+				"mood": 5,
+				"finance_label": "Color project handouts",
+				"finance_category": "Education",
+				"reaction": "They turned out pretty nice! Hopefully the group likes them."
+			},
+			{
+				"text": "Black-and-white handouts - $6",
+				"money": -6,
+				"energy": -5,
+				"mood": 2,
+				"finance_label": "Basic project handouts",
+				"finance_category": "Education",
+				"reaction": "Nothing fancy, but they're readable. That's what matters."
+			},
+			{
+				"text": "Create digital handouts - $0",
+				"energy": -10,
+				"mood": 1,
+				"reaction": "That took longer than expected, but at least I didn't spend anything."
+			}
+		]
+	}
+
+	# Day 19 - Extra money before tuition.
+	scheduled_events["19_Evening"] = {
+		"id": "fry_quick_money",
+		"speaker": "FRY",
+		"message": "My school payment is due tomorrow. I could really use some extra cash tonight.",
+		"choices": [
+			{
+				"text": "Take a rush editing job (+$35)",
+				"money": 35,
+				"energy": -18,
+				"mood": -2,
+				"consumes_period": true,
+				"finance_label": "Rush editing job",
+				"finance_category": "Income",
+				"reaction": "Looks like someone needs this finished tonight. Better get started.",
+				"after_period_reaction": "Finally finished! I'm exhausted, but the $35 payment came through."
+			},
+			{
+				"text": "Sell an old video game (+$22)",
+				"money": 22,
+				"mood": -5,
+				"finance_label": "Used video game sale",
+				"finance_category": "Income",
+				"reaction": "Kinda sad to let it go, but I needed the money more."
+			},
+			{
+				"text": "Take the evening off",
+				"energy": 8,
+				"mood": 3,
+				"reaction": "I'll deal with tomorrow when it comes. I really need a break."
+			}
+		]
+	}
+
+	# Day 22 - Bookstore shift with delayed payment.
+	scheduled_events["22_Afternoon"] = {
+		"id": "fry_inventory_shift",
+		"speaker": "FRY",
+		"message": "The bookstore needs help counting inventory. They're offering extra hours, but I'll have to give up my afternoon.",
+		"choices": [
+			{
+				"text": "Work the full shift (+$52 later)",
+				"energy": -14,
+				"mood": -3,
+				"consumes_period": true,
+				"reaction": "Alright, a full shift it is. Time to get to work.",
+				"after_period_reaction": "That was a long afternoon. At least I've got some extra pay coming.",
+				"delayed": {
+					"days_later": 2,
+					"period": "Evening",
+					"money": 52,
+					"finance_label": "Inventory shift pay",
+					"finance_category": "Income",
+					"text": "The bookstore paid me for that inventory shift. +$52!"
+				}
+			},
+			{
+				"text": "Work a shorter shift (+$26 later)",
+				"energy": -8,
+				"mood": -1,
+				"consumes_period": true,
+				"reaction": "A shorter shift should be manageable.",
+				"after_period_reaction": "Not too bad. A little extra money is better than nothing.",
+				"delayed": {
+					"days_later": 2,
+					"period": "Evening",
+					"money": 26,
+					"finance_label": "Short inventory shift pay",
+					"finance_category": "Income",
+					"text": "The bookstore paid me for the short inventory shift. +$26!"
+				}
+			},
+			{
+				"text": "Keep my afternoon free",
+				"energy": 5,
+				"mood": 4,
+				"reaction": "I'll pass this time. I've been working enough lately."
+			}
+		]
+	}
+
+	# Day 24 - Reliable versus cheap equipment.
+	scheduled_events["24_Morning"] = {
+		"id": "fry_broken_charger",
+		"speaker": "FRY",
+		"message": "Seriously? My laptop charger is acting up. I need this thing for school.",
+		"choices": [
+			{
+				"text": "Buy a cheap charger - $14",
+				"money": -14,
+				"mood": 1,
+				"finance_label": "Budget laptop charger",
+				"finance_category": "Electronics",
+				"reaction": "Fourteen bucks isn't bad. Hopefully it lasts.",
+				"delayed": {
+					"days_later": 4,
+					"period": "Evening",
+					"mood": -5,
+					"energy": -3,
+					"text": "Ugh, that cheap charger stopped working already. So much for saving money."
+				}
+			},
+			{
+				"text": "Buy a reliable charger - $38",
+				"money": -38,
+				"mood": 4,
+				"finance_label": "Reliable laptop charger",
+				"finance_category": "Electronics",
+				"reaction": "That hurt my wallet, but this one should last a lot longer."
+			},
+			{
+				"text": "Borrow a spare charger - $0",
+				"energy": -6,
+				"mood": -2,
+				"reaction": "Found someone willing to lend me one. I'll have to figure something out later."
+			}
+		]
+	}
+
+	# Day 26 - Dinner and pantry inventory.
+	scheduled_events["26_Evening"] = {
+		"id": "fry_friday_dinner",
+		"speaker": "FRY",
+		"message": "Finally Friday. I'm pretty hungry, but I don't really feel like cooking tonight.",
+		"choices": [
+			{
+				"text": "Cook dinner (1 grocery portion)",
+				"money": 0,
+				"pantry_cost": 1,
+				"energy": 7,
+				"mood": 3,
+				"reaction": "Not bad! Glad I had something left in the kitchen."
+			},
+			{
+				"text": "Order takeout - $17",
+				"money": -17,
+				"energy": 9,
+				"mood": 6,
+				"finance_label": "Friday night takeout",
+				"finance_category": "Food",
+				"reaction": "Okay, that was worth it. I just hope I don't regret the cost later."
+			},
+			{
+				"text": "Skip dinner - $0",
+				"energy": -10,
+				"mood": -3,
+				"reaction": "I'll just go to bed. Probably wasn't my best idea."
+			}
+		]
+	}
+
+	# Day 29 - Catching up with Dulce.
+	scheduled_events["29_Evening"] = {
+		"id": "fry_dulce_checkin",
+		"speaker": "DULCE",
+		"message": "Hey Fry! This month's been pretty chaotic, huh? Want to catch up tonight?",
+		"choices": [
+			{
+				"text": "Meet for coffee - $9",
+				"money": -9,
+				"energy": -3,
+				"mood": 8,
+				"consumes_period": true,
+				"set_flag": "caught_up_with_dulce",
+				"flag_value": true,
+				"finance_label": "Coffee with Dulce",
+				"finance_category": "Social",
+				"reaction": "That was nice. I really needed to get out and talk for a while."
+			},
+			{
+				"text": "Call and catch up - $0",
+				"energy": -2,
+				"mood": 5,
+				"set_flag": "caught_up_with_dulce",
+				"flag_value": true,
+				"reaction": "We ended up talking longer than I expected. That was fun."
+			},
+			{
+				"text": "Stay home and rest",
+				"energy": 10,
+				"mood": 1,
+				"reaction": "I'll catch up with her another day. Tonight I just need some sleep."
+			}
+		]
+	}
+
+
 #endregion
 
 
@@ -249,7 +495,8 @@ var scheduled_events: Dictionary = {
 @onready var campus_backdrop: ColorRect = $CampusBackdrop
 @onready var dulce_campus: Sprite2D = $DulceCampus
 @onready var fry_sprite: Sprite2D = $Fry
- 
+@onready var steve_campus: Sprite2D = $SteveCampus
+
 @onready var screen_fade: ColorRect = $UI/ScreenFade
 
 # These areas are invisible click targets placed over the bedroom artwork.
@@ -257,6 +504,21 @@ var scheduled_events: Dictionary = {
 @onready var desk_area: Area2D = $DeskArea
 
 @onready var phone_ui: Control = $UI/PhoneUI
+
+@onready var month_recap_overlay: ColorRect = $UI/HUD/MonthRecapOverlay
+@onready var recap_title_label: Label = $UI/HUD/MonthRecapOverlay/RecapPanel/MarginContainer/VBoxContainer/RecapTitleLabel
+@onready var recap_body_label: Label = $UI/HUD/MonthRecapOverlay/RecapPanel/MarginContainer/VBoxContainer/RecapBodyLabel
+@onready var recap_continue_button: Button = $UI/HUD/MonthRecapOverlay/RecapPanel/MarginContainer/VBoxContainer/RecapContinueButton
+
+@onready var recap_rows: VBoxContainer = $UI/HUD/MonthRecapOverlay/RecapPanel/MarginContainer/VBoxContainer/RecapRows
+@onready var recap_page_label: Label = $UI/HUD/MonthRecapOverlay/RecapPanel/MarginContainer/VBoxContainer/RecapPageLabel
+
+
+@onready var month_complete_overlay: ColorRect = $UI/HUD/MonthCompleteOverlay
+@onready var complete_body_label: Label = $UI/HUD/MonthCompleteOverlay/CompletePanel/MarginContainer/VBoxContainer/CompleteBodyLabel
+@onready var play_again_button: Button = $UI/HUD/MonthCompleteOverlay/CompletePanel/MarginContainer/VBoxContainer/PlayAgainButton
+@onready var main_menu_button: Button = $UI/HUD/MonthCompleteOverlay/CompletePanel/MarginContainer/VBoxContainer/MainMenuButton
+
 
 #endregion
 
@@ -268,17 +530,35 @@ func _ready() -> void:
 	fry_bedroom_position = fry_sprite.position
 	fry_normal_scale = fry_sprite.scale
 	dulce_normal_scale = dulce_campus.scale
-
+	steve_normal_scale = steve_campus.scale
+	
 	campus_backdrop.hide()
 	dulce_campus.hide()
+	steve_campus.hide()
 	screen_fade.color = Color.BLACK
 	screen_fade.modulate.a = 0.0
 	screen_fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	# The full-screen HUD must not swallow clicks meant for bedroom objects.
 	# Child buttons and the visible dialogue panel keep their own input filters.
 	$UI/HUD.mouse_filter = Control.MOUSE_FILTER_IGNORE
-
+	
 	DayManager.reset_calendar()
+	
+	# DAY DEBUG: Choose which day and period to start on. DEVELOPER DELETE
+	#DayManager.current_day = 30
+	#DayManager.period_index = 2
+	#
+	## DEBUG: Simulate previous decisions. DEVELOPER DELETE
+	#exam_completed = true
+	#exam_passed = true
+	#study_sessions = 3
+	#story_flags["club_helped"] = true
+	#story_flags["club_ready"] = true
+	#story_flags["caught_up_with_dulce"] = true
+	
+	DayManager.isWeekend = DayManager.is_weekend_day(DayManager.current_day)
+	
+	add_late_month_events()
 	
 	# Connect Fry's financial information to the phone.
 	phone_ui.call("set_finance_source", self)
@@ -305,6 +585,15 @@ func _ready() -> void:
 	DayManager.month_completed.connect(
 		_on_month_completed
 	)
+
+	month_recap_overlay.hide()
+	recap_continue_button.pressed.connect(_on_recap_continue_pressed)
+
+	# Final month-completion screen.
+	month_complete_overlay.hide()
+
+	play_again_button.pressed.connect(_on_play_again_pressed)
+	main_menu_button.pressed.connect(_on_main_menu_pressed)
 
 	# Optional bedroom interactions. Does not interfere with the dialogue signals.
 	bed_area.input_event.connect(_on_bed_input_event)
@@ -788,7 +1077,7 @@ func purchase_groceries(delivery: bool) -> Dictionary:
 	grocery_meals += GROCERY_BUNDLE_SIZE
 	
 	pending_store_trip_notice = (
-		"Nice, I've got the groceries I bought earlier waiting at home. "
+		"Nice, I've got the groceries now. "
 		+ "That's %d more meals covered."
 	) % GROCERY_BUNDLE_SIZE
 	
@@ -1193,6 +1482,15 @@ func load_period_event() -> void:
 	elif key == "15_Afternoon" and textbook_choice == "used" and has_textbook:
 		scheduled = make_textbook_resale_event()
 
+	# Student club storyline with Dulce and Steve.
+	if key == "17_Evening":
+		scheduled = make_club_invitation_event()
+
+	elif key == "23_Evening":
+		scheduled = make_club_preparation_event()
+
+	elif key == "25_Evening":
+		scheduled = make_club_result_event()
 
 	if scheduled is String:
 		active_event = EventManager.create_shared_event(
@@ -1486,10 +1784,15 @@ func finish_event() -> void:
 				"message": dulce_reaction
 			},
 			{
+				"speaker": "STEVE",
+				"message": "Nice. If you ever need help finding a copy, just let us know."
+			},
+			{
 				"speaker": "FRY",
-				"message": "Thanks, Dulce. Now I just need to make sure I can afford my phone bill on Wednesday."
+				"message": "Thanks, guys. Now I just need to make sure I can afford my phone bill on Wednesday."
 			}
 		]
+
 
 		after_campus_lines = "textbook_finish"
 		show_next_campus_line()
@@ -1573,9 +1876,8 @@ func _on_dialogue_choice_selected(index: int) -> void:
 			)
 
 		"month_end":
-			event_state = ""
-			dialogue_manager.close_dialogue()
-			next_day_button.show()
+			pass
+
 		
 		"insufficient_cash":
 			event_state = "event_choice"
@@ -1597,48 +1899,675 @@ func _on_dialogue_choice_selected(index: int) -> void:
 
 #region Fry - Month Ending
 
-
 func _on_month_completed() -> void:
 	event_state = "month_end"
 	update_ui()
-
 	next_day_button.hide()
 
 	var unpaid_total: float = get_unpaid_total()
+	var paid_count: int = 0
 
-	var goal_met: bool = (
-		unpaid_total < 0.01
-		and money >= 0.0
+	for bill_id in bills.keys():
+		if bool(bills[bill_id]["paid"]):
+			paid_count += 1
+
+	# Calculate grocery costs from recorded transactions.
+	var grocery_spending: float = 0.0
+	var delivery_spending: float = 0.0
+
+	for transaction in finance_history:
+		var amount: float = float(transaction.get("amount", 0.0))
+		var category: String = str(transaction.get("category", ""))
+
+		if amount >= 0.0:
+			continue
+
+		if category == "Groceries":
+			grocery_spending += absf(amount)
+
+		elif category == "Delivery Fees":
+			delivery_spending += absf(amount)
+
+	# Describe the exam outcome.
+	var exam_summary: String = "Not completed"
+
+	if exam_completed:
+		if exam_passed:
+			exam_summary = "Passed"
+		else:
+			exam_summary = "Failed"
+
+	# Describe Fry's involvement in the club fundraiser.
+	var club_summary: String = "Did not participate"
+
+	if bool(story_flags.get("club_helped", false)):
+		if bool(story_flags.get("club_ready", false)):
+			club_summary = "Built and tested the website"
+		else:
+			club_summary = "Helped build the website"
+
+	elif bool(story_flags.get("club_supported", false)):
+		club_summary = "Helped promote the fundraiser"
+
+
+	# ==================================================
+	# Personalized final reflection
+	# ==================================================
+
+	# 1. Financial decisions.
+	var money_reflection: String = ""
+
+	if unpaid_total <= 0.01:
+		if money >= 100.0:
+			money_reflection = (
+				"I paid my bills and kept some money aside. "
+				+ "I want to keep that going."
+			)
+		else:
+			money_reflection = (
+				"I managed to pay my bills, but money is tight. "
+				+ "I need a better cushion next month."
+			)
+
+	elif money >= unpaid_total:
+		money_reflection = (
+			"I still have unpaid bills, even though I could "
+			+ "cover them. I shouldn't keep putting them off."
+		)
+
+	else:
+		money_reflection = (
+			"I still owe more than I have. Next month, "
+			+ "I need to prioritize my bills."
+		)
+
+	if total_late_fees > 0.01:
+		money_reflection += " Those late fees didn't help."
+
+	# 2. College performance.
+	var school_reflection: String = ""
+
+	if exam_completed:
+		if exam_passed:
+			if study_sessions >= 2:
+				school_reflection = (
+					"I passed my exam, and all that studying paid off."
+				)
+			else:
+				school_reflection = (
+					"I passed my exam! Still, I should prepare "
+					+ "more next time."
+				)
+		else:
+			if study_sessions > 0:
+				school_reflection = (
+					"I studied, but the exam didn't go my way. "
+					+ "I'll try a different approach."
+				)
+			else:
+				school_reflection = (
+					"I didn't pass the exam. I really should've "
+					+ "made more time to study."
+				)
+	else:
+		school_reflection = (
+			"I don't have an exam result to look back on."
+		)
+
+	# 3. Friendships and the student club.
+	var friends_reflection: String = ""
+
+	var club_helped: bool = bool(
+		story_flags.get("club_helped", false)
+	)
+	var club_ready: bool = bool(
+		story_flags.get("club_ready", false)
+	)
+	var club_supported: bool = bool(
+		story_flags.get("club_supported", false)
+	)
+	var caught_up: bool = bool(
+		story_flags.get("caught_up_with_dulce", false)
 	)
 
-	var conclusion: String = ""
+	if club_helped and club_ready:
+		friends_reflection = (
+			"Dulce and Steve trusted me with the fundraiser, "
+			+ "and we pulled it off!"
+		)
 
-	if goal_met:
-		conclusion = "I actually managed to cover everything. Nice!"
+	elif club_helped:
+		friends_reflection = (
+			"Helping Dulce and Steve taught me to "
+			+ "double-check my work."
+		)
+
+	elif club_supported:
+		friends_reflection = (
+			"I'm glad I could help Dulce and Steve "
+			+ "promote the fundraiser."
+		)
+
+	elif bool(story_flags.get("attend_campus", false)):
+		friends_reflection = (
+			"I'm glad I made some time for Dulce "
+			+ "and Steve at college."
+		)
+
 	else:
-		conclusion = "Well, I've still got some catching up to do."
+		friends_reflection = (
+			"I should make more time for my friends next month."
+		)
 
-	var summary: String = (
-		"Month over! Cash: $%.2f | Still owed: $%.2f\n"
-		+ "Late fees: $%.2f\n%s"
-	) % [
-		money,
-		unpaid_total,
-		total_late_fees,
-		conclusion
+	if caught_up:
+		if club_helped or club_supported:
+			friends_reflection += (
+				" Catching up with Dulce was worth it, too."
+			)
+		else:
+			friends_reflection = (
+				"I'm glad I made time to catch up with Dulce."
+			)
+
+	# Combine the three reflections.
+	var conclusion: String = (
+		money_reflection
+		+ "\n\n"
+		+ school_reflection
+		+ "\n\n"
+		+ friends_reflection
+	)
+
+	# Prepare the five recap screens.
+	month_recap_pages = [
+	{
+		"title": "FINANCIAL SUMMARY",
+		"body": (
+			"Starting balance: $100.00\n"
+			+ "Total earned: $%.2f\n"
+			+ "Total spent: $%.2f\n"
+			+ "Remaining cash: $%.2f"
+		) % [
+			total_income,
+			total_spending,
+			money
+		]
+	},
+	{
+		"title": "BILLS",
+		"body": (
+			"Bills paid: %d / %d\n"
+			+ "Still owed: $%.2f\n"
+			+ "Late fees: $%.2f"
+		) % [
+			paid_count,
+			bills.size(),
+			unpaid_total,
+			total_late_fees
+		]
+	},
+	{
+		"title": "DAILY LIFE",
+		"body": (
+			"Groceries purchased: $%.2f\n"
+			+ "Delivery fees: $%.2f\n"
+			+ "Meals remaining: %d"
+		) % [
+			grocery_spending,
+			delivery_spending,
+			grocery_meals
+		]
+	},
+	{
+		"title": "COLLEGE & FRIENDS",
+		"body": (
+			"Study sessions: %d\n"
+			+ "Exam result: %s\n"
+			+ "Club: %s"
+		) % [
+			study_sessions,
+			exam_summary,
+			club_summary
+		]
+	},
+	{
+		"title": "FINAL REFLECTION",
+		"body": conclusion
+	}
+]
+
+	month_recap_page_index = 0
+	show_month_recap_page()
+
+
+func show_month_recap_page() -> void:
+	if month_recap_pages.is_empty():
+		return
+
+	var page: Dictionary = month_recap_pages[month_recap_page_index]
+	var is_last_page: bool = (
+		month_recap_page_index == month_recap_pages.size() - 1
+	)
+
+	recap_title_label.text = str(page.get("title", "SUMMARY"))
+
+	var body_text: String = str(page.get("body", ""))
+
+	# The final reflection is regular paragraph text.
+	# All other pages use neatly aligned rows.
+	recap_body_label.visible = is_last_page
+	recap_rows.visible = not is_last_page
+
+	if is_last_page:
+		recap_body_label.text = body_text
+	else:
+		populate_recap_rows(body_text)
+
+	# Page navigation.
+	recap_continue_button.text = (
+		"Finish" if is_last_page else "Continue"
+	)
+
+	recap_page_label.text = "%d OF %d" % [
+		month_recap_page_index + 1,
+		month_recap_pages.size()
 	]
 
-	dialogue_manager.show_dialogue(
-		"FRY",
-		summary,
-		["Close"]
+	# Hide the normal dialogue.
+	dialogue_manager.close_dialogue()
+	month_recap_overlay.show()
+
+
+func populate_recap_rows(body_text: String) -> void:
+	# Remove the previous page's rows.
+	for child in recap_rows.get_children():
+		recap_rows.remove_child(child)
+		child.queue_free()
+
+	var lines: PackedStringArray = body_text.split("\n", false)
+
+	for line in lines:
+		var parts: PackedStringArray = line.split(": ", false, 1)
+
+		if parts.size() != 2:
+			continue
+
+		var row_name: String = parts[0]
+		var row_value: String = parts[1]
+
+		var is_final_balance: bool = (
+			month_recap_page_index == 0
+			and row_name == "Remaining cash"
+		)
+
+		# Separate the remaining balance from other totals.
+		if is_final_balance:
+			var divider: HSeparator = HSeparator.new()
+			divider.modulate = Color("#617181")
+			divider.custom_minimum_size = Vector2(0, 12)
+			recap_rows.add_child(divider)
+
+		# One horizontal row with left and right columns.
+		var row: HBoxContainer = HBoxContainer.new()
+		row.custom_minimum_size = Vector2(0, 46)
+		row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		recap_rows.add_child(row)
+
+		# Description on the left.
+		var name_label: Label = Label.new()
+		name_label.text = row_name
+		name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		name_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		name_label.add_theme_font_size_override(
+			"font_size", 25 if is_final_balance else 23
+		)
+		name_label.add_theme_color_override(
+			"font_color",
+			Color("#F3E8D7") if is_final_balance else Color("#C4CDD7")
+		)
+		row.add_child(name_label)
+
+		# Value on the right.
+		var value_label: Label = Label.new()
+		value_label.text = row_value
+		value_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		value_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		value_label.add_theme_font_size_override(
+			"font_size", 25 if is_final_balance else 23
+		)
+
+		# Use meaningful colors for financial outcomes.
+		var value_color: Color = Color("#EAECEF")
+
+		if row_name in [
+			"Total earned",
+			"Remaining cash",
+			"Meals remaining"
+		]:
+			value_color = Color("#8BDDA9")
+
+		elif row_name in [
+			"Total spent",
+			"Groceries purchased",
+			"Delivery fees"
+		]:
+			value_color = Color("#F1A5A0")
+
+		elif row_name == "Late fees":
+			value_color = (
+				Color("#8BDDA9") if total_late_fees <= 0.01
+				else Color("#F1A5A0")
+			)
+
+		elif row_name == "Still owed":
+			value_color = (
+				Color("#8BDDA9") if row_value == "$0.00"
+				else Color("#F1A5A0")
+			)
+
+		elif row_name == "Exam result":
+			if row_value == "Passed":
+				value_color = Color("#8BDDA9")
+			elif row_value == "Failed":
+				value_color = Color("#F1A5A0")
+
+		elif row_name == "Club":
+			if row_value != "Did not participate":
+				value_color = Color("#8BDDA9")
+
+		if row_name == "Remaining cash" and money < 0.0:
+			value_color = Color("#F1A5A0")
+
+		value_label.add_theme_color_override(
+			"font_color", value_color
+		)
+
+		row.add_child(value_label)
+
+
+func _on_recap_continue_pressed() -> void:
+	month_recap_page_index += 1
+
+	if month_recap_page_index < month_recap_pages.size():
+		show_month_recap_page()
+	else:
+		show_month_complete_screen()
+
+
+func show_month_complete_screen() -> void:
+	event_state = "month_complete"
+
+	# Close the recap and any remaining dialogue.
+	month_recap_overlay.hide()
+	dialogue_manager.close_dialogue()
+	next_day_button.hide()
+
+	complete_body_label.text = (
+		"You made it through 30 days of college life!\n\n"
+		+ "Every financial decision, every challenge, and every "
+		+ "moment with your friends shaped Fry's month.\n\n"
+		+ "What would you do differently next time?"
 	)
+
+	# Only enable Main Menu after its actual scene is connected.
+	var menu_available: bool = (
+		not MAIN_MENU_SCENE_PATH.is_empty()
+		and ResourceLoader.exists(MAIN_MENU_SCENE_PATH)
+	)
+
+	main_menu_button.disabled = not menu_available
+
+	if menu_available:
+		main_menu_button.text = "Main Menu"
+	else:
+		main_menu_button.text = "Main Menu (Coming Soon)"
+
+	month_complete_overlay.show()
+
+
+func _on_play_again_pressed() -> void:
+	get_tree().reload_current_scene()
+
+
+func _on_main_menu_pressed() -> void:
+	if MAIN_MENU_SCENE_PATH.is_empty():
+		return
+
+	if not ResourceLoader.exists(MAIN_MENU_SCENE_PATH):
+		push_warning("Main menu scene could not be found.")
+		return
+
+	get_tree().change_scene_to_file(MAIN_MENU_SCENE_PATH)
 
 
 #endregion
 
 
 #region Fry - Character-Specific Events
+
+
+func make_club_invitation_event() -> Dictionary:
+	var message: String = ""
+
+	if bool(story_flags.get("attend_campus", false)):
+		message = (
+			"Dulce just texted me. That student club we saw at the fair "
+			+ "is organizing a fundraiser. She and Steve asked if I could "
+			+ "help build a signup page."
+		)
+	else:
+		message = (
+			"Dulce just texted me. She's helping Steve with a student "
+			+ "club fundraiser, and they need someone to build a signup page."
+		)
+
+	return {
+		"id": "fry_club_invitation",
+		"speaker": "FRY",
+		"message": message,
+		"choices": [
+			{
+				"text": "Build it myself - $0",
+				"energy": -12,
+				"mood": 4,
+				"set_flag": "club_helped",
+				"flag_value": true,
+				"reaction": "I can build something simple. It'll take some work, but I think I can do it."
+			},
+			{
+				"text": "Use a website template - $12",
+				"money": -12,
+				"energy": -4,
+				"mood": 3,
+				"finance_label": "Club website template",
+				"finance_category": "Education",
+				"set_flag": "club_helped",
+				"flag_value": true,
+				"reaction": "That should save me some time. I'll customize it and send it over."
+			},
+			{
+				"text": "Tell them I'm too busy",
+				"energy": 5,
+				"mood": -2,
+				"set_flag": "club_helped",
+				"flag_value": false,
+				"reaction": "I told Dulce I couldn't take on another project. She said she understood."
+			}
+		]
+	}
+
+
+func make_club_preparation_event() -> Dictionary:
+	if bool(story_flags.get("club_helped", false)):
+		return {
+			"id": "fry_club_preparation",
+			"speaker": "FRY",
+			"message": "Dulce says the signup page looks good. The fundraiser is coming up, though, and we should probably test everything first.",
+			"choices": [
+				{
+					"text": "Test the page myself",
+					"energy": -10,
+					"mood": 3,
+					"set_flag": "club_ready",
+					"flag_value": true,
+					"reaction": "Found a couple of broken links and fixed them. Glad I checked."
+				},
+				{
+					"text": "Ask Steve to help test it",
+					"energy": -4,
+					"mood": 2,
+					"set_flag": "club_ready",
+					"flag_value": true,
+					"reaction": "Steve caught a few things I missed. We make a pretty good team."
+				},
+				{
+					"text": "Send it without checking",
+					"energy": 4,
+					"mood": -1,
+					"set_flag": "club_ready",
+					"flag_value": false,
+					"reaction": "It looked fine last time I checked. Hopefully nothing goes wrong."
+				}
+			]
+		}
+
+	# Fry declined the website work but can still help.
+	return {
+		"id": "fry_club_preparation",
+		"speaker": "FRY",
+		"message": "Steve and Dulce finished the signup page themselves. They're looking for a little help promoting the fundraiser tonight.",
+		"choices": [
+			{
+				"text": "Help write promotional posts",
+				"energy": -8,
+				"mood": 4,
+				"set_flag": "club_supported",
+				"flag_value": true,
+				"reaction": "I put together a few posts for them. At least I could help with something."
+			},
+			{
+				"text": "Share their fundraiser link",
+				"energy": -2,
+				"mood": 2,
+				"set_flag": "club_supported",
+				"flag_value": true,
+				"reaction": "Shared! Hopefully a few more people see it."
+			},
+			{
+				"text": "Sit this one out",
+				"energy": 5,
+				"set_flag": "club_supported",
+				"flag_value": false,
+				"reaction": "They've got things under control. I'll focus on my own stuff tonight."
+			}
+		]
+	}
+
+
+func make_club_result_event() -> Dictionary:
+	var message: String = ""
+	var choices: Array[Dictionary] = []
+
+	var helped: bool = bool(story_flags.get("club_helped", false))
+	var club_is_ready: bool = bool(story_flags.get("club_ready", false))
+	var supported: bool = bool(story_flags.get("club_supported", false))
+
+	if helped and club_is_ready:
+		message = (
+			"Dulce just texted! The fundraiser went really well, "
+			+ "and our signup page worked perfectly. Steve says "
+			+ "we should celebrate!"
+		)
+
+		choices = [
+			{
+				"text": "Go get snacks with them - $8",
+				"money": -8,
+				"energy": -3,
+				"mood": 8,
+				"finance_label": "Celebration with friends",
+				"finance_category": "Social",
+				"reaction": "That was a great night. I'm glad I helped them out."
+			},
+			{
+				"text": "Celebrate over messages - $0",
+				"mood": 5,
+				"reaction": "I'm pretty proud of what we accomplished. And I didn't even have to go out."
+			}
+		]
+
+	elif helped:
+		message = (
+			"Dulce said the fundraiser went alright, but a few "
+			+ "links on our page weren't working. Some people had "
+			+ "trouble signing up. I probably should've checked it."
+		)
+
+		choices = [
+			{
+				"text": "Fix the page for future events",
+				"energy": -8,
+				"mood": 4,
+				"reaction": "Fixed the links and sent Dulce the updated page. Better late than never."
+			},
+			{
+				"text": "Leave it for now",
+				"energy": 3,
+				"mood": -2,
+				"reaction": "At least they still managed to hold the fundraiser. I'll be more careful next time."
+			}
+		]
+
+	elif supported:
+		message = (
+			"Dulce said the fundraiser went pretty well! "
+			+ "She thanked me for helping spread the word. "
+			+ "It's nice knowing I still contributed something."
+		)
+
+		choices = [
+			{
+				"text": "Meet up with them - $9",
+				"money": -9,
+				"energy": -3,
+				"mood": 6,
+				"finance_label": "Meeting friends",
+				"finance_category": "Social",
+				"reaction": "It was nice catching up with everyone. Glad the event worked out."
+			},
+			{
+				"text": "Send them congratulations",
+				"mood": 3,
+				"reaction": "Dulce sent a bunch of happy emojis. Sounds like everyone's in a good mood."
+			}
+		]
+
+	else:
+		message = (
+			"I saw some pictures of the fundraiser Steve and "
+			+ "Dulce worked on. Looks like they managed to pull it off."
+		)
+
+		choices = [
+			{
+				"text": "Congratulate them",
+				"mood": 2,
+				"reaction": "They seemed pretty happy. Maybe I'll join them for something next time."
+			},
+			{
+				"text": "Focus on my own plans",
+				"energy": 4,
+				"reaction": "Glad things worked out for them. I've still got my own stuff to finish."
+			}
+		]
+
+	return {
+		"id": "fry_club_result",
+		"speaker": "FRY",
+		"message": message,
+		"choices": choices
+	}
+
 
 func make_campus_morning_event() -> Dictionary:
 	return {
@@ -1781,15 +2710,24 @@ func show_campus_lunch_choice() -> void:
 	dialogue_manager.show_dialogue("FRY", str(active_event["message"]), labels)
 
 
+
 func start_textbook_story() -> void:
 	campus_lines = [
 		{
+			"speaker": "STEVE",
+			"message": "Hey, Fry! Dulce and I were just talking about textbook prices. Some of them are ridiculous."
+		},
+		{
 			"speaker": "DULCE",
-			"message": "Hey, Fry! Have you gotten the textbook for class yet?"
+			"message": "Speaking of which, have you gotten the textbook for class yet?"
 		},
 		{
 			"speaker": "FRY",
 			"message": "Not yet. I just got paid, but my phone bill is coming up too."
+		},
+		{
+			"speaker": "STEVE",
+			"message": "I looked at the campus bookstore earlier. Buying everything new would completely drain my wallet."
 		},
 		{
 			"speaker": "DULCE",
@@ -1803,6 +2741,7 @@ func start_textbook_story() -> void:
 
 	after_campus_lines = "textbook_choice"
 	show_next_campus_line()
+
 
 
 func show_textbook_choice() -> void:
@@ -2026,86 +2965,113 @@ func fade_to_location(destination: String) -> void:
 
 #region Fry - Campus Character Presentation
 
+
 func update_location_characters(destination: String) -> void:
 	reset_speaker_effects()
 
 	if destination == "campus":
-		fry_sprite.position = FRY_CAMPUS_POSITION
-		dulce_campus.position = DULCE_CAMPUS_POSITION
-
-		# Dulce appears only at her current campus events.
-		var dulce_is_participating: bool = (
+		# Day 4 and Day 8 involve all three friends.
+		var group_meeting: bool = (
 			(
 				DayManager.current_day == 4
 				and bool(story_flags.get("attend_campus", false))
 			)
 			or DayManager.current_day == 8
+		)
+
+		# Use wider spacing when Steve joins.
+		if group_meeting:
+			fry_sprite.position = FRY_GROUP_POSITION
+			steve_campus.position = STEVE_GROUP_POSITION
+			dulce_campus.position = DULCE_GROUP_POSITION
+		else:
+			fry_sprite.position = FRY_CAMPUS_POSITION
+			dulce_campus.position = DULCE_CAMPUS_POSITION
+
+		# Dulce also appears on Day 12 for the exam.
+		dulce_campus.visible = (
+			group_meeting
 			or DayManager.current_day == 12
 		)
 
-
-		dulce_campus.visible = dulce_is_participating
+		steve_campus.visible = group_meeting
 
 	else:
-		# Return Fry to his normal bedroom position.
+		# Return Fry to his bedroom.
 		fry_sprite.position = fry_bedroom_position
+
 		dulce_campus.hide()
+		steve_campus.hide()
+
 
 
 func _on_dialogue_speaker_changed(speaker: String) -> void:
-	# Only apply the two-character effect at college.
-	if current_location != "campus" or not dulce_campus.visible:
+	if current_location != "campus":
 		return
 
 	var speaker_name: String = speaker.to_upper()
-	var fry_speaking: bool = speaker_name == "FRY"
-	var dulce_speaking: bool = speaker_name == "DULCE"
+	var speaking_character: Sprite2D = null
 
-	# For Steve or other offscreen speakers, reset both // May or not be used
-	if not fry_speaking and not dulce_speaking:
+	match speaker_name:
+		"FRY":
+			speaking_character = fry_sprite
+
+		"DULCE":
+			if dulce_campus.visible:
+				speaking_character = dulce_campus
+
+		"STEVE":
+			if steve_campus.visible:
+				speaking_character = steve_campus
+
+	if speaking_character == null:
 		reset_speaker_effects()
 		return
 
 	if speaker_tween != null and speaker_tween.is_running():
 		speaker_tween.kill()
 
-	var fry_target_scale: Vector2 = fry_normal_scale * (
-		SPEAKER_SIZE_MULTIPLIER if fry_speaking else 1.0
-	)
-
-	var dulce_target_scale: Vector2 = dulce_normal_scale * (
-		SPEAKER_SIZE_MULTIPLIER if dulce_speaking else 1.0
-	)
-
-	var fry_target_color: Color = (
-		Color.WHITE if fry_speaking else INACTIVE_CHARACTER_COLOR
-	)
-
-	var dulce_target_color: Color = (
-		Color.WHITE if dulce_speaking else INACTIVE_CHARACTER_COLOR
-	)
-
-	# Animate both characters simultaneously.
 	speaker_tween = create_tween()
 	speaker_tween.set_parallel(true)
 	speaker_tween.set_trans(Tween.TRANS_SINE)
 	speaker_tween.set_ease(Tween.EASE_OUT)
 
-	speaker_tween.tween_property(
-		fry_sprite, "scale", fry_target_scale, 0.18
-	)
+	var characters: Array[Sprite2D] = [
+		fry_sprite,
+		dulce_campus,
+		steve_campus
+	]
 
-	speaker_tween.tween_property(
-		fry_sprite, "modulate", fry_target_color, 0.18
-	)
+	for character in characters:
+		if not character.visible:
+			continue
 
-	speaker_tween.tween_property(
-		dulce_campus, "scale", dulce_target_scale, 0.18
-	)
+		var normal_scale: Vector2 = fry_normal_scale
 
-	speaker_tween.tween_property(
-		dulce_campus, "modulate", dulce_target_color, 0.18
-	)
+		if character == dulce_campus:
+			normal_scale = dulce_normal_scale
+		elif character == steve_campus:
+			normal_scale = steve_normal_scale
+
+		var is_speaking: bool = character == speaking_character
+
+		var target_scale: Vector2 = normal_scale * (
+			SPEAKER_SIZE_MULTIPLIER if is_speaking else 1.0
+		)
+
+		var target_color: Color = (
+			Color.WHITE if is_speaking
+			else INACTIVE_CHARACTER_COLOR
+		)
+
+		speaker_tween.tween_property(
+			character, "scale", target_scale, 0.18
+		)
+
+		speaker_tween.tween_property(
+			character, "modulate", target_color, 0.18
+		)
+
 
 
 func reset_speaker_effects() -> void:
@@ -2114,9 +3080,12 @@ func reset_speaker_effects() -> void:
 
 	fry_sprite.scale = fry_normal_scale
 	dulce_campus.scale = dulce_normal_scale
+	steve_campus.scale = steve_normal_scale
 
 	fry_sprite.modulate = Color.WHITE
 	dulce_campus.modulate = Color.WHITE
+	steve_campus.modulate = Color.WHITE
+
 
 
 func _on_dialogue_closed() -> void:
