@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://dqppedruiy2hu"]
+
+[ext_resource type="Script" uid="uid://h5kuyadgufb" path="res://Scripts/Shared/phone.gd" id="1_v1lwb"]
+
+[node name="PhoneUI" type="Control" unique_id=793002954]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_v1lwb")
+
+[node name="Dock" type="Control" parent="." unique_id=834083035]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PeekButton" type="Button" parent="Dock" unique_id=525089352]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="Notch" type="ColorRect" parent="Dock/PeekButton" unique_id=2087289187]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="PeekLabel" type="Label" parent="Dock/PeekButton" unique_id=1761833129]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Overlay" type="ColorRect" parent="." unique_id=611573505]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PhoneFrame" type="PanelContainer" parent="Overlay" unique_id=1555126673]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Overlay/PhoneFrame" unique_id=1057571255]
+layout_mode = 2
+
+[node name="HomeScreen" type="VBoxContainer" parent="Overlay/PhoneFrame/MarginContainer" unique_id=330755120]
+layout_mode = 2
+
+[node name="HeaderRow" type="HBoxContainer" parent="Overlay/PhoneFrame/MarginContainer/HomeScreen" unique_id=751406145]
+layout_mode = 2
+
+[node name="PhoneTitle" type="Label" parent="Overlay/PhoneFrame/MarginContainer/HomeScreen/HeaderRow" unique_id=1840028686]
+layout_mode = 2
+
+[node name="CloseButton" type="Button" parent="Overlay/PhoneFrame/MarginContainer/HomeScreen/HeaderRow" unique_id=2008994258]
+layout_mode = 2
+
+[node name="DateLabel" type="Label" parent="Overlay/PhoneFrame/MarginContainer/HomeScreen" unique_id=1076039009]
+layout_mode = 2
+
+[node name="AppGrid" type="GridContainer" parent="Overlay/PhoneFrame/MarginContainer/HomeScreen" unique_id=1539075368]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="Overlay/PhoneFrame/MarginContainer/HomeScreen" unique_id=1697824297]
+layout_mode = 2

@@ -2,9 +2,11 @@
 
 [ext_resource type="Texture2D" uid="uid://cgtruaxixdj37" path="res://Characters/Fry/Sprites/Fry.png" id="1_aycv7"]
 [ext_resource type="Script" uid="uid://v45st4hlcsra" path="res://Scripts/FS/fry.gd" id="1_yel8p"]
+[ext_resource type="Texture2D" uid="uid://d2w2mln3pa27n" path="res://Characters/Dulce/Sprites/dulce.png" id="2_0icak"]
 [ext_resource type="Texture2D" uid="uid://c81qknt2cpd45" path="res://Images/Backgrounds/Fry/fry_bedroom.png" id="2_yivqx"]
 [ext_resource type="Shader" uid="uid://ijpdxi0qxgn7" path="res://Scripts/Shared/dialogue_blur.gdshader" id="3_v0wua"]
 [ext_resource type="Script" uid="uid://b13ibvkj30okq" path="res://Scripts/Shared/dialogue_manager.gd" id="4_8a10q"]
+[ext_resource type="PackedScene" uid="uid://dqppedruiy2hu" path="res://Scenes/UI/phone.tscn" id="7_itkor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yivqx"]
 size = Vector2(812, 250)
@@ -73,17 +75,28 @@ corner_radius_bottom_left = 6
 [node name="FryHome" type="Node2D" unique_id=857698565]
 script = ExtResource("1_yel8p")
 
+[node name="DulceCampus" type="Sprite2D" parent="." unique_id=1855806306]
+visible = false
+z_index = 1
+texture_filter = 1
+position = Vector2(1295, 706)
+scale = Vector2(7.1, 8)
+texture = ExtResource("2_0icak")
+flip_h = true
+
 [node name="BedroomBackground" type="Sprite2D" parent="." unique_id=635109442]
 texture_filter = 1
 position = Vector2(1139.1112, 567.74994)
 scale = Vector2(1.5939817, 1.5939817)
 texture = ExtResource("2_yivqx")
+metadata/_edit_lock_ = true
 
 [node name="BedArea" type="Area2D" parent="." unique_id=212639112]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BedArea" unique_id=920782919]
 position = Vector2(563, 801)
 shape = SubResource("RectangleShape2D_yivqx")
+metadata/_edit_lock_ = true
 
 [node name="DeskArea" type="Area2D" parent="." unique_id=840538413]
 
@@ -208,9 +221,9 @@ vertical_alignment = 1
 [node name="NextDayButton" type="Button" parent="UI/HUD" unique_id=1133312263]
 layout_mode = 1
 offset_left = 1647.0
-offset_top = 911.0
+offset_top = 880.0
 offset_right = 1857.0
-offset_bottom = 975.0
+offset_bottom = 944.0
 theme_override_colors/font_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_aycv7")
@@ -302,6 +315,9 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_yivqx")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_itkor")
 theme_override_styles/hover = SubResource("StyleBoxFlat_0icak")
 text = "Skip breakfast - $0"
+
+[node name="PhoneUI" parent="UI" unique_id=793002954 instance=ExtResource("7_itkor")]
+metadata/_edit_lock_ = true
 
 [node name="ScreenFade" type="ColorRect" parent="UI" unique_id=1428830447]
 visible = false
