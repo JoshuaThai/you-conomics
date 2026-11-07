@@ -195,6 +195,7 @@ var normal_evening_events_info = {
 
 # These are the events that are character specific and
 # can randomly pop up on a weekday
+# TODO: ADD THE INFO FOR THIS
 var steve_weekly_events = [
 	"Pay Bonus", "Hate Mail",
 	"Buy New Computer", "Buy New Socks"
