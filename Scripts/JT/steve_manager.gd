@@ -25,13 +25,27 @@ var steve_profile: Dictionary = {
 }
 
 # These are the events that you expect to occur on a weekday
-var steve_normal_events = [
-	"Lunch", "Snack", "Dinner",
+var normal_morning_events = [
+	"Lunch", 
+]
+
+var normal_afternoon_events = [
+	"Work a extra shift", "Snack", "Nap"
+]
+
+#TODO: Finish adding the info for this
+var normal_evening_events = [
+	"Dinner",
 	"Work on Hobby", "Sleep", "Scam Email",
 	"Legit Email"
 ]
 
-var steve_normal_events_info = {
+#TODO: Need to add the info for it
+var normal_night_events = [
+	"Get a Drink"
+]
+
+var normal_morning_events_info = {
 #	If player run out of food in fridge, they will only be allowed
 # to select order lunch or skip lunch
 	"Lunch" : {
@@ -57,12 +71,132 @@ var steve_normal_events_info = {
 			"reaction": "Lunch, Smunch! I will be fine without it."
 			}
 		]
-	}
+	},
 }
+
+var normal_afternoon_events_info = {
+	"Work a extra shift" : {
+		"message": "You-ville are hoping I could work an extra shift today. Should I do it?",
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Yes",
+			"money": randi_range(20, 40),
+			"energy": randi_range(-10, -5),
+			"mood": randi_range(-15, -10),
+			"reaction": "Work hard! Play hard!"
+			},
+			{"text": "No",
+			"money": 0,
+			"energy": 5,
+			"mood": randi_range(1, 2),
+			"reaction": "Not my shift. Not my problem!"
+			}
+		]
+	},
+	"Snack" : {
+		"message": "What shall I do for a snack?",
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Order a Snack",
+			"money": randi_range(-10, -5),
+			"energy": 10,
+			"mood": randi_range(5, 10),
+			"reaction": "Yay! Snacktime is going to be fire!"
+			},
+			{"text": "Prepare a Snack",
+			"money": 0,
+			"energy": 5,
+			"mood": randi_range(5, 10),
+			"reaction": "Yay! Snacktime is going to be fire!"
+			},
+			{"text": "Skip Snacktime",
+			"money": 0,
+			"energy": -10,
+			"mood": randi_range(-10, -5),
+			"reaction": "Snack is for the weak! *scoffs*"
+			}
+		]
+	},
+	"Nap" : {
+		"message": "A little tired. Take a nap?",
+#		Prevent the user from napping every period
+#	The user can only nap once a day.
+		"cooldown": false, 
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Yes",
+			"money": 0,
+			"energy": 10,
+			"mood": 10,
+			"reaction": "Woo! I love napping!"
+			},
+			{"text": "No",
+			"money": 0,
+			"energy": -5,
+			"mood": -10,
+			"reaction": "Welp! Going to be tired. But time waits for no man!"
+			}
+		]
+	},
+		
+}
+
+#  "Sleep", "Scam Email", "Legit Email"
+var normal_evening_events_info = {
+	"Dinner" : {
+		"message": "What shall I do for Dinner?",
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Order Dinner",
+			"money": randi_range(-30, -15),
+			"energy": 10,
+			"mood": randi_range(5, 10),
+			"reaction": "Yay! Dinnertime is going to be fire!"
+			},
+			{"text": "Prepare Dinner Yourself",
+			"money": 0,
+			"energy": 5,
+			"mood": randi_range(5, 10),
+			"reaction": "Yay! Dinnertime is going to be fire!"
+			},
+			{"text": "Skip Dinner",
+			"money": 0,
+			"energy": -10,
+			"mood": randi_range(-10, -5),
+			"reaction": "Choo choo! The Dinner hate train is here!"
+			}
+		]
+	},
+	"Work on Hobby" : {
+		"message": "I got time to work on developing my video game! I should totally do it!",
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Yes",
+			"money": 0,
+			"energy": -15,
+			"mood": randi_range(5, 10),
+			"reaction": "So excited! It is going to give Roblox a run for its money."
+			},
+			{"text": "No",
+			"money": 0,
+			"energy": 1,
+			"mood": randi_range(-10, -5),
+			"reaction": "Aw man!"
+			},
+			{"text": "Work on one feature",
+			"money": 0,
+			"energy": -5,
+			"mood": randi_range(-10, -5),
+			"reaction": "Let me not get carried away and work on getting one feature done!"
+			}
+		]
+	},
+}
+
 # These are the events that are character specific and
 # can randomly pop up on a weekday
 var steve_weekly_events = [
-	"Work a extra shift", "Pay Bonus", "Hate Mail",
+	"Pay Bonus", "Hate Mail",
 	"Buy New Computer", "Buy New Socks"
 ]
 

@@ -343,6 +343,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="NextPeriodButton" type="Button" parent="UI/HUD" unique_id=1282750899]
+unique_name_in_owner = true
 layout_mode = 1
 offset_left = 56.0
 offset_top = 176.0

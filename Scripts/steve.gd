@@ -39,6 +39,13 @@ func _ready():
 	%UI.visible = false
 	await steve_Home._trigger_transition_on_start()
 	%UI.visible = true
+
+func _process(delta):
+	var nextTime = DayManager.get_next_time()
+	if nextTime["period"] == "Afternoon":
+		%NextPeriodButton.text = "To Work"
+	else:
+		%NextPeriodButton.text = "To " + nextTime["period"]
 	
 func pause_movement():
 	debounce = true
