@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://cw36r0ttakgri"]
+
+[ext_resource type="Script" uid="uid://gny6u2md8wnu" path="res://Scripts/JT/steve_phone.gd" id="1_37slx"]
+[ext_resource type="Texture2D" uid="uid://rtrax0pda42h" path="res://Images/Phone App.png" id="2_n703v"]
+[ext_resource type="StyleBox" uid="uid://dx5ugkpst4r4u" path="res://Button Styles/default_button_color.tres" id="3_d43fe"]
+
+[node name="PhoneUI" type="Control" unique_id=1882267062]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_37slx")
+
+[node name="PhoneSprite" type="Sprite2D" parent="." unique_id=1073106939]
+unique_name_in_owner = true
+texture_filter = 1
+position = Vector2(154, 105)
+scale = Vector2(2, 2)
+texture = ExtResource("2_n703v")
+
+[node name="Button" type="Button" parent="PhoneSprite" unique_id=131435127]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -13.0
+offset_top = -16.0
+offset_right = -19.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = ExtResource("3_d43fe")
+
+[node name="Overlay" type="ColorRect" parent="." unique_id=1062092540]
+layout_mode = 0
+offset_left = 154.0
+offset_top = 105.0
+offset_right = 194.0
+offset_bottom = 145.0
+
+[node name="PhoneFrame" type="PanelContainer" parent="Overlay" unique_id=520521718]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Overlay/PhoneFrame" unique_id=1644747310]
+layout_mode = 2
+
+[node name="HomeScreen" type="VBoxContainer" parent="Overlay/PhoneFrame/MarginContainer" unique_id=1815984801]
+layout_mode = 2
+
+[node name="HeaderRow" type="HBoxContainer" parent="Overlay/PhoneFrame/MarginContainer/HomeScreen" unique_id=671227923]
+layout_mode = 2
+
+[node name="PhoneTitle" type="Label" parent="Overlay/PhoneFrame/MarginContainer/HomeScreen/HeaderRow" unique_id=141761997]
+layout_mode = 2
+
+[node name="CloseButton" type="Button" parent="Overlay/PhoneFrame/MarginContainer/HomeScreen/HeaderRow" unique_id=1448968619]
+layout_mode = 2
+
+[node name="DateLabel" type="Label" parent="Overlay/PhoneFrame/MarginContainer/HomeScreen" unique_id=1520331502]
+layout_mode = 2
+
+[node name="AppGrid" type="GridContainer" parent="Overlay/PhoneFrame/MarginContainer/HomeScreen" unique_id=187341215]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="Overlay/PhoneFrame/MarginContainer/HomeScreen" unique_id=1733084252]
+layout_mode = 2
+
+[connection signal="mouse_entered" from="PhoneSprite/Button" to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="PhoneSprite/Button" to="." method="_on_button_mouse_exited"]

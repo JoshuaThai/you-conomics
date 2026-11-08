@@ -47,12 +47,15 @@ func _process(delta):
 	money_label.text = "$" + str(owner.money)
 	mood_label.text = "Mood: " + str(owner.mood)
 	energy_label.text = "Energy: " + str(owner.energy)
+	#print("Owner Debounce: ", owner.debounce)
 
 
 #region Dialogue Display
 
 func show_dialogue(speaker: String,message: String, options: Array) -> void:
 	player_choices.clear()
+	%NextPeriodButton.hide()
+	%PhoneUI.hide()
 	name_label.text = speaker
 	dialogue_label.text = message
 
@@ -101,6 +104,9 @@ func _on_choice_3_button_pressed():
 	check_if_correct_response(choiceSelected)
 	
 	
+func display_other_UI():
+	%NextPeriodButton.show()
+	%PhoneUI.show()
 func check_if_correct_response(choiceSelected: String):
 	#print(owner.available_choices_info)
 	for choice in owner.available_choices_info:
@@ -115,7 +121,9 @@ func check_if_correct_response(choiceSelected: String):
 			owner.mood += choice["mood"]
 			owner.energy += choice["energy"]
 			close_dialogue()
+			display_other_UI()
 			owner.unpause_movement()
+			#print("Owner Debounce: ", owner.debounce)
 			
 			#show_response()
 ## This function will hide all choices

@@ -141,7 +141,6 @@ var normal_afternoon_events_info = {
 		
 }
 
-#  "Sleep", "Scam Email", "Legit Email"
 var normal_evening_events_info = {
 	"Dinner" : {
 		"message": "What shall I do for Dinner?",
@@ -191,15 +190,133 @@ var normal_evening_events_info = {
 			}
 		]
 	},
+	"Sleep" : {
+		"message": "I am tired! Let's go to sleep!",
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Yes",
+			"money": 0,
+			"energy": 15,
+			"mood": randi_range(5, 10),
+			"reaction": "*yawns*"
+			},
+			{"text": "No",
+			"money": 0,
+			"energy": 1,
+			"mood": randi_range(-10, -5),
+			"reaction": "Nah. Let me stay up a little longer!"
+			}
+		]
+	},
+	
+	"Scam Email" : {
+		"message": "*Ding* Oh I got a email on my computer!",
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Check it!",
+			"money": 0,
+			"energy": 0,
+			"mood": 0,
+			},
+		]
+	},
+	"Legit Email" : {
+		"message": "*Ding* Oh I got a email on my computer!",
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Check it!",
+			"money": 0,
+			"energy": 0,
+			"mood": 0,
+			},
+		]
+	},
 }
 
 # These are the events that are character specific and
-# can randomly pop up on a weekday
+# can randomly pop up on a weekday in whatever time period.
 # TODO: ADD THE INFO FOR THIS
 var steve_weekly_events = [
 	"Pay Bonus", "Hate Mail",
 	"Buy New Computer", "Buy New Socks"
 ]
+
+# We will use the period to determine when the event will show itself on a specific day
+var steve_weekly_events_info = {
+	"Pay Bonus" : {
+		"message": "I received a a pay bonus of $20!",
+		"period": "Evening",
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Save it!",
+			"money": 20,
+			"energy": 0,
+			"mood": randi_range(1, 2),
+			"reaction": "It could become useful later!"
+			},
+			{"text": "Spend some of it!",
+			"money": 5,
+			"energy": 0,
+			"mood": randi_range(5, 10),
+			"reaction": "Gotta have a little fun with my money!"
+			}
+		]
+	},
+	
+	"Hate Mail" : {
+		"message": "Some mail came today!",
+		"period": "Morning",
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Check it out!",
+			"money": 20,
+			"energy": 0,
+			"mood": randi_range(-10, -5),
+			"reaction": "I wonder what came today!"
+			},
+		]
+	},
+	
+	"Buy New Computer" : {
+		"message": "I really want to buy a new computer, so I can play games with my friend, Fry!",
+		"period": "Evening",
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Buy it! (-$75)",
+			"money": -75,
+			"energy": 0,
+			"mood": randi_range(8, 20),
+			"reaction": "Auto Theft 67, here we come!"
+			},
+			{"text": "No",
+			"money": 0,
+			"energy": 0,
+			"mood": randi_range(-15, -8),
+			"reaction": "Maybe another time! I need to save my money!"
+			}
+		]
+	},
+	
+	"Buy New Socks" : {
+		"message": "My socks are starting to get smelly. Maybe it is time for some new ones!",
+		"period": "Evening",
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Buy some! (-$25)",
+			"money": -25,
+			"energy": 0,
+			"mood": randi_range(5, 10),
+			"reaction": "Hooray! No more smelly socks!"
+			},
+			{"text": "No",
+			"money": 0,
+			"energy": 0,
+			"mood": randi_range(-20, -10),
+			"reaction": "I can tolerate my socks just to save some money"
+			}
+		]
+	},
+}
 
 # These are events that can appear if the character is beginning to
 # stress out about their finances.
@@ -211,8 +328,17 @@ var steve_weekly_events = [
 # or Make player only able to say no when there energy is low!
 # If steve becomes aware that he is struggling with money, he will
 # start to get risky in some events
-var steve_consequences_events = [
+var steve_low_money_events = [
 	"Wager a bet", "Ask for Promotion", "Take out a loan"
+]
+
+# Sometimes, if the mood or energy is low enough, then these events could play
+var steve_low_mood_events = [
+	"Visit the Doctor"
+]
+
+var steve_low_energy_events = [
+	"Visit the Doctor", "Take an unpaid day off"
 ]
 
 var steve_special_events = [

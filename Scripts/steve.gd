@@ -23,6 +23,9 @@ var steve_profile = {
 	"workplace": "You-ville IT Solutions" 
 }
 
+var clickAllObjects = {
+	"Calendar": ""
+}
 
 
 # Variables
@@ -52,43 +55,18 @@ func pause_movement():
 	
 func unpause_movement():
 	debounce = false
+	print("Unpaused Steve ID: ", get_instance_id(), " debounce: ", debounce)
 
 # Display Dialogue
 func show_dialogue(speaker: String, message: String, options: Array):
+	print("Show dialogue?")
 	pause_movement()
 	dialogue_panel.show_dialogue(speaker, message, options)
-		
-func _physics_process(delta):
-	if front_Ray.is_colliding():
-#		Only prevent user from walking forward
-#		if there is a wall in front of them and they are walking
-#		forward.
-		if movement_Tween and moving_Forward:
-			movement_Tween.kill()
-			movement_Tween = null
-			moving_Forward = false
-			print("Blocked Forward Walking")
-			%AnimatedSprite2D.animation = "Idle"
-			await get_tree().create_timer(1.0).timeout
-			debounce = false
-			print("Ray Cast turns off debounce")
-			
-	if back_Ray.is_colliding():
-#		Only prevent user from walking backward
-#		if there is a wall in front of them and they are walking
-#		backward.
-		if movement_Tween and not moving_Forward:
-			movement_Tween.kill()
-			movement_Tween = null
-			moving_Forward = true
-			print("Blocked Backward Walking")
-			%AnimatedSprite2D.animation = "Idle"
-			await get_tree().create_timer(1.0).timeout
-			debounce = false
-			print("Ray Cast turns off debounce")
-			
-	if Input.is_action_pressed("Clicked"):
+	
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("Clicked"):
 		if debounce: return
+		print("Click detected!")
 		var mousePos : Vector2 = get_global_mouse_position()
 #		Prevent user from moving into negative coordinates and breaking stuff
 		if mousePos.x <= 0: 
@@ -141,6 +119,38 @@ func _physics_process(delta):
 		await get_tree().create_timer(1.0).timeout
 		print("Walking occuring")
 		debounce = false
+		
+func _physics_process(delta):
+	if front_Ray.is_colliding():
+#		Only prevent user from walking forward
+#		if there is a wall in front of them and they are walking
+#		forward.
+		if movement_Tween and moving_Forward:
+			movement_Tween.kill()
+			movement_Tween = null
+			moving_Forward = false
+			print("Blocked Forward Walking")
+			%AnimatedSprite2D.animation = "Idle"
+			await get_tree().create_timer(1.0).timeout
+			debounce = false
+			print("Ray Cast turns off debounce")
+			
+	if back_Ray.is_colliding():
+#		Only prevent user from walking backward
+#		if there is a wall in front of them and they are walking
+#		backward.
+		if movement_Tween and not moving_Forward:
+			movement_Tween.kill()
+			movement_Tween = null
+			moving_Forward = true
+			print("Blocked Backward Walking")
+			%AnimatedSprite2D.animation = "Idle"
+			await get_tree().create_timer(1.0).timeout
+			debounce = false
+			print("Ray Cast turns off debounce")
+			
+	#if Input.is_action_pressed("Clicked"):
+		
 	else:
 		if debounce: return
 		%AnimatedSprite2D.animation = "Idle"

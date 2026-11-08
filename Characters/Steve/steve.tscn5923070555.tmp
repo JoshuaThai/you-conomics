@@ -1,0 +1,497 @@
+[gd_scene format=3 uid="uid://bmjykxtg5sbe5"]
+
+[ext_resource type="Texture2D" uid="uid://dc37dax6rbxuk" path="res://Characters/Steve/Steve-Idle.png" id="1_2d6gj"]
+[ext_resource type="Script" uid="uid://bpib4w86k8h77" path="res://Scripts/steve.gd" id="1_kkqbf"]
+[ext_resource type="Texture2D" uid="uid://c8u5bq5ik3btg" path="res://Characters/Steve/Steve-Walking.png" id="3_wwivn"]
+[ext_resource type="Texture2D" uid="uid://rtrax0pda42h" path="res://Images/Phone App.png" id="4_brywt"]
+[ext_resource type="StyleBox" uid="uid://dx5ugkpst4r4u" path="res://Button Styles/default_button_color.tres" id="5_6id67"]
+[ext_resource type="Script" uid="uid://gny6u2md8wnu" path="res://Scripts/JT/steve_phone.gd" id="5_eomjc"]
+[ext_resource type="Shader" uid="uid://ijpdxi0qxgn7" path="res://Scripts/Shared/dialogue_blur.gdshader" id="7_hexh2"]
+[ext_resource type="Script" uid="uid://bok8rsoiqbfgj" path="res://Scripts/JT/steve_dialogue_manager.gd" id="8_hexh2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kkqbf"]
+atlas = ExtResource("1_2d6gj")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wwivn"]
+atlas = ExtResource("1_2d6gj")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_brywt"]
+atlas = ExtResource("1_2d6gj")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eomjc"]
+atlas = ExtResource("1_2d6gj")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6id67"]
+atlas = ExtResource("1_2d6gj")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drp4u"]
+atlas = ExtResource("1_2d6gj")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hexh2"]
+atlas = ExtResource("3_wwivn")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sl06h"]
+atlas = ExtResource("3_wwivn")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oj16r"]
+atlas = ExtResource("3_wwivn")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tntse"]
+atlas = ExtResource("3_wwivn")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1iva0"]
+atlas = ExtResource("3_wwivn")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drbi8"]
+atlas = ExtResource("3_wwivn")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w0nok"]
+atlas = ExtResource("3_wwivn")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q81lc"]
+atlas = ExtResource("3_wwivn")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hexh2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kkqbf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wwivn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_brywt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eomjc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6id67")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_drp4u")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hexh2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sl06h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oj16r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tntse")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1iva0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_drbi8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w0nok")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q81lc")
+}],
+"loop": true,
+"name": &"Walking",
+"speed": 12.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sl06h"]
+size = Vector2(38, 60)
+
+[sub_resource type="LabelSettings" id="LabelSettings_wwivn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oj16r"]
+bg_color = Color(0.2, 0.28627452, 0.3529412, 0.8784314)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tntse"]
+bg_color = Color(0.15686275, 0.23137255, 0.28235295, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1iva0"]
+bg_color = Color(0.23921569, 0.34509805, 0.4392157, 0.9490196)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_drbi8"]
+shader = ExtResource("7_hexh2")
+shader_parameter/blur_strength = 2.5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w0nok"]
+bg_color = Color(0.09411765, 0.12941177, 0.16078432, 0.7058824)
+border_width_bottom = 4
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.21960784)
+shadow_size = 10
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q81lc"]
+bg_color = Color(0.19607843, 0.27058825, 0.32156864, 0.9490196)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qak3"]
+bg_color = Color(0.14901961, 0.21176471, 0.25490198, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hw8sh"]
+bg_color = Color(0.23137255, 0.3254902, 0.38431373, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="Steve" type="CharacterBody2D" unique_id=2119416198]
+script = ExtResource("1_kkqbf")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=153171436]
+unique_name_in_owner = true
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_hexh2")
+animation = &"Walking"
+autoplay = "Idle"
+frame_progress = 0.19160973
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1354301064]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_sl06h")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=344067104]
+zoom = Vector2(5, 5)
+
+[node name="ButtonLabel" type="Label" parent="." unique_id=986715941]
+unique_name_in_owner = true
+texture_filter = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = 75.0
+offset_right = 20.0
+offset_bottom = 98.0
+grow_horizontal = 2
+grow_vertical = 0
+label_settings = SubResource("LabelSettings_wwivn")
+
+[node name="FrontRay" type="RayCast2D" parent="." unique_id=1714667026]
+unique_name_in_owner = true
+target_position = Vector2(50, 0)
+
+[node name="BackRay" type="RayCast2D" parent="." unique_id=1770814620]
+unique_name_in_owner = true
+target_position = Vector2(-50, 0)
+
+[node name="PhoneUi" type="Sprite2D" parent="." unique_id=652756185]
+unique_name_in_owner = true
+texture_filter = 1
+position = Vector2(154, 105)
+scale = Vector2(2, 2)
+texture = ExtResource("4_brywt")
+script = ExtResource("5_eomjc")
+phone_owner_name = null
+
+[node name="Button" type="Button" parent="PhoneUi" unique_id=1469971049]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -13.0
+offset_top = -16.0
+offset_right = -19.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = ExtResource("5_6id67")
+
+[node name="Overlay" type="ColorRect" parent="PhoneUi" unique_id=1781297662]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PhoneFrame" type="PanelContainer" parent="PhoneUi/Overlay" unique_id=1441349788]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PhoneUi/Overlay/PhoneFrame" unique_id=899837887]
+layout_mode = 2
+
+[node name="HomeScreen" type="VBoxContainer" parent="PhoneUi/Overlay/PhoneFrame/MarginContainer" unique_id=518532387]
+layout_mode = 2
+
+[node name="HeaderRow" type="HBoxContainer" parent="PhoneUi/Overlay/PhoneFrame/MarginContainer/HomeScreen" unique_id=746659054]
+layout_mode = 2
+
+[node name="PhoneTitle" type="Label" parent="PhoneUi/Overlay/PhoneFrame/MarginContainer/HomeScreen/HeaderRow" unique_id=260661482]
+layout_mode = 2
+
+[node name="CloseButton" type="Button" parent="PhoneUi/Overlay/PhoneFrame/MarginContainer/HomeScreen/HeaderRow" unique_id=868631757]
+layout_mode = 2
+
+[node name="DateLabel" type="Label" parent="PhoneUi/Overlay/PhoneFrame/MarginContainer/HomeScreen" unique_id=1051762103]
+layout_mode = 2
+
+[node name="AppGrid" type="GridContainer" parent="PhoneUi/Overlay/PhoneFrame/MarginContainer/HomeScreen" unique_id=1552745601]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="PhoneUi/Overlay/PhoneFrame/MarginContainer/HomeScreen" unique_id=667330963]
+layout_mode = 2
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=54465791]
+unique_name_in_owner = true
+layer = 10
+
+[node name="HUD" type="Control" parent="UI" unique_id=968511520]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DayLabel" type="Label" parent="UI/HUD" unique_id=1939511698]
+layout_mode = 1
+offset_left = 70.0
+offset_top = 45.0
+offset_right = 390.0
+offset_bottom = 105.0
+theme_override_colors/font_color = Color(0.14901961, 0.19607843, 0.21960784, 1)
+theme_override_colors/font_outline_color = Color(0.9490196, 0.92156863, 0.8666667, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 38
+text = "DAY 1 / 30"
+vertical_alignment = 1
+
+[node name="PeriodLabel" type="Label" parent="UI/HUD" unique_id=1463001289]
+layout_mode = 1
+offset_left = 70.0
+offset_top = 109.0
+offset_right = 390.0
+offset_bottom = 151.0
+theme_override_colors/font_color = Color(0.21176471, 0.35686275, 0.4509804, 1)
+theme_override_colors/font_outline_color = Color(0.9490196, 0.92156863, 0.8666667, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 26
+text = "MORNING"
+vertical_alignment = 1
+
+[node name="TopRightStats" type="VBoxContainer" parent="UI/HUD" unique_id=1568579829]
+layout_mode = 1
+offset_left = 1470.0
+offset_top = 42.0
+offset_right = 1860.0
+offset_bottom = 222.0
+theme_override_constants/separation = 8
+
+[node name="MoneyLabel" type="Label" parent="UI/HUD/TopRightStats" unique_id=162550061]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18431373, 0.3647059, 0.22745098, 1)
+theme_override_colors/font_outline_color = Color(0.9098039, 0.88235295, 0.83137256, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 42
+text = "$100.00"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MoodRow" type="HBoxContainer" parent="UI/HUD/TopRightStats" unique_id=25476187]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 2
+
+[node name="MoodIcon" type="TextureRect" parent="UI/HUD/TopRightStats/MoodRow" unique_id=1434009891]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MoodLabel" type="Label" parent="UI/HUD/TopRightStats/MoodRow" unique_id=59097867]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.41568628, 0.23921569, 0.3647059, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.9490196, 0.92156863, 0.8666667, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 32
+text = "Mood: 70"
+vertical_alignment = 1
+
+[node name="EnergyLabel" type="Label" parent="UI/HUD/TopRightStats" unique_id=171618529]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.21176471, 0.35686275, 0.4509804, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.9490196, 0.92156863, 0.8666667, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 32
+text = "Energy: 80"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="NextPeriodButton" type="Button" parent="UI/HUD" unique_id=1282750899]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 56.0
+offset_top = 176.0
+offset_right = 266.0
+offset_bottom = 240.0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_oj16r")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tntse")
+theme_override_styles/hover = SubResource("StyleBoxFlat_1iva0")
+text = "NEXT PERIOD"
+
+[node name="DialoguePanel" type="Panel" parent="UI/HUD" unique_id=1909497215]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_drbi8")
+layout_mode = 1
+offset_left = 300.0
+offset_top = 735.0
+offset_right = 1620.0
+offset_bottom = 985.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_w0nok")
+script = ExtResource("8_hexh2")
+
+[node name="ContentMargin" type="MarginContainer" parent="UI/HUD/DialoguePanel" unique_id=1898832023]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 22
+
+[node name="VBox" type="VBoxContainer" parent="UI/HUD/DialoguePanel/ContentMargin" unique_id=961377613]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="NameLabel" type="Label" parent="UI/HUD/DialoguePanel/ContentMargin/VBox" unique_id=30666804]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.90588236, 0.7607843, 0.6039216, 1)
+theme_override_font_sizes/font_size = 22
+text = "FRY"
+vertical_alignment = 1
+
+[node name="DialogueLabel" type="Label" parent="UI/HUD/DialoguePanel/ContentMargin/VBox" unique_id=109308614]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 32
+text = "I'm starving. Should I order breakfast or just make something at home?"
+autowrap_mode = 3
+
+[node name="Choices" type="HBoxContainer" parent="UI/HUD/DialoguePanel/ContentMargin/VBox" unique_id=489809343]
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="Choice1Button" type="Button" parent="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices" unique_id=691806318]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_q81lc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_7qak3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hw8sh")
+text = "Order breakfast - $29"
+
+[node name="Choice2Button" type="Button" parent="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices" unique_id=992652770]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_q81lc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_7qak3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hw8sh")
+text = "Make breakfast - $4"
+
+[node name="Choice3Button" type="Button" parent="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices" unique_id=891248860]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_q81lc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_7qak3")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hw8sh")
+text = "Skip breakfast - $0"
+
+[node name="ScreenFade" type="ColorRect" parent="UI" unique_id=798095005]
+visible = false
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0, 0, 0, 1)
+
+[connection signal="mouse_entered" from="PhoneUi/Button" to="PhoneUi" method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="PhoneUi/Button" to="PhoneUi" method="_on_button_mouse_exited"]
+[connection signal="pressed" from="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices/Choice1Button" to="UI/HUD/DialoguePanel" method="_on_choice_1_button_pressed"]
+[connection signal="pressed" from="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices/Choice2Button" to="UI/HUD/DialoguePanel" method="_on_choice_2_button_pressed"]
+[connection signal="pressed" from="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices/Choice3Button" to="UI/HUD/DialoguePanel" method="_on_choice_3_button_pressed"]

@@ -31,6 +31,10 @@ shape = SubResource("RectangleShape2D_yfxnn")
 unique_name_in_owner = true
 position = Vector2(890, 379)
 
+[node name="RoomSpawn" type="Marker2D" parent="." unique_id=1001414467]
+unique_name_in_owner = true
+position = Vector2(367, 379)
+
 [node name="PlayerModules" type="CanvasLayer" parent="." unique_id=1715823921]
 script = ExtResource("4_h20gd")
 

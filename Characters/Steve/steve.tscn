@@ -3,9 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dc37dax6rbxuk" path="res://Characters/Steve/Steve-Idle.png" id="1_2d6gj"]
 [ext_resource type="Script" uid="uid://bpib4w86k8h77" path="res://Scripts/steve.gd" id="1_kkqbf"]
 [ext_resource type="Texture2D" uid="uid://c8u5bq5ik3btg" path="res://Characters/Steve/Steve-Walking.png" id="3_wwivn"]
-[ext_resource type="Texture2D" uid="uid://rtrax0pda42h" path="res://Images/Phone App.png" id="4_brywt"]
-[ext_resource type="StyleBox" uid="uid://dx5ugkpst4r4u" path="res://Button Styles/default_button_color.tres" id="5_6id67"]
-[ext_resource type="Script" uid="uid://gny6u2md8wnu" path="res://Scripts/JT/steve_phone.gd" id="5_eomjc"]
+[ext_resource type="PackedScene" uid="uid://dqppedruiy2hu" path="res://Scenes/UI/phone.tscn" id="6_6id67"]
 [ext_resource type="Shader" uid="uid://ijpdxi0qxgn7" path="res://Scripts/Shared/dialogue_blur.gdshader" id="7_hexh2"]
 [ext_resource type="Script" uid="uid://bok8rsoiqbfgj" path="res://Scripts/JT/steve_dialogue_manager.gd" id="8_hexh2"]
 
@@ -225,27 +223,6 @@ target_position = Vector2(50, 0)
 unique_name_in_owner = true
 target_position = Vector2(-50, 0)
 
-[node name="PhoneUi" type="Sprite2D" parent="." unique_id=652756185]
-texture_filter = 1
-position = Vector2(154, 105)
-scale = Vector2(2, 2)
-texture = ExtResource("4_brywt")
-
-[node name="Button" type="Button" parent="PhoneUi" unique_id=1469971049]
-unique_name_in_owner = true
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -13.0
-offset_top = -16.0
-offset_right = -19.0
-offset_bottom = -16.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_default_cursor_shape = 2
-theme_override_styles/normal = ExtResource("5_6id67")
-script = ExtResource("5_eomjc")
-
 [node name="UI" type="CanvasLayer" parent="." unique_id=54465791]
 unique_name_in_owner = true
 layer = 10
@@ -349,6 +326,7 @@ offset_left = 56.0
 offset_top = 176.0
 offset_right = 266.0
 offset_bottom = 240.0
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_oj16r")
@@ -448,14 +426,17 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_7qak3")
 theme_override_styles/hover = SubResource("StyleBoxFlat_hw8sh")
 text = "Skip breakfast - $0"
 
+[node name="PhoneUI" parent="UI/HUD" unique_id=793002954 instance=ExtResource("6_6id67")]
+unique_name_in_owner = true
+layout_mode = 1
+metadata/_edit_lock_ = true
+
 [node name="ScreenFade" type="ColorRect" parent="UI" unique_id=798095005]
 visible = false
 offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0, 0, 0, 1)
 
-[connection signal="mouse_entered" from="PhoneUi/Button" to="PhoneUi/Button" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="PhoneUi/Button" to="PhoneUi/Button" method="_on_mouse_exited"]
 [connection signal="pressed" from="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices/Choice1Button" to="UI/HUD/DialoguePanel" method="_on_choice_1_button_pressed"]
 [connection signal="pressed" from="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices/Choice2Button" to="UI/HUD/DialoguePanel" method="_on_choice_2_button_pressed"]
 [connection signal="pressed" from="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices/Choice3Button" to="UI/HUD/DialoguePanel" method="_on_choice_3_button_pressed"]
