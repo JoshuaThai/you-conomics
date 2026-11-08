@@ -199,7 +199,7 @@ shape = SubResource("RectangleShape2D_sl06h")
 [node name="Camera2D" type="Camera2D" parent="." unique_id=344067104]
 zoom = Vector2(5, 5)
 
-[node name="ButtonLabel" type="Label" parent="." unique_id=986715941]
+[node name="TaskLabel" type="Label" parent="." unique_id=986715941]
 unique_name_in_owner = true
 texture_filter = 1
 anchors_preset = 7
@@ -237,6 +237,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="DayLabel" type="Label" parent="UI/HUD" unique_id=1939511698]
+unique_name_in_owner = true
 layout_mode = 1
 offset_left = 70.0
 offset_top = 45.0
@@ -250,6 +251,7 @@ text = "DAY 1 / 30"
 vertical_alignment = 1
 
 [node name="PeriodLabel" type="Label" parent="UI/HUD" unique_id=1463001289]
+unique_name_in_owner = true
 layout_mode = 1
 offset_left = 70.0
 offset_top = 109.0
@@ -437,6 +439,7 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0, 0, 0, 1)
 
+[connection signal="pressed" from="UI/HUD/NextPeriodButton" to="." method="_on_next_period_button_pressed"]
 [connection signal="pressed" from="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices/Choice1Button" to="UI/HUD/DialoguePanel" method="_on_choice_1_button_pressed"]
 [connection signal="pressed" from="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices/Choice2Button" to="UI/HUD/DialoguePanel" method="_on_choice_2_button_pressed"]
 [connection signal="pressed" from="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices/Choice3Button" to="UI/HUD/DialoguePanel" method="_on_choice_3_button_pressed"]

@@ -26,23 +26,21 @@ var steve_profile: Dictionary = {
 
 # These are the events that you expect to occur on a weekday
 var normal_morning_events = [
-	"Lunch", 
+	"Lunch"
 ]
 
 var normal_afternoon_events = [
-	"Work a extra shift", "Snack", "Nap"
+	"Work a extra shift", "Snack", "Nap", "Nothing"
 ]
 
-#TODO: Finish adding the info for this
 var normal_evening_events = [
 	"Dinner",
 	"Work on Hobby", "Sleep", "Scam Email",
-	"Legit Email"
+	"Legit Email", "Nothing"
 ]
 
-#TODO: Need to add the info for it
 var normal_night_events = [
-	"Get a Drink"
+	"Get a Drink", "Nothing"
 ]
 
 var normal_morning_events_info = {
@@ -233,9 +231,29 @@ var normal_evening_events_info = {
 	},
 }
 
+var normal_night_events_info = {
+	"Get a Drink" : {
+		"message": "I am feeling a little thirsty!",
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Yes",
+			"money": 0,
+			"energy": 10,
+			"mood": 10,
+			"reaction": "That was much needed."
+			},
+			{"text": "No",
+			"money": 0,
+			"energy": -5,
+			"mood": -10,
+			"reaction": "Too lazy to get up! Back to sleep I go!"
+			}
+		]
+	},
+}
+
 # These are the events that are character specific and
 # can randomly pop up on a weekday in whatever time period.
-# TODO: ADD THE INFO FOR THIS
 var steve_weekly_events = [
 	"Pay Bonus", "Hate Mail",
 	"Buy New Computer", "Buy New Socks"
@@ -332,6 +350,7 @@ var steve_low_money_events = [
 	"Wager a bet", "Ask for Promotion", "Take out a loan"
 ]
 
+
 # Sometimes, if the mood or energy is low enough, then these events could play
 var steve_low_mood_events = [
 	"Visit the Doctor"
@@ -343,7 +362,7 @@ var steve_low_energy_events = [
 
 var steve_special_events = [
 	"Hang out with friends", "Go to the movies",
-	"Buy Auto Theft 67"
+	"Buy Auto Theft 67", "Nothing"
 ]
 # This will contain all relevant info to the special events
 # which will only happen during weekends

@@ -3,6 +3,7 @@ extends CharacterBody2D
 const WALKSPEED : int = 2
 var debounce : bool = false
 var movement_Tween : Tween
+var ongoingDialogue = false
 
 # Player State
 var moving_Forward : bool = true
@@ -16,16 +17,56 @@ var money: int = 100
 var mood: int = 70
 var energy: int = 80
 
+var total_income: int = 200
+
+var total_spending: int = 0
+
+var finance_history: Array[Dictionary] = []
+
 var steve_profile = {
 	"name": "Steve",
 	"debt_amount": 1000,
-	"salary": 200,
 	"workplace": "You-ville IT Solutions" 
 }
 
-var clickAllObjects = {
-	"Calendar": ""
+var bills: Dictionary = {
+	"phone": {
+		"name": "Phone bill",
+		"amount": 45,
+		"due_day": 10,
+		"late_fee": 5,
+		"paid": false,
+		"fee_applied": false
+	},
+	
+	"student debt": {
+		"name": "Student Loans",
+		"amount": 250,
+		"due_day": 20,
+		"late_fee": 50,
+		"paid": false,
+		"fee_applied": false
+	}
 }
+
+# Player won't be able to move to next period until they interact with all items in house
+var clickAllObjects = {
+	"Calendar": false,
+	"Computer": false,
+	"Fridge": false,
+	"Door": false
+}
+
+var objectsLeft = []
+# After interacting with all items, the player will have to decide on lunch.
+var decideLunch = false
+
+# Keep track of all the events for the day
+var morningEvents = []
+var afternoonEvents = []
+var eveningEvents = []
+var nightEvents = []
+
 
 
 # Variables
@@ -35,10 +76,73 @@ var clickAllObjects = {
 @onready var steve_Home = %SteveHome
 @onready var dialogue_panel = %DialoguePanel
 
+func set_task_label():
+	%TaskLabel.text = "Check: "
+	var iterateOnce = false
+	for object in clickAllObjects:
+		if iterateOnce:
+			%TaskLabel.text = %TaskLabel.text + ", "
+		#print(object)
+		iterateOnce = true
+		if not clickAllObjects[object]:
+			%TaskLabel.text = %TaskLabel.text + object
+			
+	%TaskLabel.text = %TaskLabel.text + "."
+
+func change_money(
+	amount: int,
+	reason: String = "Other transaction",
+	category: String = "Other"
+) -> void:
+	if is_zero_approx(amount):
+		return
+	
+	money += amount
+	
+	if amount > 0:
+		total_income += amount
+	else:
+		total_spending += absf(amount)
+	
+	finance_history.append({
+		"day": DayManager.current_day,
+		"period": DayManager.get_period(),
+		"amount": amount,
+		"reason": reason,
+		"category": category,
+		"balance_after": money
+	})
+	
+func get_unpaid_total() -> float:
+	var total: float = 0.0
+	
+	for bill_id in bills.keys():
+		var bill: Dictionary = bills[bill_id]
+		
+		if not bool(bill["paid"]):
+			total += float(bill["amount"])
+	
+	return total
+
+func get_finance_snapshot() -> Dictionary:
+	var unpaid: float = get_unpaid_total()
+	
+	return {
+		"balance": money,
+		"income": total_income,
+		"spending": total_spending,
+		"unpaid_bills": unpaid,
+		"after_bills": money - unpaid,
+		"transactions": finance_history.duplicate(true)
+	}
+
 func _ready():
 	#print("Steve is ready!")
+	set_task_label()
 	steve_profile["debt_amount"] = randi() % 1000 + 800
-	steve_profile["salary"] = randi() % 200 + 150
+	total_income = randi_range(150, 200)
+	# Connect Fry's financial information to the phone.
+	%PhoneUI.call("set_finance_source", self)
 	%UI.visible = false
 	await steve_Home._trigger_transition_on_start()
 	%UI.visible = true
@@ -49,18 +153,22 @@ func _process(delta):
 		%NextPeriodButton.text = "To Work"
 	else:
 		%NextPeriodButton.text = "To " + nextTime["period"]
+		
+	%DayLabel.text = "DAY %s/ 30" % DayManager.current_day
+	%PeriodLabel.text = DayManager.get_period().to_upper()
 	
 func pause_movement():
 	debounce = true
 	
 func unpause_movement():
 	debounce = false
-	print("Unpaused Steve ID: ", get_instance_id(), " debounce: ", debounce)
+	#print("Unpaused Steve ID: ", get_instance_id(), " debounce: ", debounce)
 
 # Display Dialogue
 func show_dialogue(speaker: String, message: String, options: Array):
-	print("Show dialogue?")
+	#print("Show dialogue?")
 	pause_movement()
+	ongoingDialogue = true
 	dialogue_panel.show_dialogue(speaker, message, options)
 	
 func _unhandled_input(event: InputEvent) -> void:
@@ -155,3 +263,7 @@ func _physics_process(delta):
 		if debounce: return
 		%AnimatedSprite2D.animation = "Idle"
 			
+
+
+func _on_next_period_button_pressed():
+	DayManager.advance_period()

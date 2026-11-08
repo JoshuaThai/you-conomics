@@ -107,6 +107,8 @@ func _on_choice_3_button_pressed():
 func display_other_UI():
 	%NextPeriodButton.show()
 	%PhoneUI.show()
+	
+
 func check_if_correct_response(choiceSelected: String):
 	#print(owner.available_choices_info)
 	for choice in owner.available_choices_info:
@@ -123,6 +125,7 @@ func check_if_correct_response(choiceSelected: String):
 			close_dialogue()
 			display_other_UI()
 			owner.unpause_movement()
+			owner.ongoingDialogue = false
 			#print("Owner Debounce: ", owner.debounce)
 			
 			#show_response()
