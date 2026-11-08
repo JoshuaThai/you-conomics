@@ -79,14 +79,20 @@ var nightEvents = []
 func set_task_label():
 	%TaskLabel.text = "Check: "
 	var iterateOnce = false
+	var anyObjectLeft = false
 	for object in clickAllObjects:
 		if iterateOnce:
 			%TaskLabel.text = %TaskLabel.text + ", "
 		#print(object)
 		iterateOnce = true
 		if not clickAllObjects[object]:
+			anyObjectLeft = true
 			%TaskLabel.text = %TaskLabel.text + object
-			
+			%NextPeriodButton.hide()
+	if anyObjectLeft:
+		%NextPeriodButton.hide()
+	else:
+		%NextPeriodButton.show()
 	%TaskLabel.text = %TaskLabel.text + "."
 
 func change_money(
@@ -138,7 +144,7 @@ func get_finance_snapshot() -> Dictionary:
 
 func _ready():
 	#print("Steve is ready!")
-	set_task_label()
+	#set_task_label()
 	steve_profile["debt_amount"] = randi() % 1000 + 800
 	total_income = randi_range(150, 200)
 	# Connect Fry's financial information to the phone.

@@ -54,7 +54,8 @@ func _process(delta):
 
 func show_dialogue(speaker: String,message: String, options: Array) -> void:
 	player_choices.clear()
-	%NextPeriodButton.hide()
+	#%NextPeriodButton.hide()
+	%TaskLabel.hide()
 	%PhoneUI.hide()
 	name_label.text = speaker
 	dialogue_label.text = message
@@ -105,7 +106,8 @@ func _on_choice_3_button_pressed():
 	
 	
 func display_other_UI():
-	%NextPeriodButton.show()
+	#%NextPeriodButton.show()
+	%TaskLabel.show()
 	%PhoneUI.show()
 	
 

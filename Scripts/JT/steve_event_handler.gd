@@ -80,5 +80,8 @@ func _show_current_period_dialogue():
 			steve.available_choices_info = eventData["choices"]
 			
 			steve.show_dialogue(speaker, message, options)
+			while steve.ongoingDialogue:
+				await get_tree().process_frame
+			steve.set_task_label()
 			
 			
