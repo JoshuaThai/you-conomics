@@ -181,4 +181,8 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_m6swd")
 theme_override_styles/hover = SubResource("StyleBoxFlat_fikte")
 
 [connection signal="pressed" from="DoorButton" to="." method="_on_door_button_pressed"]
+[connection signal="pressed" from="CalendarButton" to="." method="_on_calendar_button_pressed"]
+[connection signal="pressed" from="ComputerButton" to="." method="_on_computer_button_pressed"]
+[connection signal="pressed" from="FridgeButton" to="." method="_on_fridge_button_pressed"]
+[connection signal="pressed" from="MailButton" to="." method="_on_mail_button_pressed"]
 [connection signal="pressed" from="BackToRoom/BackToRoomButton" to="." method="_on_back_to_room_button_pressed"]

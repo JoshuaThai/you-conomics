@@ -75,6 +75,7 @@ var nightEvents = []
 @onready var back_Ray : RayCast2D = %BackRay
 @onready var steve_Home = %SteveHome
 @onready var dialogue_panel = %DialoguePanel
+@onready var house_object = %HouseObjectUI
 
 func set_task_label():
 	%TaskLabel.text = "Check: "
@@ -273,3 +274,7 @@ func _physics_process(delta):
 
 func _on_next_period_button_pressed():
 	DayManager.advance_period()
+	
+func open_panel(panelName: String):
+	house_object.show()
+	house_object.open_panel(panelName)

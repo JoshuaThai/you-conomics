@@ -57,3 +57,18 @@ func _on_back_to_room_button_pressed():
 	await tween.finished
 	_spawn_in_room()
 	
+
+func _on_calendar_button_pressed():
+	steve.open_panel("Calendar")
+
+
+func _on_computer_button_pressed():
+	steve.open_panel("Computer")
+
+
+func _on_fridge_button_pressed():
+	steve.open_panel("Fridge")
+
+
+func _on_mail_button_pressed():
+	steve.open_panel("HouseDoor")
