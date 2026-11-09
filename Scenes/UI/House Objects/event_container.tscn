@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://2haqgxdn2n4p"]
+
+[ext_resource type="Script" uid="uid://cqghc8enkdpav" path="res://Scripts/Shared/event_container.gd" id="1_h2c6s"]
+
+[node name="EventContainer" type="PanelContainer" unique_id=1130629042]
+custom_minimum_size = Vector2(1060, 100)
+size_flags_horizontal = 4
+script = ExtResource("1_h2c6s")
+
+[node name="Label" type="Label" parent="." unique_id=661663999]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Meeting With Friends"
+horizontal_alignment = 1
+uppercase = true

@@ -171,7 +171,7 @@ position = Vector2(860, 361.00003)
 scale = Vector2(1.25, 1.25)
 texture = ExtResource("3_o68pl")
 
-[node name="Button" type="Button" parent="BackToRoom" unique_id=1943658449]
+[node name="BackToRoomButton" type="Button" parent="BackToRoom" unique_id=1943658449]
 offset_left = -13.600037
 offset_top = -14.6666565
 offset_right = 10.666504
@@ -181,3 +181,8 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_m6swd")
 theme_override_styles/hover = SubResource("StyleBoxFlat_fikte")
 
 [connection signal="pressed" from="DoorButton" to="." method="_on_door_button_pressed"]
+[connection signal="pressed" from="CalendarButton" to="." method="_on_calendar_button_pressed"]
+[connection signal="pressed" from="ComputerButton" to="." method="_on_computer_button_pressed"]
+[connection signal="pressed" from="FridgeButton" to="." method="_on_fridge_button_pressed"]
+[connection signal="pressed" from="MailButton" to="." method="_on_mail_button_pressed"]
+[connection signal="pressed" from="BackToRoom/BackToRoomButton" to="." method="_on_back_to_room_button_pressed"]

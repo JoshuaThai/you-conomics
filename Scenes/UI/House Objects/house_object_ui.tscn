@@ -1,0 +1,417 @@
+[gd_scene format=3 uid="uid://dcxjhn02rh77h"]
+
+[ext_resource type="Script" uid="uid://cos4sl0h2nlri" path="res://Scripts/Shared/house_object_ui.gd" id="1_its33"]
+[ext_resource type="PackedScene" uid="uid://2haqgxdn2n4p" path="res://Scenes/UI/House Objects/event_container.tscn" id="2_rklgk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bexil"]
+bg_color = Color(0.09411765, 0.13725491, 0.19607843, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.4, 0.48235294, 0.5764706, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_its33"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_bottom = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rklgk"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.45064855, 0.4506482, 0.45064825, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_quph1"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0e68r"]
+bg_color = Color(0.6451647, 0, 0.10159735, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5xktm"]
+bg_color = Color(0.08701607, 0.08701608, 0.08701601, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pb7n3"]
+bg_color = Color(0.8089983, 0.8089983, 0.8089982, 1)
+border_width_left = 5
+border_width_top = 75
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.97820383, 0, 0.20353433, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_054cv"]
+bg_color = Color(0, 0, 0.13333334, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bhppe"]
+bg_color = Color(0, 0, 0, 0.4862745)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="HouseObjectUI" type="Control" unique_id=2107291740]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_its33")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1489946858]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.4862745)
+
+[node name="ComputerPanel" type="Panel" parent="." unique_id=1500685235]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -450.0
+offset_right = 600.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bexil")
+
+[node name="Email" type="Control" parent="ComputerPanel" unique_id=204012319]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubjectContainer" type="PanelContainer" parent="ComputerPanel/Email" unique_id=618828267]
+layout_mode = 0
+offset_left = 29.0
+offset_top = 63.0
+offset_right = 1117.0
+offset_bottom = 135.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_its33")
+
+[node name="SubjectContainer" type="HBoxContainer" parent="ComputerPanel/Email/SubjectContainer" unique_id=120986633]
+layout_mode = 2
+
+[node name="subjectLabel" type="Label" parent="ComputerPanel/Email/SubjectContainer/SubjectContainer" unique_id=772672661]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Subject:"
+
+[node name="subjectName" type="Label" parent="ComputerPanel/Email/SubjectContainer/SubjectContainer" unique_id=168126479]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="FromContainer" type="PanelContainer" parent="ComputerPanel/Email" unique_id=1703246388]
+layout_mode = 0
+offset_left = 29.0
+offset_top = 135.0
+offset_right = 1117.0
+offset_bottom = 207.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_its33")
+
+[node name="FromContainer" type="HBoxContainer" parent="ComputerPanel/Email/FromContainer" unique_id=1620081040]
+layout_mode = 2
+
+[node name="EmailLabel" type="Label" parent="ComputerPanel/Email/FromContainer/FromContainer" unique_id=1762542686]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "From:"
+
+[node name="FromName" type="Label" parent="ComputerPanel/Email/FromContainer/FromContainer" unique_id=1560673245]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="EmailContainer" type="PanelContainer" parent="ComputerPanel/Email" unique_id=1973153398]
+layout_mode = 0
+offset_left = 29.0
+offset_top = 207.0
+offset_right = 1117.0
+offset_bottom = 616.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_rklgk")
+
+[node name="Label" type="Label" parent="ComputerPanel/Email/EmailContainer" unique_id=695645220]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 32
+text = "Dear Josh,
+
+Wow!"
+
+[node name="ButtonContainer" type="PanelContainer" parent="ComputerPanel/Email" unique_id=315099909]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 155.0
+offset_top = 591.0
+offset_right = 1005.0
+offset_bottom = 690.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_quph1")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ComputerPanel/Email/ButtonContainer" unique_id=1208560825]
+layout_mode = 2
+
+[node name="ReportButton" type="Button" parent="ComputerPanel/Email/ButtonContainer/HBoxContainer" unique_id=165275306]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_0e68r")
+text = "Report as Spam"
+
+[node name="RespondButton" type="Button" parent="ComputerPanel/Email/ButtonContainer/HBoxContainer" unique_id=2045315129]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_5xktm")
+text = "Respond to Email"
+
+[node name="NoEmailsLabel" type="Label" parent="ComputerPanel" unique_id=1101157272]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "No emails found."
+
+[node name="CalendarPanel" type="Panel" parent="." unique_id=1809632820]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -450.0
+offset_right = 600.0
+offset_bottom = 471.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pb7n3")
+
+[node name="Calendar" type="Control" parent="CalendarPanel" unique_id=171698882]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TodayEventsContainer" type="PanelContainer" parent="CalendarPanel/Calendar" unique_id=2085036391]
+layout_mode = 0
+offset_left = 43.0
+offset_top = 82.0
+offset_right = 1103.0
+offset_bottom = 474.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CalendarPanel/Calendar/TodayEventsContainer" unique_id=1565470409]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="CalendarPanel/Calendar/TodayEventsContainer" unique_id=440600912]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CalendarPanel/Calendar/TodayEventsContainer/Control" unique_id=2010548673]
+layout_mode = 0
+offset_top = -1.0
+offset_right = 1060.0
+offset_bottom = 43.666668
+theme_override_font_sizes/font_size = 48
+text = "Today's Events"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CalendarPanel/Calendar/TodayEventsContainer/Control" unique_id=1638704724]
+layout_mode = 0
+offset_top = 68.0
+offset_right = 1060.0
+offset_bottom = 409.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CalendarPanel/Calendar/TodayEventsContainer/Control/ScrollContainer" unique_id=397586876]
+layout_mode = 2
+
+[node name="EventContainer" parent="CalendarPanel/Calendar/TodayEventsContainer/Control/ScrollContainer/VBoxContainer" unique_id=1130629042 instance=ExtResource("2_rklgk")]
+layout_mode = 2
+
+[node name="UpcomingEventsContainer" type="PanelContainer" parent="CalendarPanel/Calendar" unique_id=749842719]
+layout_mode = 0
+offset_left = 43.0
+offset_top = 509.0
+offset_right = 1103.0
+offset_bottom = 901.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CalendarPanel/Calendar/UpcomingEventsContainer" unique_id=1038005855]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="CalendarPanel/Calendar/UpcomingEventsContainer" unique_id=2139298761]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CalendarPanel/Calendar/UpcomingEventsContainer/Control" unique_id=832712023]
+layout_mode = 0
+offset_top = -1.0
+offset_right = 1060.0
+offset_bottom = 43.666668
+theme_override_font_sizes/font_size = 48
+text = "Upcoming Events"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CalendarPanel/Calendar/UpcomingEventsContainer/Control" unique_id=1478967518]
+layout_mode = 0
+offset_top = 68.0
+offset_right = 1060.0
+offset_bottom = 409.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CalendarPanel/Calendar/UpcomingEventsContainer/Control/ScrollContainer" unique_id=1354460749]
+layout_mode = 2
+
+[node name="EventContainer" parent="CalendarPanel/Calendar/UpcomingEventsContainer/Control/ScrollContainer/VBoxContainer" unique_id=1027952194 instance=ExtResource("2_rklgk")]
+layout_mode = 2
+
+[node name="FridgePanel" type="Panel" parent="." unique_id=626994201]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -450.0
+offset_right = 600.0
+offset_bottom = 158.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bexil")
+
+[node name="Fridge" type="Control" parent="FridgePanel" unique_id=1297630727]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="FoodItemsContainer" type="PanelContainer" parent="FridgePanel/Fridge" unique_id=685373739]
+layout_mode = 0
+offset_left = 61.0
+offset_top = 63.0
+offset_right = 1098.0
+offset_bottom = 534.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FridgePanel/Fridge/FoodItemsContainer" unique_id=546119228]
+layout_mode = 2
+
+[node name="FoodAvailability" type="Label" parent="FridgePanel/Fridge/FoodItemsContainer/VBoxContainer" unique_id=388001874]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Food Items Available:"
+
+[node name="SuggestionLabel" type="Label" parent="FridgePanel/Fridge/FoodItemsContainer/VBoxContainer" unique_id=1900474081]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Suggestion: You may need to consider buying additional food items! Buy more food by going to your phone or your house's door."
+autowrap_mode = 2
+
+[node name="HouseDoorPanel" type="Panel" parent="." unique_id=1236345622]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -450.0
+offset_right = 600.0
+offset_bottom = 254.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bexil")
+
+[node name="Control" type="Control" parent="HouseDoorPanel" unique_id=1768946154]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PanelContainer" type="PanelContainer" parent="HouseDoorPanel/Control" unique_id=1371725658]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 110.0
+offset_right = 1100.0
+offset_bottom = 610.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HouseDoorPanel/Control/PanelContainer" unique_id=672316121]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HouseDoorPanel/Control/PanelContainer/VBoxContainer" unique_id=1074798474]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "What do want to do?"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="ColorRect" parent="HouseDoorPanel/Control/PanelContainer/VBoxContainer" unique_id=1710590969]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_vertical = 6
+color = Color(1, 1, 1, 0.2509804)
+
+[node name="Button2" type="Button" parent="HouseDoorPanel/Control/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1233537081]
+layout_mode = 0
+offset_left = 161.0
+offset_top = 45.0
+offset_right = 498.0
+offset_bottom = 245.0
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_054cv")
+text = "Look at Today's Mail"
+
+[node name="Button" type="Button" parent="HouseDoorPanel/Control/PanelContainer/VBoxContainer/HBoxContainer" unique_id=251113019]
+layout_mode = 0
+offset_left = 506.0
+offset_top = 45.0
+offset_right = 843.0
+offset_bottom = 245.0
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_054cv")
+text = "Go Grocery Shopping"
+
+[node name="CloseButton" type="Button" parent="." unique_id=1128516519]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -441.0
+offset_top = 97.0
+offset_right = -381.0
+offset_bottom = 157.0
+grow_horizontal = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_bhppe")
+text = "X"
+
+[connection signal="pressed" from="CloseButton" to="." method="_on_close_button_pressed"]

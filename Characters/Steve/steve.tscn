@@ -3,11 +3,10 @@
 [ext_resource type="Texture2D" uid="uid://dc37dax6rbxuk" path="res://Characters/Steve/Steve-Idle.png" id="1_2d6gj"]
 [ext_resource type="Script" uid="uid://bpib4w86k8h77" path="res://Scripts/steve.gd" id="1_kkqbf"]
 [ext_resource type="Texture2D" uid="uid://c8u5bq5ik3btg" path="res://Characters/Steve/Steve-Walking.png" id="3_wwivn"]
-[ext_resource type="Texture2D" uid="uid://rtrax0pda42h" path="res://Images/Phone App.png" id="4_brywt"]
-[ext_resource type="StyleBox" uid="uid://dx5ugkpst4r4u" path="res://Button Styles/default_button_color.tres" id="5_6id67"]
-[ext_resource type="Script" uid="uid://gny6u2md8wnu" path="res://Scripts/JT/steve_phone.gd" id="5_eomjc"]
+[ext_resource type="PackedScene" uid="uid://dqppedruiy2hu" path="res://Scenes/UI/phone.tscn" id="6_6id67"]
+[ext_resource type="PackedScene" uid="uid://dcxjhn02rh77h" path="res://Scenes/UI/House Objects/house_object_ui.tscn" id="7_drp4u"]
 [ext_resource type="Shader" uid="uid://ijpdxi0qxgn7" path="res://Scripts/Shared/dialogue_blur.gdshader" id="7_hexh2"]
-[ext_resource type="Script" uid="uid://b13ibvkj30okq" path="res://Scripts/Shared/dialogue_manager.gd" id="8_sl06h"]
+[ext_resource type="Script" uid="uid://bok8rsoiqbfgj" path="res://Scripts/JT/steve_dialogue_manager.gd" id="8_hexh2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kkqbf"]
 atlas = ExtResource("1_2d6gj")
@@ -201,7 +200,7 @@ shape = SubResource("RectangleShape2D_sl06h")
 [node name="Camera2D" type="Camera2D" parent="." unique_id=344067104]
 zoom = Vector2(5, 5)
 
-[node name="ButtonLabel" type="Label" parent="." unique_id=986715941]
+[node name="TaskLabel" type="Label" parent="." unique_id=986715941]
 unique_name_in_owner = true
 texture_filter = 1
 anchors_preset = 7
@@ -215,7 +214,6 @@ offset_right = 20.0
 offset_bottom = 98.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "Go to Kitchen"
 label_settings = SubResource("LabelSettings_wwivn")
 
 [node name="FrontRay" type="RayCast2D" parent="." unique_id=1714667026]
@@ -225,27 +223,6 @@ target_position = Vector2(50, 0)
 [node name="BackRay" type="RayCast2D" parent="." unique_id=1770814620]
 unique_name_in_owner = true
 target_position = Vector2(-50, 0)
-
-[node name="PhoneUi" type="Sprite2D" parent="." unique_id=652756185]
-texture_filter = 1
-position = Vector2(154, 105)
-scale = Vector2(2, 2)
-texture = ExtResource("4_brywt")
-
-[node name="Button" type="Button" parent="PhoneUi" unique_id=1469971049]
-unique_name_in_owner = true
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -13.0
-offset_top = -16.0
-offset_right = -19.0
-offset_bottom = -16.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_default_cursor_shape = 2
-theme_override_styles/normal = ExtResource("5_6id67")
-script = ExtResource("5_eomjc")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=54465791]
 unique_name_in_owner = true
@@ -261,6 +238,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="DayLabel" type="Label" parent="UI/HUD" unique_id=1939511698]
+unique_name_in_owner = true
 layout_mode = 1
 offset_left = 70.0
 offset_top = 45.0
@@ -274,6 +252,7 @@ text = "DAY 1 / 30"
 vertical_alignment = 1
 
 [node name="PeriodLabel" type="Label" parent="UI/HUD" unique_id=1463001289]
+unique_name_in_owner = true
 layout_mode = 1
 offset_left = 70.0
 offset_top = 109.0
@@ -295,12 +274,13 @@ offset_bottom = 222.0
 theme_override_constants/separation = 8
 
 [node name="MoneyLabel" type="Label" parent="UI/HUD/TopRightStats" unique_id=162550061]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.18431373, 0.3647059, 0.22745098, 1)
 theme_override_colors/font_outline_color = Color(0.9098039, 0.88235295, 0.83137256, 1)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 42
 text = "$100.00"
 horizontal_alignment = 2
 vertical_alignment = 1
@@ -319,37 +299,43 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="MoodLabel" type="Label" parent="UI/HUD/TopRightStats/MoodRow" unique_id=59097867]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.41568628, 0.23921569, 0.3647059, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0.9490196, 0.92156863, 0.8666667, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 28
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 32
 text = "Mood: 70"
 vertical_alignment = 1
 
 [node name="EnergyLabel" type="Label" parent="UI/HUD/TopRightStats" unique_id=171618529]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.21176471, 0.35686275, 0.4509804, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0.9490196, 0.92156863, 0.8666667, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 28
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 32
 text = "Energy: 80"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="NextDayButton" type="Button" parent="UI/HUD" unique_id=1282750899]
+[node name="NextPeriodButton" type="Button" parent="UI/HUD" unique_id=1282750899]
+unique_name_in_owner = true
 layout_mode = 1
-offset_left = 1647.0
-offset_top = 911.0
-offset_right = 1857.0
-offset_bottom = 975.0
+offset_left = 56.0
+offset_top = 176.0
+offset_right = 266.0
+offset_bottom = 240.0
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_oj16r")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_tntse")
 theme_override_styles/hover = SubResource("StyleBoxFlat_1iva0")
-text = "NEXT DAY"
+text = "NEXT PERIOD"
 
 [node name="DialoguePanel" type="Panel" parent="UI/HUD" unique_id=1909497215]
 unique_name_in_owner = true
@@ -360,7 +346,7 @@ offset_top = 735.0
 offset_right = 1620.0
 offset_bottom = 985.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_w0nok")
-script = ExtResource("8_sl06h")
+script = ExtResource("8_hexh2")
 
 [node name="ContentMargin" type="MarginContainer" parent="UI/HUD/DialoguePanel" unique_id=1898832023]
 layout_mode = 1
@@ -387,6 +373,7 @@ text = "FRY"
 vertical_alignment = 1
 
 [node name="DialogueLabel" type="Label" parent="UI/HUD/DialoguePanel/ContentMargin/VBox" unique_id=109308614]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
@@ -402,9 +389,11 @@ size_flags_vertical = 3
 theme_override_constants/separation = 12
 
 [node name="Choice1Button" type="Button" parent="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices" unique_id=691806318]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_q81lc")
@@ -413,9 +402,11 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_hw8sh")
 text = "Order breakfast - $29"
 
 [node name="Choice2Button" type="Button" parent="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices" unique_id=992652770]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
 theme_override_constants/outline_size = 1
 theme_override_font_sizes/font_size = 24
@@ -425,9 +416,11 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_hw8sh")
 text = "Make breakfast - $4"
 
 [node name="Choice3Button" type="Button" parent="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices" unique_id=891248860]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
 theme_override_constants/outline_size = 1
 theme_override_font_sizes/font_size = 24
@@ -436,11 +429,22 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_7qak3")
 theme_override_styles/hover = SubResource("StyleBoxFlat_hw8sh")
 text = "Skip breakfast - $0"
 
+[node name="PhoneUI" parent="UI/HUD" unique_id=793002954 instance=ExtResource("6_6id67")]
+unique_name_in_owner = true
+layout_mode = 1
+metadata/_edit_lock_ = true
+
 [node name="ScreenFade" type="ColorRect" parent="UI" unique_id=798095005]
 visible = false
 offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0, 0, 0, 1)
 
-[connection signal="mouse_entered" from="PhoneUi/Button" to="PhoneUi/Button" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="PhoneUi/Button" to="PhoneUi/Button" method="_on_mouse_exited"]
+[node name="HouseObjectUI" parent="UI" unique_id=2107291740 instance=ExtResource("7_drp4u")]
+unique_name_in_owner = true
+visible = false
+
+[connection signal="pressed" from="UI/HUD/NextPeriodButton" to="." method="_on_next_period_button_pressed"]
+[connection signal="pressed" from="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices/Choice1Button" to="UI/HUD/DialoguePanel" method="_on_choice_1_button_pressed"]
+[connection signal="pressed" from="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices/Choice2Button" to="UI/HUD/DialoguePanel" method="_on_choice_2_button_pressed"]
+[connection signal="pressed" from="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices/Choice3Button" to="UI/HUD/DialoguePanel" method="_on_choice_3_button_pressed"]

@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://bkaqsyd3kxtkt" path="res://Scripts/JT/steve_notes.gd" id="4_h20gd"]
 [ext_resource type="Script" uid="uid://ujpiwuuy3c3k" path="res://Scripts/JT/steve_manager.gd" id="5_g4rsn"]
 [ext_resource type="Script" uid="uid://cvg36ixffr153" path="res://Scripts/JT/steve_event_handler.gd" id="6_lb1u3"]
+[ext_resource type="Script" uid="uid://cvu143re1rgq4" path="res://Scripts/JT/steve_mail_handler.gd" id="7_d1u5k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yfxnn"]
 size = Vector2(100, 20)
@@ -31,6 +32,10 @@ shape = SubResource("RectangleShape2D_yfxnn")
 unique_name_in_owner = true
 position = Vector2(890, 379)
 
+[node name="RoomSpawn" type="Marker2D" parent="." unique_id=1001414467]
+unique_name_in_owner = true
+position = Vector2(367, 379)
+
 [node name="PlayerModules" type="CanvasLayer" parent="." unique_id=1715823921]
 script = ExtResource("4_h20gd")
 
@@ -49,3 +54,11 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("6_lb1u3")
+
+[node name="SteveMailHandler" type="Control" parent="PlayerModules" unique_id=870140246]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("7_d1u5k")
