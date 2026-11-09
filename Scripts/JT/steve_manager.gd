@@ -256,7 +256,7 @@ var normal_night_events_info = {
 # can randomly pop up on a weekday in whatever time period.
 var steve_weekly_events = [
 	"Pay Bonus", "Hate Mail",
-	"Buy New Computer", "Buy New Socks"
+	"Buy New Computer", "Buy New Socks", "Nothing"
 ]
 
 # We will use the period to determine when the event will show itself on a specific day
@@ -351,14 +351,40 @@ var steve_low_money_events = [
 ]
 
 
-# Sometimes, if the mood or energy is low enough, then these events could play
-var steve_low_mood_events = [
-	"Visit the Doctor"
-]
+# Sometimes, if the energy is low enough, then these events could play
 
 var steve_low_energy_events = [
 	"Visit the Doctor", "Take an unpaid day off"
 ]
+
+var steve_low_energy_events_info = {
+	"Visit the Doctor" : {
+		"message": "Not feeling so good! I need to see my doctor!",
+		"period": "Evening",
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Go (-$35)",
+			"money": -35,
+			"energy": 0,
+			"mood": randi_range(20, 30),
+			"reaction": "Ugh!"
+			},
+		]
+	},
+	"Take an unpaid day off" : {
+		"message": "Not feeling so good! I need to take time off work!",
+
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Go",
+			"money": 0,
+			"energy": 10,
+			"mood": randi_range(20, 30),
+			"reaction": "Ugh!"
+			},
+		]
+	},
+}
 
 var steve_special_events = [
 	"Hang out with friends", "Go to the movies",

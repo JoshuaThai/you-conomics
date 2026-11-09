@@ -76,7 +76,6 @@ grow_vertical = 2
 color = Color(0, 0, 0, 0.4862745)
 
 [node name="ComputerPanel" type="Panel" parent="." unique_id=1500685235]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -178,13 +177,13 @@ theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_0e68r")
 text = "Report as Spam"
 
-[node name="NextButton" type="Button" parent="ComputerPanel/Email/ButtonContainer/HBoxContainer" unique_id=2045315129]
+[node name="RespondButton" type="Button" parent="ComputerPanel/Email/ButtonContainer/HBoxContainer" unique_id=2045315129]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_5xktm")
-text = "Next Email"
+text = "Respond to Email"
 
 [node name="NoEmailsLabel" type="Label" parent="ComputerPanel" unique_id=1101157272]
 visible = false
@@ -338,6 +337,7 @@ text = "Suggestion: You may need to consider buying additional food items! Buy m
 autowrap_mode = 2
 
 [node name="HouseDoorPanel" type="Panel" parent="." unique_id=1236345622]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

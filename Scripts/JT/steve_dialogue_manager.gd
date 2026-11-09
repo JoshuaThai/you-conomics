@@ -121,11 +121,12 @@ func check_if_correct_response(choiceSelected: String):
 			hide_choices()
 			dialogue_label.text = choice["reaction"]
 			await get_tree().create_timer(3.0).timeout
-			owner.money += choice["money"]
+			#owner.money += choice["money"]
 			owner.mood += choice["mood"]
 			owner.energy += choice["energy"]
 			close_dialogue()
 			display_other_UI()
+			owner.change_money(choice["money"], owner.currentEvent)
 			owner.unpause_movement()
 			owner.ongoingDialogue = false
 			#print("Owner Debounce: ", owner.debounce)

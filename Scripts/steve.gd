@@ -49,12 +49,23 @@ var bills: Dictionary = {
 	}
 }
 
+var random_bills = {
+	"mechanic": {
+		"name": "Mechanic Bill",
+		"amount": 50,
+	},
+	"forgotten_debt" :{
+		"name": "Money owed to Fry",
+		"amount": 20
+	}
+}
+
 # Player won't be able to move to next period until they interact with all items in house
 var clickAllObjects = {
-	"Calendar": false,
-	"Computer": false,
-	"Fridge": false,
-	"Door": false
+	"Calendar": true,
+	"Computer": true,
+	"Fridge": true,
+	"HouseDoor": true
 }
 
 var objectsLeft = []
@@ -67,6 +78,14 @@ var afternoonEvents = []
 var eveningEvents = []
 var nightEvents = []
 
+var email = []
+
+var calendar = []
+
+var mail = []
+
+var currentEvent = ""
+
 
 
 # Variables
@@ -77,24 +96,51 @@ var nightEvents = []
 @onready var dialogue_panel = %DialoguePanel
 @onready var house_object = %HouseObjectUI
 
+func print_all_events():
+	print("morning events: ", morningEvents)
+	print("afternoon events: ", afternoonEvents)
+	print("evening events: ", eveningEvents)
+	print("night events: ", nightEvents)
+	
+	
+func interact_with_object(objectName):
+	clickAllObjects[objectName] = true
+	#var objectFound = false
+	#for object in clickAllObjects:
+		#if not clickAllObjects[object]:
+			#objectFound = true
+	#if not objectFound:
+		#%NextPeriodButton.show()
+	#else:
+	set_task_label()
+
+func load_next_period():
+	for object in clickAllObjects:
+		clickAllObjects[object] = false
+	return true
+
 func set_task_label():
 	%TaskLabel.text = "Check: "
 	var iterateOnce = false
 	var anyObjectLeft = false
 	for object in clickAllObjects:
-		if iterateOnce:
-			%TaskLabel.text = %TaskLabel.text + ", "
+		#if iterateOnce:
+			#%TaskLabel.text = %TaskLabel.text + ", "
 		#print(object)
-		iterateOnce = true
+		#iterateOnce = true
 		if not clickAllObjects[object]:
 			anyObjectLeft = true
-			%TaskLabel.text = %TaskLabel.text + object
+			if object == "HouseDoor":
+				%TaskLabel.text = %TaskLabel.text + "House's Door" + ","
+			else:
+				%TaskLabel.text = %TaskLabel.text + object + ", "
 			%NextPeriodButton.hide()
 	if anyObjectLeft:
+		%TaskLabel.text[-1] = "."
 		%NextPeriodButton.hide()
 	else:
+		%TaskLabel.text = ""
 		%NextPeriodButton.show()
-	%TaskLabel.text = %TaskLabel.text + "."
 
 func change_money(
 	amount: int,
@@ -146,6 +192,7 @@ func get_finance_snapshot() -> Dictionary:
 func _ready():
 	#print("Steve is ready!")
 	#set_task_label()
+	%NextPeriodButton.hide()
 	steve_profile["debt_amount"] = randi() % 1000 + 800
 	total_income = randi_range(150, 200)
 	# Connect Fry's financial information to the phone.
@@ -155,6 +202,7 @@ func _ready():
 	%UI.visible = true
 
 func _process(delta):
+	#set_task_label()
 	var nextTime = DayManager.get_next_time()
 	if nextTime["period"] == "Afternoon":
 		%NextPeriodButton.text = "To Work"
@@ -216,10 +264,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			moving_Forward = false
 			walkDistance = position.x - mousePos.x	
 					
-		print("Walking Distance: ", walkDistance)
-		print("Walk Duration: ", WALKSPEED + (walkDistance / 100))
-		print("Player Position: ", position.x)
-		print("Mouse Position: ", mousePos.x)
+		#print("Walking Distance: ", walkDistance)
+		#print("Walk Duration: ", WALKSPEED + (walkDistance / 100))
+		#print("Player Position: ", position.x)
+		#print("Mouse Position: ", mousePos.x)
 #		Dyanamically speed up character walkspeed based on the distance they want to travel
 		var final_Walkspeed : int = WALKSPEED + (walkDistance / 100)
 		#if(walkDistance < 100):
@@ -273,7 +321,23 @@ func _physics_process(delta):
 
 
 func _on_next_period_button_pressed():
+	%NextPeriodButton.hide()
+	%MoneyLabel.hide()
+	%MoodLabel.hide()
+	%EnergyLabel.hide()
+	%PhoneUI.hide()
+	%DayLabel.hide()
+	%PeriodLabel.hide()
+	await steve_Home.trigger_transition()
 	DayManager.advance_period()
+	
+	%MoneyLabel.show()
+	%MoodLabel.show()
+	%EnergyLabel.show()
+	%PhoneUI.show()
+	%DayLabel.show()
+	%PeriodLabel.show()
+	%SteveEventHandler._show_current_period_dialogue()
 	
 func open_panel(panelName: String):
 	house_object.show()

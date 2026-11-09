@@ -442,6 +442,7 @@ color = Color(0, 0, 0, 1)
 
 [node name="HouseObjectUI" parent="UI" unique_id=2107291740 instance=ExtResource("7_drp4u")]
 unique_name_in_owner = true
+visible = false
 
 [connection signal="pressed" from="UI/HUD/NextPeriodButton" to="." method="_on_next_period_button_pressed"]
 [connection signal="pressed" from="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices/Choice1Button" to="UI/HUD/DialoguePanel" method="_on_choice_1_button_pressed"]
