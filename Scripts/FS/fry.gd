@@ -41,15 +41,14 @@ var total_spending: float = 0.0
 
 # Fry gets paid every seven days.
 const PAYDAYS = {
-	7: 180.0,
-	14: 180.0,
-	21: 180.0,
-	28: 180.0
+	7: 150.0,
+	14: 150.0,
+	21: 150.0,
+	28: 150.0
 }
 
 # Bills belong to Fry. Other characters can have different
 # bills, amounts, and payment schedules.
-
 var bills: Dictionary = {
 	"phone": {
 		"name": "Phone bill",
@@ -65,6 +64,30 @@ var bills: Dictionary = {
 		"amount": 150.0,
 		"due_day": 20,
 		"late_fee": 10.0,
+		"paid": false,
+		"fee_applied": false
+	},
+	"water": {
+		"name": "Water bill",
+		"amount": 25.0,
+		"due_day": 8,
+		"late_fee": 5.0,
+		"paid": false,
+		"fee_applied": false
+	},
+	"electricity": {
+		"name": "Electricity bill",
+		"amount": 40.0,
+		"due_day": 16,
+		"late_fee": 8.0,
+		"paid": false,
+		"fee_applied": false
+	},
+	"rent": {
+		"name": "Apartment rent",
+		"amount": 250.0,
+		"due_day": 25,
+		"late_fee": 25.0,
 		"paid": false,
 		"fee_applied": false
 	}
@@ -94,7 +117,12 @@ var story_flags: Dictionary = {
 	"club_ready": false,
 	"club_supported": false,
 	
-	"caught_up_with_dulce": false
+	"caught_up_with_dulce": false,
+
+	# Day 10 movie-night memories, used again on Day 29.
+	"movie_with_steve": false,
+	"movie_with_dulce": false,
+	"movie_with_both": false
 }
 
 
@@ -152,7 +180,9 @@ var active_room_activity: String = ""
 
 const NAP_ENERGY_GAIN: int = 15
 const SLEEP_ENERGY_GAIN: int = 25
-const OVERNIGHT_ENERGY_GAIN: int = 10
+const OVERNIGHT_ENERGY_GAIN: int = 5
+# The passage of a period has a small cost even if Fry chooses to skip it.
+const PERIOD_ENERGY_COST: int = 3
 
 # Prevent multiple study sessions in one day.
 var last_study_day: int = -1
@@ -478,6 +508,575 @@ func add_late_month_events() -> void:
 #endregion
 
 
+#region Fry - Random Encounters
+
+# These encounters are Fry-only. Shared events still use EventManager.
+# Each one can appear in a free Afternoon or Evening, never over a story event.
+const FRY_RANDOM_EVENT_CHANCE: float = 0.52
+const FRY_RANDOM_GLOBAL_COOLDOWN_DAYS: int = 2
+
+const FRY_RANDOM_RULES: Dictionary = {
+	"fry_rand_laptop": {"min_day": 5, "max_day": 24, "max_uses": 1, "cooldown": 6},
+	"fry_rand_bike": {"min_day": 6, "max_day": 24, "max_uses": 1, "cooldown": 6},
+	"fry_rand_utility": {"min_day": 9, "max_day": 25, "max_uses": 1, "cooldown": 6},
+	"fry_rand_supplies": {"min_day": 3, "max_day": 25, "max_uses": 2, "cooldown": 10},
+	"fry_rand_gig": {"min_day": 4, "max_day": 27, "max_uses": 2, "cooldown": 7},
+	"fry_rand_refund": {"min_day": 4, "max_day": 27, "max_uses": 2, "cooldown": 9}
+}
+
+var fry_random_rng: RandomNumberGenerator = RandomNumberGenerator.new()
+var fry_random_uses: Dictionary = {}
+var fry_random_last_day: Dictionary = {}
+var fry_last_random_day: int = -100
+
+
+func roll_fry_random_event(day: int, period: String) -> Dictionary:
+	if period not in ["Afternoon", "Evening"]:
+		return {}
+
+	# At most one Fry-only encounter every two days.
+	if day - fry_last_random_day < FRY_RANDOM_GLOBAL_COOLDOWN_DAYS:
+		return {}
+
+	if fry_random_rng.randf() >= FRY_RANDOM_EVENT_CHANCE:
+		return {}
+
+	var available: Array[String] = []
+
+	for event_id in FRY_RANDOM_RULES.keys():
+		var rule: Dictionary = FRY_RANDOM_RULES[event_id]
+		if day < int(rule["min_day"]) or day > int(rule["max_day"]):
+			continue
+		if int(fry_random_uses.get(event_id, 0)) >= int(rule["max_uses"]):
+			continue
+		if day - int(fry_random_last_day.get(event_id, -100)) < int(rule["cooldown"]):
+			continue
+		available.append(event_id)
+
+	if available.is_empty():
+		return {}
+
+	var chosen: String = available[fry_random_rng.randi_range(0, available.size() - 1)]
+	return make_fry_random_event(chosen)
+
+
+func record_fry_random_event(event_id: String, day: int) -> void:
+	if not FRY_RANDOM_RULES.has(event_id):
+		return
+	fry_random_uses[event_id] = int(fry_random_uses.get(event_id, 0)) + 1
+	fry_random_last_day[event_id] = day
+	fry_last_random_day = day
+
+
+func add_fry_unexpected_bill(details: Dictionary) -> void:
+	# Deferred repair and utility invoices use the existing bill system.
+	# They show up in Phone > Finances and in the Month Recap.
+	var bill_id: String = str(details.get("id", "unexpected_bill"))
+	if bills.has(bill_id):
+		return
+
+	var due_in: int = maxi(1, int(details.get("days_later", 3)))
+	bills[bill_id] = {
+		"name": str(details.get("name", "Unexpected invoice")),
+		"amount": float(details.get("amount", 0.0)),
+		"due_day": mini(DayManager.current_day + due_in, DayManager.TOTAL_DAYS),
+		"late_fee": float(details.get("late_fee", 5.0)),
+		"paid": false,
+		"fee_applied": false
+	}
+
+
+func make_fry_random_event(event_id: String) -> Dictionary:
+	match event_id:
+		"fry_rand_laptop":
+			return {
+				"id": event_id, "speaker": "FRY",
+				"message": "My laptop fan is making a terrible grinding sound. A repair shop says it needs attention. What should I do?",
+				"choices": [
+					{
+						"text": "Professional repair - $70", "money": -70,
+						"energy": -4, "mood": 3, "consumes_period": true,
+						"finance_label": "Laptop repair", "finance_category": "Repairs",
+						"reaction": "That's expensive, but at least I can use my laptop without worrying.",
+						"after_period_reaction": "The shop finished fixing it. Everything sounds normal again."
+					},
+					{
+						"text": "Try fixing it myself - $18", "money": -18,
+						"energy": -20, "mood": 1, "consumes_period": true,
+						"finance_label": "Laptop repair supplies", "finance_category": "Repairs",
+						"risk_effect": {"chance": 0.40, "mood": -7, "energy": -5,
+							"reaction": "Oof. I made the fan sound worse. That was stressful."},
+						"reaction": "I looked up a repair guide. Hopefully my fix holds up."
+					},
+					{
+						"text": "Repair now, pay the invoice later", "mood": -5,
+						"energy": -4, "consumes_period": true,
+						"create_bill": {"id": "laptop_invoice", "name": "Laptop repair invoice",
+							"amount": 88.0, "days_later": 4, "late_fee": 12.0},
+						"reaction": "They repaired it on a payment plan. I owe $88 in four days."
+					}
+				]
+			}
+
+		"fry_rand_bike":
+			return {
+				"id": event_id, "speaker": "FRY",
+				"message": "My bike's tire went flat on the way home. Great timing... How am I getting it fixed?",
+				"choices": [
+					{
+						"text": "Take it to a bike mechanic - $45", "money": -45,
+						"energy": -3, "mood": 2, "finance_label": "Bike mechanic",
+						"finance_category": "Transport",
+						"reaction": "That cost more than I wanted, but the tire is fixed."
+					},
+					{
+						"text": "Patch it myself - $12", "money": -12, "energy": -17,
+						"finance_label": "Bike tire patch kit", "finance_category": "Transport",
+						"risk_effect": {"chance": 0.35, "mood": -6, "energy": -4,
+							"reaction": "The patch leaked. That took longer than I expected."},
+						"reaction": "A patch kit and some effort should do the trick."
+					},
+					{
+						"text": "Use the shop's pay-later option", "mood": -4, "energy": -4,
+						"create_bill": {"id": "bike_invoice", "name": "Bike repair invoice",
+							"amount": 58.0, "days_later": 3, "late_fee": 8.0},
+						"reaction": "The shop fixed it, but now I owe $58 in three days."
+					}
+				]
+			}
+
+		"fry_rand_utility":
+			return {
+				"id": event_id, "speaker": "FRY",
+				"message": "My apartment sent a separate $34 utility adjustment I wasn't expecting. That's not in my budget!",
+				"choices": [
+					{
+						"text": "Pay the adjustment - $34", "money": -34, "mood": -3,
+						"finance_label": "Utility adjustment", "finance_category": "Bills",
+						"reaction": "I paid it, but I really need to leave room for surprises."
+					},
+					{
+						"text": "Call to negotiate - $18", "money": -18,
+						"energy": -13, "mood": -1,
+						"finance_label": "Negotiated utility adjustment", "finance_category": "Bills",
+						"reaction": "They reduced the charge. That phone call was worth the trouble."
+					},
+					{
+						"text": "Request a deferred invoice", "mood": -5,
+						"create_bill": {"id": "utility_adjustment", "name": "Utility adjustment",
+							"amount": 34.0, "days_later": 3, "late_fee": 7.0},
+						"reaction": "I can pay it in three days, but I can't ignore it."
+					}
+				]
+			}
+
+		"fry_rand_supplies":
+			return {
+				"id": event_id, "speaker": "FRY",
+				"message": "A class project needs materials I didn't budget for. Should I buy everything new or find another way?",
+				"choices": [
+					{
+						"text": "Buy new supplies - $36", "money": -36, "mood": 3,
+						"finance_label": "Class project supplies", "finance_category": "Education",
+						"reaction": "At least I got everything I need for class."
+					},
+					{
+						"text": "Find used materials - $12", "money": -12, "energy": -10,
+						"finance_label": "Used class supplies", "finance_category": "Education",
+						"reaction": "It took some searching, but I kept the cost down."
+					},
+					{
+						"text": "Borrow materials from Steve", "energy": -6, "mood": -3,
+						"reaction": "Steve said I can borrow what he has. I owe him one."
+					}
+				]
+			}
+
+		"fry_rand_gig":
+			return {
+				"id": event_id, "speaker": "FRY",
+				"message": "Someone on the campus job board needs a quick website update. I could earn some extra money today.",
+				"choices": [
+					{
+						"text": "Take the full job (+$38)", "money": 38, "energy": -19,
+						"mood": -3, "consumes_period": true,
+						"finance_label": "Campus website gig", "finance_category": "Income",
+						"reaction": "It's a lot of work, but that $38 will help with the bills."
+					},
+					{
+						"text": "Do a smaller task (+$18)", "money": 18, "energy": -10,
+						"consumes_period": true, "finance_label": "Small campus web task",
+						"finance_category": "Income",
+						"reaction": "Quick and manageable. An extra $18 isn't bad."
+					},
+					{
+						"text": "Pass and take a break", "energy": 6, "mood": 2,
+						"reaction": "Money would be nice, but I need some time to myself."
+					}
+				]
+			}
+
+		"fry_rand_refund":
+			return {
+				"id": event_id, "speaker": "FRY",
+				"message": "An old store order was overcharged. They approved a $16 refund I can claim today!",
+				"choices": [
+					{
+						"text": "Claim the full refund (+$16)", "money": 16, "mood": 2,
+						"finance_label": "Store overcharge refund", "finance_category": "Refund",
+						"reaction": "Nice. I'm putting that $16 back into my budget."
+					},
+					{
+						"text": "Claim it and spend $11 (+$5 net)", "money": 5, "mood": 7,
+						"finance_label": "Refund after treating myself", "finance_category": "Refund",
+						"reaction": "A little treat felt good, and I still got $5 back."
+					},
+					{
+						"text": "Ignore the refund", "mood": -1,
+						"reaction": "I guess I'll let that one go... maybe not my smartest decision."
+					}
+				]
+			}
+
+	return {}
+
+#endregion
+
+
+#region Fry - Movie Night
+
+# A unique social event on Day 10 Evening, before the Day 12 exam.
+# Film dialogue, friendship reactions, and theater presentation are Fry-only.
+const MOVIE_TICKET_COST: float = 22.0
+const MOVIE_STUDY_ENERGY_COST: int = 25
+const MOVIE_STUDY_BONUS: int = 2
+
+var movie_route: String = ""
+var movie_lines: Array[Dictionary] = []
+
+const CINEMA_BACKGROUNDS = {
+	"steve": preload("res://Images/Backgrounds/Cinema/cinema_fry_steve.png"),
+	"dulce": preload("res://Images/Backgrounds/Cinema/cinema_fry_dulce.png"),
+	"both": preload("res://Images/Backgrounds/Cinema/cinema_fry_steve_dulce.png")
+}
+
+var cinema_set: TextureRect
+
+# Subtitle panel shown on the theater screen only for movie characters.
+var cinema_subtitle_panel: PanelContainer
+var cinema_subtitle_speaker: Label
+var cinema_subtitle_text: Label
+var cinema_subtitle_continue: Button
+
+var original_campus_backdrop_color: Color
+
+# Restore the ordinary dialogue placement after leaving the cinema.
+var dialogue_default_position: Vector2 = Vector2.ZERO
+
+
+
+func build_cinema_background() -> void:
+	original_campus_backdrop_color = campus_backdrop.color
+
+	cinema_set = TextureRect.new()
+	cinema_set.name = "CinemaSet"
+
+	cinema_set.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	cinema_set.stretch_mode = TextureRect.STRETCH_SCALE
+	cinema_set.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	cinema_set.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	campus_backdrop.add_child(cinema_set)
+	cinema_set.set_anchors_and_offsets_preset(
+		Control.PRESET_FULL_RECT
+	)
+
+	# The art is 1920x1080. Place subtitles inside the blank movie screen.
+	# The screen occupies roughly X 456-1465 / Y 122-540.
+	cinema_subtitle_panel = PanelContainer.new()
+	cinema_subtitle_panel.name = "CinemaSubtitlePanel"
+	cinema_subtitle_panel.position = Vector2(495, 337)
+	cinema_subtitle_panel.custom_minimum_size = Vector2(930, 180)
+	cinema_subtitle_panel.size = Vector2(930, 180)
+	cinema_subtitle_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	cinema_set.add_child(cinema_subtitle_panel)
+
+	var subtitle_style := StyleBoxFlat.new()
+	subtitle_style.bg_color = Color(0.075, 0.085, 0.12, 0.93)
+	subtitle_style.border_color = Color("#65768B")
+	subtitle_style.set_border_width_all(2)
+	subtitle_style.set_corner_radius_all(10)
+	subtitle_style.shadow_color = Color(0, 0, 0, 0.38)
+	subtitle_style.shadow_size = 5
+	cinema_subtitle_panel.add_theme_stylebox_override("panel", subtitle_style)
+
+	var subtitle_margin := MarginContainer.new()
+	for side in ["left", "right"]:
+		subtitle_margin.add_theme_constant_override("margin_" + side, 16)
+	for side in ["top", "bottom"]:
+		subtitle_margin.add_theme_constant_override("margin_" + side, 10)
+	cinema_subtitle_panel.add_child(subtitle_margin)
+
+	var subtitle_column := VBoxContainer.new()
+	subtitle_column.add_theme_constant_override("separation", 6)
+	subtitle_margin.add_child(subtitle_column)
+
+	cinema_subtitle_speaker = Label.new()
+	cinema_subtitle_speaker.add_theme_font_size_override("font_size", 18)
+	cinema_subtitle_speaker.add_theme_color_override("font_color", Color("#EBC477"))
+	subtitle_column.add_child(cinema_subtitle_speaker)
+
+	cinema_subtitle_text = Label.new()
+	cinema_subtitle_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	cinema_subtitle_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	cinema_subtitle_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	cinema_subtitle_text.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	cinema_subtitle_text.add_theme_font_size_override("font_size", 23)
+	cinema_subtitle_text.add_theme_color_override("font_color", Color("#F4F1EA"))
+	subtitle_column.add_child(cinema_subtitle_text)
+
+	cinema_subtitle_continue = Button.new()
+	cinema_subtitle_continue.text = "Continue"
+	cinema_subtitle_continue.custom_minimum_size = Vector2(0, 40)
+	cinema_subtitle_continue.add_theme_font_size_override("font_size", 19)
+	cinema_subtitle_continue.add_theme_color_override("font_color", Color("#F4F1EA"))
+	cinema_subtitle_continue.add_theme_color_override("font_hover_color", Color.WHITE)
+	var continue_style := StyleBoxFlat.new()
+	continue_style.bg_color = Color("#405C70")
+	continue_style.set_corner_radius_all(7)
+	cinema_subtitle_continue.add_theme_stylebox_override("normal", continue_style)
+	var hover_style := continue_style.duplicate() as StyleBoxFlat
+	hover_style.bg_color = Color("#52748A")
+	cinema_subtitle_continue.add_theme_stylebox_override("hover", hover_style)
+	var pressed_style := continue_style.duplicate() as StyleBoxFlat
+	pressed_style.bg_color = Color("#304756")
+	cinema_subtitle_continue.add_theme_stylebox_override("pressed", pressed_style)
+	
+	# Subtle focus indicator instead of Godot's white outline.
+	var focus_style := StyleBoxFlat.new()
+	focus_style.bg_color = Color.TRANSPARENT
+	focus_style.border_color = Color("#52748A")
+	focus_style.set_border_width_all(1)
+	focus_style.set_corner_radius_all(7)
+
+	cinema_subtitle_continue.add_theme_stylebox_override("focus", focus_style)
+
+	subtitle_column.add_child(cinema_subtitle_continue)
+	cinema_subtitle_continue.pressed.connect(_on_cinema_subtitle_continue_pressed)
+
+	cinema_subtitle_panel.hide()
+	cinema_set.hide()
+
+
+func show_cinema_subtitle(speaker: String, message: String) -> void:
+	cinema_subtitle_speaker.text = speaker
+	cinema_subtitle_text.text = message
+	cinema_subtitle_panel.show()
+
+
+func hide_cinema_subtitle() -> void:
+	cinema_subtitle_panel.hide()
+
+
+func _on_cinema_subtitle_continue_pressed() -> void:
+	# The same movie_line sequence is used by both dialogue styles.
+	if current_location == "cinema" and event_state == "movie_line":
+		show_next_movie_line()
+
+
+func start_movie_night() -> void:
+	movie_route = ""
+	movie_lines.clear()
+	event_state = "movie_intro"
+	next_day_button.hide()
+	dialogue_manager.show_dialogue(
+		"FRY",
+		"There are some new movies out tonight. I could use a break... "
+		+ "but my exam is in two days. What should I do?",
+		["Go to the movies - $22", "Stay home and study (2x)", "Stay home and rest"]
+	)
+
+
+func choose_movie_night_plan(index: int) -> void:
+	match index:
+		0:
+			if money < MOVIE_TICKET_COST:
+				show_movie_option_unavailable(
+					"Tickets and snacks would cost $22. I don't have enough for that."
+				)
+				return
+			show_movie_invitation()
+
+		1:
+			if exam_completed or study_sessions >= 4:
+				show_movie_option_unavailable(
+					"I've already prepared as much as I can for this exam. "
+					+ "Maybe I should do something else tonight."
+				)
+				return
+			if last_study_day == DayManager.current_day:
+				show_movie_option_unavailable(
+					"I already studied today. I need to give my brain a break."
+				)
+				return
+			if energy < MOVIE_STUDY_ENERGY_COST:
+				show_movie_option_unavailable(
+					"I can't focus for a long study session with this little Energy."
+				)
+				return
+
+			study_sessions += MOVIE_STUDY_BONUS
+			last_study_day = DayManager.current_day
+			change_energy(-MOVIE_STUDY_ENERGY_COST)
+			change_mood(-3)
+			activity_history.append({
+				"day": DayManager.current_day,
+				"period": DayManager.get_period(),
+				"activity": "movie_night_double_study"
+			})
+			show_movie_home_result(
+				"That was intense, but I got two study sessions' worth of "
+				+ "preparation done. I'll catch a movie another time."
+			)
+
+		2:
+			change_energy(20)
+			change_mood(2)
+			show_movie_home_result(
+				"The movie can wait. A quiet evening was exactly what I needed."
+			)
+
+
+func show_movie_option_unavailable(message: String) -> void:
+	event_state = "movie_option_unavailable"
+	dialogue_manager.show_dialogue("FRY", message, ["Choose again"])
+
+
+func show_movie_invitation() -> void:
+	event_state = "movie_invite"
+	dialogue_manager.show_dialogue(
+		"FRY",
+		"Alright, a night at the movies sounds good. Who should I invite?",
+		["Steve", "Dulce", "Both"]
+	)
+
+
+func choose_movie_companion(index: int) -> void:
+	var routes: Array[String] = ["steve", "dulce", "both"]
+	if index < 0 or index >= routes.size():
+		return
+	if money < MOVIE_TICKET_COST:
+		show_movie_option_unavailable("I can't afford the movie tonight after all.")
+		return
+
+	movie_route = routes[index]
+	story_flags["movie_with_" + movie_route] = true
+
+	var company: String = "Steve and Dulce" if movie_route == "both" else movie_route.capitalize()
+	change_money(-MOVIE_TICKET_COST, "Movie night with " + company, "Entertainment")
+	change_energy(-9 if movie_route == "both" else -7)
+	change_mood(16 if movie_route == "both" else (14 if movie_route == "dulce" else 12))
+
+	# Display the background matching Fry's invited companion.
+	cinema_set.texture = CINEMA_BACKGROUNDS[movie_route]
+
+	movie_lines = get_movie_dialogue(movie_route)
+	event_state = "movie_travel"
+	next_day_button.hide()
+	dialogue_manager.close_dialogue()
+	await fade_to_location("cinema")
+	show_next_movie_line()
+
+
+func get_movie_dialogue(route: String) -> Array[Dictionary]:
+	match route:
+		"steve":
+			return [
+				{"speaker": "STEVE", "message": "Shark Attack! Finally, a movie with some real cinema."},
+				{"speaker": "FRY", "message": "You haven't even seen it yet."},
+				{"speaker": "MOVIE CAPTAIN", "message": "GET OFF THE BOAT! THERE'S SOMETHING UNDERNEATH US!"},
+				{"speaker": "MOVIE SAILOR", "message": "CAPTAIN! WE LOST THE ENGINE!"},
+				{"speaker": "STEVE", "message": "Bro, WHY would you stay on the boat?!"},
+				{"speaker": "FRY", "message": "What would you do? Swim? There's like 12 sharks!"},
+				{"speaker": "STEVE", "message": "I'd simply defeat them."},
+				{"speaker": "FRY", "message": "Oh yeah, my bad. Didn't realize I invited Aquaman."}
+			]
+		"dulce":
+			return [
+				{"speaker": "DULCE", "message": "A mystery? Good choice. I've already got three theories."},
+				{"speaker": "FRY", "message": "The opening credits aren't even over."},
+				{"speaker": "MOVIE DETECTIVE", "message": "I know who's responsible. The only witness who never changed their story... was you."},
+				{"speaker": "MOVIE SUSPECT", "message": "You can't prove a thing!"},
+				{"speaker": "DULCE", "message": "I knew it! I called that twenty minutes ago."},
+				{"speaker": "FRY", "message": "You also accused the dog."},
+				{"speaker": "DULCE", "message": "He looked suspicious."},
+				{"speaker": "DULCE", "message": "I'm glad you asked me, by the way. It's nice hanging out when we're not rushing to class."},
+				{"speaker": "FRY", "message": "Yeah... I was hoping you'd say yes."},
+				{"speaker": "DULCE", "message": "Well, maybe ask me again sometime."}
+			]
+		"both":
+			return [
+				{"speaker": "MOVIE DUM DUM 1", "message": "Alright, who's the genius that locked us in here?!"},
+				{"speaker": "MOVIE DUM DUM 2", "message": "I don't know! I thought YOU had the key!"},
+				{"speaker": "MOVIE DUM DUM 3", "message": "What key? I thought we were looking for the door!"},
+				{"speaker": "MOVIE DUM DUM 1", "message": "WE'RE STANDING NEXT TO IT!"},
+				{"speaker": "STEVE", "message": "I'm not gonna lie, I'd probably be the third guy."},
+				{"speaker": "DULCE", "message": "Probably?"},
+				{"speaker": "FRY", "message": "Nah, Steve's the first guy. He'd lock us in there."},
+				{"speaker": "STEVE", "message": "WOW. This is how you treat the person who invited you?"},
+				{"speaker": "DULCE", "message": "Fry invited us."},
+				{"speaker": "STEVE", "message": "...Oh."}
+			]
+	return []
+
+
+func show_next_movie_line() -> void:
+	if movie_lines.is_empty():
+		hide_cinema_subtitle()
+		event_state = "movie_wrapup"
+		var closing: String = ""
+		match movie_route:
+			"steve":
+				closing = "I'm glad I invited Steve. That movie was ridiculous, in the best way."
+			"dulce":
+				closing = "I think I liked the company even more than the movie..."
+			"both":
+				closing = "My face hurts from laughing. We should do this again sometime."
+		dialogue_manager.show_dialogue("FRY", closing, ["Head home"])
+		return
+
+	var line: Dictionary = movie_lines.pop_front()
+	var speaker: String = str(line.get("speaker", "FRY"))
+	var message: String = str(line.get("message", ""))
+	event_state = "movie_line"
+
+	if speaker.begins_with("MOVIE "):
+		# Movie actors speak inside the projected screen.
+		dialogue_manager.close_dialogue()
+		show_cinema_subtitle(speaker, message)
+	else:
+		# Fry, Dulce, and Steve use the regular dialogue box.
+		hide_cinema_subtitle()
+		dialogue_manager.show_dialogue(speaker, message, ["Continue"])
+
+
+func show_movie_home_result(message: String) -> void:
+	event_state = "movie_home_result"
+	dialogue_manager.show_dialogue("FRY", message, ["Continue"])
+
+
+func finish_movie_night() -> void:
+	event_state = "movie_return"
+	hide_cinema_subtitle()
+	dialogue_manager.close_dialogue()
+	if current_location == "cinema":
+		await fade_to_location("bedroom")
+	event_state = ""
+	advance_time(false)
+
+#endregion
+
+
 #region Fry - Node References
 
 @onready var day_label: Label = $UI/HUD/DayLabel
@@ -531,10 +1130,12 @@ func _ready() -> void:
 	fry_normal_scale = fry_sprite.scale
 	dulce_normal_scale = dulce_campus.scale
 	steve_normal_scale = steve_campus.scale
+	dialogue_default_position = dialogue_manager.position
 	
 	campus_backdrop.hide()
 	dulce_campus.hide()
 	steve_campus.hide()
+	build_cinema_background()
 	screen_fade.color = Color.BLACK
 	screen_fade.modulate.a = 0.0
 	screen_fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -543,22 +1144,23 @@ func _ready() -> void:
 	$UI/HUD.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
 	DayManager.reset_calendar()
+	# TEMP DEBUG: Movie Night.
+	DayManager.current_day = 10
+	DayManager.period_index = 2
+	DayManager.isWeekend = DayManager.is_weekend_day(10)
 	
 	# DAY DEBUG: Choose which day and period to start on. DEVELOPER DELETE
 	#DayManager.current_day = 30
 	#DayManager.period_index = 2
 	#
-	## DEBUG: Simulate previous decisions. DEVELOPER DELETE
-	#exam_completed = true
-	#exam_passed = true
-	#study_sessions = 3
-	#story_flags["club_helped"] = true
-	#story_flags["club_ready"] = true
-	#story_flags["caught_up_with_dulce"] = true
 	
 	DayManager.isWeekend = DayManager.is_weekend_day(DayManager.current_day)
 	
 	add_late_month_events()
+	fry_random_rng.randomize()
+	fry_random_uses.clear()
+	fry_random_last_day.clear()
+	fry_last_random_day = -100
 	
 	# Connect Fry's financial information to the phone.
 	phone_ui.call("set_finance_source", self)
@@ -779,6 +1381,7 @@ func queue_financial_items() -> void:
 			bill["amount"] = float(bill["amount"]) + fee
 			bill["fee_applied"] = true
 			total_late_fees += fee
+			change_mood(-3) # Stress from missing the payment.
 			
 			period_queue.append({
 				"type": "notice",
@@ -786,7 +1389,7 @@ func queue_financial_items() -> void:
 				"message": "%s is overdue. A $%.2f late fee was added." % [str(bill["name"]), fee]
 			})
 		
-		# Offer payment on the due date, later paydayts, and the last day of the month.
+		# Offer payment on the due date, later paydays, and the last day of the month.
 		var offer_payment: bool = (
 			day == due_day
 			or (
@@ -913,14 +1516,52 @@ func get_unpaid_total() -> float:
 
 func get_finance_snapshot() -> Dictionary:
 	var unpaid: float = get_unpaid_total()
-	
+	var bill_items: Array[Dictionary] = []
+
+	# Send due dates and readable countdowns to the Finances app.
+	for bill_id in bills.keys():
+		var bill: Dictionary = bills[bill_id]
+		var days_left: int = int(bill["due_day"]) - DayManager.current_day
+		var paid: bool = bool(bill["paid"])
+		var due_text: String = ""
+
+		if paid:
+			due_text = "Paid"
+		elif days_left > 0:
+			due_text = "Due in %d %s" % [
+				days_left,
+				"day" if days_left == 1 else "days"
+			]
+		elif days_left == 0:
+			due_text = "Due today"
+		else:
+			due_text = "Overdue by %d %s" % [
+				abs(days_left),
+				"day" if abs(days_left) == 1 else "days"
+			]
+
+		bill_items.append({
+			"id": str(bill_id),
+			"name": str(bill["name"]),
+			"amount": float(bill["amount"]),
+			"due_day": int(bill["due_day"]),
+			"days_until_due": days_left,
+			"paid": paid,
+			"status": due_text
+		})
+
+	bill_items.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return int(a["due_day"]) < int(b["due_day"])
+	)
+
 	return {
 		"balance": money,
 		"income": total_income,
 		"spending": total_spending,
 		"unpaid_bills": unpaid,
 		"after_bills": money - unpaid,
-		"transactions": finance_history.duplicate(true)
+		"transactions": finance_history.duplicate(true),
+		"bills": bill_items
 	}
 
 #endregion
@@ -1140,6 +1781,12 @@ func show_room_activity(activity: String) -> void:
 				return
 
 		"study":
+			if exam_completed:
+				show_room_activity_unavailable(
+					"My exam is already over. I don't need to study for it anymore."
+				)
+				return
+
 			if period != "Afternoon" and period != "Evening":
 				show_room_activity_unavailable(
 					"This isn't a good time to study. I'll do it later."
@@ -1270,6 +1917,12 @@ func resolve_room_activity_choice(index: int) -> void:
 			reaction = "That should help. Time to get some rest."
 
 		"study":
+			if exam_completed:
+				show_room_activity_unavailable(
+					"The exam is over. I'll focus on something else."
+				)
+				return
+
 			if last_study_day == DayManager.current_day:
 				show_room_activity_unavailable(
 					"I already studied today."
@@ -1452,6 +2105,27 @@ func load_period_event() -> void:
 
 	var scheduled = scheduled_events.get(key, null)
 
+	# Day 10: Movie Night is always a player-initiated choice.
+	# It runs before the regular random events and never overwrites other days.
+	if key == "10_Evening":
+		start_movie_night()
+		return
+
+	# A small callback to the movie with Dulce on Day 29.
+	if key == "29_Evening" and scheduled is Dictionary:
+		if bool(story_flags.get("movie_with_dulce", false)):
+			scheduled = scheduled.duplicate(true)
+			scheduled["message"] = (
+				"Hey, Fry! I've been thinking about that mystery movie. "
+				+ "We should catch up again tonight. What do you think?"
+			)
+		elif bool(story_flags.get("movie_with_both", false)):
+			scheduled = scheduled.duplicate(true)
+			scheduled["message"] = (
+				"Fry! Steve still won't stop quoting The Three Dum Dums. "
+				+ "Want to catch up tonight?"
+			)
+
 	# The invitation on Day 3 changes what happens on Day 4.
 	if key == "4_Morning" and bool(story_flags.get("attend_campus", false)):
 		scheduled = make_campus_morning_event()
@@ -1502,11 +2176,18 @@ func load_period_event() -> void:
 		active_event = scheduled.duplicate(true)
 	
 	else:
-		active_event = EventManager.roll_random_event(
+		# Fry-only surprises have priority when a period is otherwise free.
+		# If none appears, shared random events still get their normal chance.
+		active_event = roll_fry_random_event(
 			DayManager.current_day,
-			DayManager.get_period(),
-			fry_profile
+			DayManager.get_period()
 		)
+		if active_event.is_empty():
+			active_event = EventManager.roll_random_event(
+				DayManager.current_day,
+				DayManager.get_period(),
+				fry_profile
+			)
 	
 	if active_event.is_empty():
 		event_state = ""
@@ -1540,6 +2221,10 @@ func load_period_event() -> void:
 		str(active_event.get("id", "")),
 		DayManager.current_day
 	)
+	record_fry_random_event(
+		str(active_event.get("id", "")),
+		DayManager.current_day
+	)
 
 	event_state = "event_choice"
 	next_day_button.hide()
@@ -1565,12 +2250,15 @@ func advance_time(force_fade: bool = false) -> void:
 
 	if DayManager.finished:
 		return
-	
-	# A new day means Fry got some sleep overnight.
-	# Sleeping early gives additional Energy.
-	# May or may not change it
+
+	# Time passing is not completely free, even when skipping an event.
+	change_energy(-PERIOD_ENERGY_COST)
+
+	# A new day restores some Energy; sleeping early restores more.
 	if DayManager.current_day > previous_day:
 		change_energy(OVERNIGHT_ENERGY_GAIN)
+		if energy <= 20:
+			change_mood(-2) # Prolonged fatigue starts affecting Fry's mood.
 
 	var day: int = DayManager.current_day
 	var period: String = DayManager.get_period()
@@ -1695,7 +2383,7 @@ func resolve_event_choice(index: int) -> void:
 		
 		else:
 			result_message = "I didn't pass... I should've planned my studying better. I'll have to do better next time."
-			result_mood = -10
+			result_mood = -25
 		
 		# Apply the result when Fry reaches the evening.
 		pending_exam_result = {
@@ -1705,6 +2393,22 @@ func resolve_event_choice(index: int) -> void:
 		
 	# Apply money, mood, and energy changes exactly once.
 	apply_stat_changes(choice)
+
+	# Some surprise encounters offer pay-later invoices. They join
+	# the same bill list used by Phone > Finances and the Month Recap.
+	if choice.has("create_bill"):
+		add_fry_unexpected_bill(choice["create_bill"])
+
+	# Cheap DIY fixes carry a randomized Mood/Energy consequence.
+	# The risk never charges extra money without player confirmation.
+	if choice.has("risk_effect"):
+		var risk_effect: Dictionary = choice["risk_effect"]
+		if fry_random_rng.randf() < float(risk_effect.get("chance", 0.0)):
+			apply_stat_changes(risk_effect)
+			choice["reaction"] = (
+				str(choice.get("reaction", "")) + "\n" +
+				str(risk_effect.get("reaction", ""))
+			)
 	
 	# Consume groceries only after the choice succeeds.
 	if portions_needed > 0:
@@ -1828,6 +2532,24 @@ func finish_event() -> void:
 func _on_dialogue_choice_selected(index: int) -> void:
 
 	match event_state:
+
+		"movie_intro":
+			choose_movie_night_plan(index)
+
+		"movie_invite":
+			choose_movie_companion(index)
+
+		"movie_option_unavailable":
+			start_movie_night()
+
+		"movie_line":
+			show_next_movie_line()
+
+		"movie_wrapup":
+			finish_movie_night()
+
+		"movie_home_result":
+			finish_movie_night()
 
 		"room_activity_choice":
 			resolve_room_activity_choice(index)
@@ -2948,7 +3670,17 @@ func fade_to_location(destination: String) -> void:
 	await fade_out.finished
 
 	current_location = destination
-	campus_backdrop.visible = (destination == "campus")
+	# Preserve the tested -180 Movie Night offset.
+	if destination == "cinema":
+		dialogue_manager.position = dialogue_default_position + Vector2(0, -180)
+	else:
+		dialogue_manager.position = dialogue_default_position
+	campus_backdrop.visible = destination in ["campus", "cinema"]
+	campus_backdrop.color = (
+		Color("#141924") if destination == "cinema"
+		else original_campus_backdrop_color
+	)
+	cinema_set.visible = (destination == "cinema")
 
 	# Place and reveal only the characters needed here.
 	update_location_characters(destination)
@@ -2970,6 +3702,7 @@ func update_location_characters(destination: String) -> void:
 	reset_speaker_effects()
 
 	if destination == "campus":
+		fry_sprite.show()
 		# Day 4 and Day 8 involve all three friends.
 		var group_meeting: bool = (
 			(
@@ -2996,9 +3729,16 @@ func update_location_characters(destination: String) -> void:
 
 		steve_campus.visible = group_meeting
 
+	elif destination == "cinema":
+		# Characters are already drawn into the cinema background.
+		fry_sprite.hide()
+		dulce_campus.hide()
+		steve_campus.hide()
+
 	else:
 		# Return Fry to his bedroom.
 		fry_sprite.position = fry_bedroom_position
+		fry_sprite.show()
 
 		dulce_campus.hide()
 		steve_campus.hide()
@@ -3087,9 +3827,8 @@ func reset_speaker_effects() -> void:
 	steve_campus.modulate = Color.WHITE
 
 
-
 func _on_dialogue_closed() -> void:
-	if current_location == "campus":
+	if current_location in ["campus", "cinema"]:
 		reset_speaker_effects()
 
 #endregion
