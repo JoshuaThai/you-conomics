@@ -388,7 +388,7 @@ var steve_low_energy_events_info = {
 
 var steve_special_events = [
 	"Hang out with friends", "Go to the movies",
-	"Buy Auto Theft 67", "Nothing"
+	"Buy Auto Theft 67", "Nothing", "Nothing", "Nothing"
 ]
 # This will contain all relevant info to the special events
 # which will only happen during weekends
@@ -416,7 +416,7 @@ var steve_special_events_info = {
 
 	},
 	"Go to the movies" :{
-		"Caption": "I am thinking about going to the movies. ",
+		"message": "I am thinking about going to the movies. ",
 		#"Options": ["Yes", "No", "Stream the movie"],
 		"choices": [{
 			"text": "Yes",

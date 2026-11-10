@@ -7,8 +7,14 @@ extends Control
 # Randomize the events for each day
 func randomize_event():
 	if DayManager.isWeekend:
+		steve_manager.steve_special_events.shuffle()
+		var selectedSpecial = steve_manager.steve_special_events[0]
+		steve_manager.normal_evening_events.shuffle()
+		var shuffledEvening = steve_manager.normal_evening_events[0]
 		
-		var selectedMorning
+		steve.morningEvents.append(selectedSpecial)
+		steve.eveningEvents.append(shuffledEvening)
+		steve.print_all_events()
 	else:
 #		Player always have lunch on a weekday
 #		Load the events
@@ -103,7 +109,22 @@ func _show_current_period_dialogue():
 			while steve.ongoingDialogue:
 				await get_tree().process_frame
 			steve.set_task_label()
-#			TODO: Verify afternoon dialogue is working and work on evening dialogue
+#			Handle weekend dialogue
+		else:
+			if len(steve.morningEvents) >= 1:
+				var chosenMorningEvent = steve.morningEvents[0]
+				steve.currentEvent = chosenMorningEvent.capitalize()
+				if (not chosenMorningEvent == "Nothing"):
+					eventData = steve_manager.steve_special_events_info[chosenMorningEvent]
+					print(eventData)
+					message = eventData["message"]
+					options = find_options(eventData["choices"])
+					steve.available_choices_info = eventData["choices"]
+					
+					steve.show_dialogue(speaker, message, options)
+					while steve.ongoingDialogue:
+						await get_tree().process_frame
+				steve.set_task_label()
 	elif current_period == "Afternoon":
 		print("Current period is now afternoon!")
 		print("Afternoon: ", steve.afternoonEvents)

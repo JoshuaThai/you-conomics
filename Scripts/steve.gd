@@ -78,6 +78,7 @@ var afternoonEvents = []
 var eveningEvents = []
 var nightEvents = []
 
+
 var email = []
 
 var calendar = []
@@ -209,8 +210,9 @@ func _process(delta):
 	else:
 		%NextPeriodButton.text = "To " + nextTime["period"]
 		
-	%DayLabel.text = "DAY %s/ 30" % DayManager.current_day
-	%PeriodLabel.text = DayManager.get_period().to_upper()
+	%DayLabel.text = "DAY %s / 30" % DayManager.current_day
+	var weekdayName = DayManager.get_weekday_name(DayManager.current_day).to_upper()
+	%PeriodLabel.text = weekdayName + " " + DayManager.get_period().to_upper()
 	
 func pause_movement():
 	debounce = true
