@@ -119,8 +119,9 @@ func check_if_correct_response(choiceSelected: String):
 # 		and modify money, money, and energy
 		if choiceSelected == choice["text"]:
 			hide_choices()
-			dialogue_label.text = choice["reaction"]
-			await get_tree().create_timer(3.0).timeout
+			if choice.has("reaction"):
+				dialogue_label.text = choice["reaction"]
+				await get_tree().create_timer(3.0).timeout
 			#owner.money += choice["money"]
 			owner.mood += choice["mood"]
 			owner.energy += choice["energy"]

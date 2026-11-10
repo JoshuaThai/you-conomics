@@ -33,13 +33,16 @@ func randomize_event():
 		if randomEvent == "Hate Mail":
 			steve_email.steve_hate_mails.shuffle()
 			steve.mail.append(steve_email.steve_hate_mails[0])
-			
-		if afternoonOrEvening == 2:
-			if not randomEvent == "Nothing":
-				steve.afternoonEvents.append(randomEvent)
-		else:
-			if not randomEvent == "Nothing":
-				steve.eveningEvents.append(randomEvent)
+		
+#		Put random events based on their specified periods
+		if(not randomEvent == "Nothing"):
+			var randomEventData = steve_manager.steve_weekly_events_info[randomEvent]
+			if afternoonOrEvening == 2:
+				if randomEventData["period"] == "Afternoon":
+					steve.afternoonEvents.append(randomEvent)
+			else:
+				if randomEventData["period"] == "Evening":
+					steve.eveningEvents.append(randomEvent)
 		
 		#shuffledEvening = "Scam Email"
 		if shuffledEvening == "Scam Email":
@@ -106,7 +109,12 @@ func _show_current_period_dialogue():
 		print("Afternoon: ", steve.afternoonEvents)
 		for event in steve.afternoonEvents:
 			print("event: ", event)
-			var eventData = steve_manager.normal_afternoon_events_info[event]
+			if(event == "Nothing"): continue
+			var eventData = ""
+			if event == "Hate Mail":
+				eventData = steve_manager.steve_weekly_events_info[event]
+			else:
+				eventData = steve_manager.normal_afternoon_events_info[event]
 			var speaker = steve_manager.steve_profile["name"]
 			var message = eventData["message"]
 			
@@ -124,5 +132,35 @@ func _show_current_period_dialogue():
 				await get_tree().process_frame
 			#print("No more dialogue occuring")
 			await get_tree().create_timer(3.0).timeout
+		steve.set_task_label()
+	elif current_period == "Evening":
+		print("Current period is now Evening!")
+		print("Evening: ", steve.eveningEvents)
+		for event in steve.eveningEvents:
+			print("event: ", event)
+			if(event == "Nothing"): continue
+			var eventData = ""
+			if (event == "Buy New Computer" or event == "Buy New Socks" 
+			or event == "Pay Bonus"):
+				eventData = steve_manager.steve_weekly_events_info[event]
+			else:
+				eventData = steve_manager.normal_evening_events_info[event]
+			var speaker = steve_manager.steve_profile["name"]
+			var message = eventData["message"]
 			
+			var options = find_options(eventData["choices"])
+			#for choice in eventData["choices"]:
+				#options.append(choice["text"])
+			
+			#var option1 = eventData["choices"][0]["text"]
+			#var option2 = eventData["choices"][1]["text"]
+			#var option3 = eventData["choices"][2]["text"]
+			steve.available_choices_info = eventData["choices"]
+			
+			steve.show_dialogue(speaker, message, options)
+			while steve.ongoingDialogue:
+				await get_tree().process_frame
+			#print("No more dialogue occuring")
+			await get_tree().create_timer(3.0).timeout
+		steve.set_task_label()
 			

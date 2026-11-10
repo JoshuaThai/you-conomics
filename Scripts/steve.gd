@@ -62,10 +62,10 @@ var random_bills = {
 
 # Player won't be able to move to next period until they interact with all items in house
 var clickAllObjects = {
-	"Calendar": true,
-	"Computer": true,
-	"Fridge": true,
-	"HouseDoor": true
+	"Calendar": false,
+	"Computer": false,
+	"Fridge": false,
+	"HouseDoor": false
 }
 
 var objectsLeft = []
@@ -319,8 +319,14 @@ func _physics_process(delta):
 		%AnimatedSprite2D.animation = "Idle"
 			
 
+func clear_events():
+	morningEvents.clear()
+	afternoonEvents.clear()
+	eveningEvents.clear()
+	nightEvents.clear()
 
 func _on_next_period_button_pressed():
+	var current_day = DayManager.current_day
 	%NextPeriodButton.hide()
 	%MoneyLabel.hide()
 	%MoodLabel.hide()
@@ -337,6 +343,10 @@ func _on_next_period_button_pressed():
 	%PhoneUI.show()
 	%DayLabel.show()
 	%PeriodLabel.show()
+	await load_next_period()
+	if(current_day != DayManager.current_day):
+		clear_events()
+		%SteveEventHandler.randomize_event()
 	%SteveEventHandler._show_current_period_dialogue()
 	
 func open_panel(panelName: String):
