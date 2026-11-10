@@ -103,6 +103,9 @@ func print_all_events():
 	print("evening events: ", eveningEvents)
 	print("night events: ", nightEvents)
 	
+func load_necessary_data(objectName:String, relevantData: Dictionary):
+	pass
+	
 	
 func interact_with_object(objectName):
 	clickAllObjects[objectName] = true
