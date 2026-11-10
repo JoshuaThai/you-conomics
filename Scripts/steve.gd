@@ -62,10 +62,10 @@ var random_bills = {
 
 # Player won't be able to move to next period until they interact with all items in house
 var clickAllObjects = {
-	"Calendar": true,
-	"Computer": true,
-	"Fridge": true,
-	"HouseDoor": true
+	"Calendar": false,
+	"Computer": false,
+	"Fridge": false,
+	"HouseDoor": false
 }
 
 var objectsLeft = []
@@ -77,6 +77,7 @@ var morningEvents = []
 var afternoonEvents = []
 var eveningEvents = []
 var nightEvents = []
+
 
 var email = []
 
@@ -101,6 +102,9 @@ func print_all_events():
 	print("afternoon events: ", afternoonEvents)
 	print("evening events: ", eveningEvents)
 	print("night events: ", nightEvents)
+	
+func load_necessary_data(objectName:String, relevantData: Dictionary):
+	pass
 	
 	
 func interact_with_object(objectName):
@@ -209,8 +213,9 @@ func _process(delta):
 	else:
 		%NextPeriodButton.text = "To " + nextTime["period"]
 		
-	%DayLabel.text = "DAY %s/ 30" % DayManager.current_day
-	%PeriodLabel.text = DayManager.get_period().to_upper()
+	%DayLabel.text = "DAY %s / 30" % DayManager.current_day
+	var weekdayName = DayManager.get_weekday_name(DayManager.current_day).to_upper()
+	%PeriodLabel.text = weekdayName + " " + DayManager.get_period().to_upper()
 	
 func pause_movement():
 	debounce = true
@@ -319,8 +324,14 @@ func _physics_process(delta):
 		%AnimatedSprite2D.animation = "Idle"
 			
 
+func clear_events():
+	morningEvents.clear()
+	afternoonEvents.clear()
+	eveningEvents.clear()
+	nightEvents.clear()
 
 func _on_next_period_button_pressed():
+	var current_day = DayManager.current_day
 	%NextPeriodButton.hide()
 	%MoneyLabel.hide()
 	%MoodLabel.hide()
@@ -337,6 +348,10 @@ func _on_next_period_button_pressed():
 	%PhoneUI.show()
 	%DayLabel.show()
 	%PeriodLabel.show()
+	await load_next_period()
+	if(current_day != DayManager.current_day):
+		clear_events()
+		%SteveEventHandler.randomize_event()
 	%SteveEventHandler._show_current_period_dialogue()
 	
 func open_panel(panelName: String):
