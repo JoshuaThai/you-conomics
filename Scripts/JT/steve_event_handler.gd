@@ -134,6 +134,10 @@ func _show_current_period_dialogue():
 			var eventData = ""
 			if event == "Hate Mail":
 				eventData = steve_manager.steve_weekly_events_info[event]
+				
+#				Load in the mail
+				steve_manager.steve_hate_mails.shuffle()
+				steve.mail.append(steve_manager.steve_hate_mails[0])
 			else:
 				eventData = steve_manager.normal_afternoon_events_info[event]
 			var speaker = steve_manager.steve_profile["name"]
@@ -166,16 +170,23 @@ func _show_current_period_dialogue():
 				eventData = steve_manager.steve_weekly_events_info[event]
 			else:
 				eventData = steve_manager.normal_evening_events_info[event]
+#				Store email in steve if that is the event name
+				if event == "Scam Email":
+					steve_email.steve_scam_emails.shuffle()
+					steve.email.append(steve_email.steve_scam_emails[0])
+					print(steve.email)
+					steve.load_necessary_data("Computer", steve.email[0])
+				if event == "Legit Email":
+					steve_email.steve_emails.shuffle()
+					steve.email.append(steve_email.steve_emails[0])
+					print(steve.email)
+					steve.load_necessary_data("Computer", steve.email[0])
+					
+			
 			var speaker = steve_manager.steve_profile["name"]
 			var message = eventData["message"]
 			
 			var options = find_options(eventData["choices"])
-			#for choice in eventData["choices"]:
-				#options.append(choice["text"])
-			
-			#var option1 = eventData["choices"][0]["text"]
-			#var option2 = eventData["choices"][1]["text"]
-			#var option3 = eventData["choices"][2]["text"]
 			steve.available_choices_info = eventData["choices"]
 			
 			steve.show_dialogue(speaker, message, options)
