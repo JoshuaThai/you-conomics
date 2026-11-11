@@ -17,6 +17,8 @@ func close_all_other_panels(panelName: String):
 		$FridgePanel.hide()
 	if not panelName == "HouseDoor":
 		$HouseDoorPanel.hide()
+	$MailPanel.hide()
+	
 
 func open_panel(panelName: String):
 	if panelName == "Calendar":
@@ -35,6 +37,8 @@ func load_necessary_data(objectName: String, relevantData: Dictionary):
 		%subjectName.text = relevantData["subject"]
 		%FromName.text = relevantData["from"]
 		%emailContent.text = relevantData["email"]
+	if objectName == "HouseDoor":
+		%MailLabel.text = relevantData["content"]
 
 func clear_email():
 	owner.email.clear()
@@ -44,6 +48,8 @@ func clear_email():
 	_on_close_button_pressed()
 
 func _on_report_button_pressed():
+	if currentRelevantData.is_empty(): return
+	
 	if (currentRelevantData["type"] == "scam"):
 		owner.mood += randi_range(2,4)
 	else:
@@ -52,9 +58,17 @@ func _on_report_button_pressed():
 
 
 func _on_respond_button_pressed():
+	if currentRelevantData.is_empty(): return
+	
 	if (currentRelevantData["type"] == "legit"):
 		owner.mood += randi_range(5,10)
 	else:
 		owner.mood += randi_range(-5, -2)
 		owner.change_money(-40, "Scam LOL", "Entertainment")
 	clear_email()
+
+
+func _on_mail_button_pressed():
+	$HouseDoorPanel.hide()
+	$MailPanel.show()
+	

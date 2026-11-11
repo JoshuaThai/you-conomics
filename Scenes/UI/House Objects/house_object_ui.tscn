@@ -76,6 +76,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 0.4862745)
 
 [node name="ComputerPanel" type="Panel" parent="." unique_id=1500685235]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -152,9 +153,6 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 32
-text = "Dear Josh,
-
-Wow!"
 
 [node name="ButtonContainer" type="PanelContainer" parent="ComputerPanel/Email" unique_id=315099909]
 layout_mode = 1
@@ -344,7 +342,6 @@ text = "Suggestion: You may need to consider buying additional food items! Buy m
 autowrap_mode = 2
 
 [node name="HouseDoorPanel" type="Panel" parent="." unique_id=1236345622]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -386,7 +383,8 @@ layout_mode = 2
 size_flags_vertical = 6
 color = Color(1, 1, 1, 0.2509804)
 
-[node name="Button2" type="Button" parent="HouseDoorPanel/Control/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1233537081]
+[node name="MailButton" type="Button" parent="HouseDoorPanel/Control/PanelContainer/VBoxContainer/HBoxContainer" unique_id=1233537081]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 161.0
 offset_top = 45.0
@@ -396,7 +394,8 @@ theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_054cv")
 text = "Look at Today's Mail"
 
-[node name="Button" type="Button" parent="HouseDoorPanel/Control/PanelContainer/VBoxContainer/HBoxContainer" unique_id=251113019]
+[node name="GroceryButton" type="Button" parent="HouseDoorPanel/Control/PanelContainer/VBoxContainer/HBoxContainer" unique_id=251113019]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 506.0
 offset_top = 45.0
@@ -405,6 +404,46 @@ offset_bottom = 245.0
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_054cv")
 text = "Go Grocery Shopping"
+
+[node name="MailPanel" type="Panel" parent="." unique_id=1961674645]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -450.0
+offset_right = 600.0
+offset_bottom = 473.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bexil")
+
+[node name="LetterPanel" type="Panel" parent="MailPanel" unique_id=1147258223]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -400.0
+offset_right = 500.0
+offset_bottom = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MailLabel" type="Label" parent="MailPanel/LetterPanel" unique_id=2089552085]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 36
 
 [node name="CloseButton" type="Button" parent="." unique_id=1128516519]
 layout_mode = 1
@@ -423,4 +462,5 @@ text = "X"
 
 [connection signal="pressed" from="ComputerPanel/Email/ButtonContainer/HBoxContainer/ReportButton" to="." method="_on_report_button_pressed"]
 [connection signal="pressed" from="ComputerPanel/Email/ButtonContainer/HBoxContainer/RespondButton" to="." method="_on_respond_button_pressed"]
+[connection signal="pressed" from="HouseDoorPanel/Control/PanelContainer/VBoxContainer/HBoxContainer/MailButton" to="." method="_on_mail_button_pressed"]
 [connection signal="pressed" from="CloseButton" to="." method="_on_close_button_pressed"]

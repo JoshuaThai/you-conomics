@@ -35,10 +35,13 @@ func randomize_event():
 		steve.nightEvents.append(shuffledNight)
 		
 		var randomEvent = steve_manager.steve_weekly_events[0]
+		#print("Random Event ", randomEvent)
 		var afternoonOrEvening = randi_range(1,2)
 		if randomEvent == "Hate Mail":
 			steve_email.steve_hate_mails.shuffle()
 			steve.mail.append(steve_email.steve_hate_mails[0])
+			steve.morningEvents.append("Hate Mail")
+			steve.load_necessary_data("HouseDoor", steve.mail[0])
 		
 #		Put random events based on their specified periods
 		if(not randomEvent == "Nothing"):
@@ -82,12 +85,6 @@ func _show_current_period_dialogue():
 		var message = eventData["message"]
 		
 		var options = find_options(eventData["choices"])
-		#for choice in eventData["choices"]:
-			#options.append(choice["text"])
-		
-		#var option1 = eventData["choices"][0]["text"]
-		#var option2 = eventData["choices"][1]["text"]
-		#var option3 = eventData["choices"][2]["text"]
 		steve.available_choices_info = eventData["choices"]
 		
 		steve.show_dialogue(speaker, message, options)
@@ -97,22 +94,27 @@ func _show_current_period_dialogue():
 		await get_tree().create_timer(3.0).timeout
 #		If it is the weekday, the player will always have lunch
 		if not DayManager.isWeekend:
-			var chosenMorningEvent = steve.morningEvents[0]
-			steve.currentEvent = chosenMorningEvent.capitalize()
-			eventData = steve_manager.normal_morning_events_info[chosenMorningEvent]
-			print(eventData)
-			message = eventData["message"]
-			options = find_options(eventData["choices"])
-			steve.available_choices_info = eventData["choices"]
-			
-			steve.show_dialogue(speaker, message, options)
-			while steve.ongoingDialogue:
-				await get_tree().process_frame
+			for event in steve.morningEvents:
+				var chosenMorningEvent = event
+				steve.currentEvent = chosenMorningEvent.capitalize()
+				if(steve_manager.normal_morning_events_info.has(event)):
+					eventData = steve_manager.normal_morning_events_info[chosenMorningEvent]
+				else:
+					eventData = steve_manager.steve_weekly_events_info[chosenMorningEvent]
+				print(eventData)
+				message = eventData["message"]
+				options = find_options(eventData["choices"])
+				steve.available_choices_info = eventData["choices"]
+				
+				steve.show_dialogue(speaker, message, options)
+				while steve.ongoingDialogue:
+					await get_tree().process_frame
 			steve.set_task_label()
 #			Handle weekend dialogue
 		else:
-			if len(steve.morningEvents) >= 1:
-				var chosenMorningEvent = steve.morningEvents[0]
+			for event in steve.morningEvents:
+				print("Morning event: ", event)
+				var chosenMorningEvent = event
 				steve.currentEvent = chosenMorningEvent.capitalize()
 				if (not chosenMorningEvent == "Nothing"):
 					eventData = steve_manager.steve_special_events_info[chosenMorningEvent]
@@ -124,32 +126,28 @@ func _show_current_period_dialogue():
 					steve.show_dialogue(speaker, message, options)
 					while steve.ongoingDialogue:
 						await get_tree().process_frame
-				steve.set_task_label()
+			steve.set_task_label()
 	elif current_period == "Afternoon":
 		print("Current period is now afternoon!")
 		print("Afternoon: ", steve.afternoonEvents)
 		for event in steve.afternoonEvents:
 			print("event: ", event)
 			if(event == "Nothing"): continue
-			var eventData = ""
-			if event == "Hate Mail":
-				eventData = steve_manager.steve_weekly_events_info[event]
-				
-#				Load in the mail
-				steve_manager.steve_hate_mails.shuffle()
-				steve.mail.append(steve_manager.steve_hate_mails[0])
-			else:
-				eventData = steve_manager.normal_afternoon_events_info[event]
+			#var eventData = ""
+			#if event == "Hate Mail":
+				#eventData = steve_manager.steve_weekly_events_info[event]
+				#
+##				Load in the mail
+				#steve_manager.steve_hate_mails.shuffle()
+				#steve.mail.append(steve_manager.steve_hate_mails[0])
+				#
+				#steve.load_necessary_data("HouseDoor", steve.mail[0])
+			#else:
+			var eventData = steve_manager.normal_afternoon_events_info[event]
 			var speaker = steve_manager.steve_profile["name"]
 			var message = eventData["message"]
 			
 			var options = find_options(eventData["choices"])
-			#for choice in eventData["choices"]:
-				#options.append(choice["text"])
-			
-			#var option1 = eventData["choices"][0]["text"]
-			#var option2 = eventData["choices"][1]["text"]
-			#var option3 = eventData["choices"][2]["text"]
 			steve.available_choices_info = eventData["choices"]
 			
 			steve.show_dialogue(speaker, message, options)
