@@ -4,6 +4,7 @@ var currentRelevantEmailData = {}
 
 
 @onready var steve = %steve
+@onready var food_availability = %FoodAvailability
 
 # Close the panel
 func _on_close_button_pressed():
@@ -40,7 +41,13 @@ func load_necessary_data(objectName: String, relevantData: Dictionary):
 		%emailContent.text = relevantData["email"]
 	if objectName == "HouseDoor":
 		%MailLabel.text = relevantData["content"]
-
+	if objectName == "Fridge":
+		food_availability.text = "Food Items Available: " + str(owner.grocery_meals)
+		if owner.grocery_meals <= 2:
+			%SuggestionLabel.text = "Suggestion: You may need to consider buying additional food items! \n
+			Buy more food by going to your phone or your house's door."
+		else:
+			%SuggestionLabel.text = "Keep up the great work with keeping the food in stock"
 func clear_email():
 	owner.email.clear()
 	%subjectName.text = ""

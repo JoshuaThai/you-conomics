@@ -112,6 +112,9 @@ func display_other_UI():
 	
 
 func check_if_correct_response(choiceSelected: String):
+	if choiceSelected.contains("Make breakfast"):
+		owner.grocery_meals -= 1
+		owner.load_necessary_data("Fridge", {})
 	#print(owner.available_choices_info)
 	for choice in owner.available_choices_info:
 		#print(choice["text"])

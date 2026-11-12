@@ -87,6 +87,7 @@ func _show_current_period_dialogue():
 		
 		var options = find_options(eventData["choices"])
 		steve.available_choices_info = eventData["choices"]
+		steve.load_necessary_data("Fridge", {})
 		
 		steve.show_dialogue(speaker, message, options)
 		while steve.ongoingDialogue:

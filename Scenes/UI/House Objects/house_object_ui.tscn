@@ -295,7 +295,6 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="FridgePanel" type="Panel" parent="." unique_id=626994201]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -326,17 +325,20 @@ offset_bottom = 534.0
 layout_mode = 2
 
 [node name="FoodAvailability" type="Label" parent="FridgePanel/Fridge/FoodItemsContainer/VBoxContainer" unique_id=388001874]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 64
 text = "Food Items Available:"
 
 [node name="SuggestionLabel" type="Label" parent="FridgePanel/Fridge/FoodItemsContainer/VBoxContainer" unique_id=1900474081]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Suggestion: You may need to consider buying additional food items! Buy more food by going to your phone or your house's door."
 autowrap_mode = 2
 
 [node name="HouseDoorPanel" type="Panel" parent="." unique_id=1236345622]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

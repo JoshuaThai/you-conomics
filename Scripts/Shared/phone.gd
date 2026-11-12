@@ -48,6 +48,8 @@ var hover_tween: Tween
 @onready var app_grid: GridContainer = $Overlay/PhoneFrame/MarginContainer/HomeScreen/AppGrid
 @onready var status_label: Label = $Overlay/PhoneFrame/MarginContainer/HomeScreen/StatusLabel
 
+func change_phone_name():
+	phone_title.text = phone_owner_name.to_upper() + "'S PHONE"
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
