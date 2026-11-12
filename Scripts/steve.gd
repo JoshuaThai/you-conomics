@@ -87,6 +87,9 @@ var mail = []
 
 var currentEvent = ""
 
+var todayEvents = []
+var upcomingEvents = []
+
 
 
 # Variables
@@ -104,7 +107,7 @@ func print_all_events():
 	print("night events: ", nightEvents)
 	
 func load_necessary_data(objectName:String, relevantData: Dictionary):
-	pass
+	house_object.load_necessary_data(objectName, relevantData)
 	
 	
 func interact_with_object(objectName):

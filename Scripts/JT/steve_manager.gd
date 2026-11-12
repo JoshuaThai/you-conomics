@@ -287,7 +287,7 @@ var steve_weekly_events_info = {
 		#"Options": ["Yes", "No"],
 		"choices": [
 			{"text" :"Check it out!",
-			"money": 20,
+			"money": 0,
 			"energy": 0,
 			"mood": randi_range(-10, -5),
 			"reaction": "I wonder what came today!"

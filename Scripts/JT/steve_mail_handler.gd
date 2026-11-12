@@ -10,7 +10,8 @@ var steve_emails = [
 		"from" : "dulce@email.com",
 		"email" : "Heya Steve, \n"
 		+ "Want to go to the movies with me and Fry?",
-		"used": false
+		"used": false,
+		"type": "legit"
 	},
 ]
 
@@ -19,13 +20,15 @@ var steve_scam_emails = [
 		"subject" : "Get 50% off on Student Loans",
 		"from" : "sketchy@email.com",
 		"email" : "Hello Steve, \n" 
-		+ "Click this link for coupon: www.totallylegit.com/"
+		+ "Click this link for coupon:\n www.totallylegit.com/",
+		"type": "scam"
 	},
 	{
 		"subject" : "Free Movie Tickets",
 		"from" : "freetickets@email.com",
 		"email" : "Hello Random Movie Lover, \n" 
-		+ "Are you looking free movie tickets? Respond to this email ASAP to claim two free movie tickets!"
+		+ "Are you looking free movie tickets? Respond to this email ASAP\n to claim two free movie tickets!",
+		"type": "scam"
 	}
 ]
 
