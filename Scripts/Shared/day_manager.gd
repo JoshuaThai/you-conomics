@@ -21,8 +21,8 @@ const PERIODS = ["Morning", "Afternoon", "Evening", "Night"]
 # Day 1 is Monday. Days 6 and 7 are Saturday and Sunday.
 const DAY_ONE_WEEKDAY_INDEX: int = 0
 
-var current_day: int = 1
-var period_index: int = 0
+var current_day: int = 5
+var period_index: int = 2
 var finished: bool = false
 
 # Preserved for compatibility
@@ -132,5 +132,26 @@ func advance_period() -> void:
 	isWeekend = is_weekend_day(current_day)
 	
 	period_changed.emit(current_day, get_period())
+
+## Find the next occurence of the day and return it's number.
+## For example, you want to find the next saturday day number.
+## If the current day is day 5, which is a Friday.
+## Then the next saturday is day 13.
+func find_next_day_number(dayName: String):
+#	We add one to gets it real base number.
+	var total = 0
+	var baseWeekNumber = WEEKDAY_NAMES.find(dayName) + 1
+#	We will add a offset if the current day is the 
+# same as the day being searched
+	var offset = 0
+#	Find nearest sunday:
+	var nearest_sundays = [7,14,21,28]
+	for sunday in nearest_sundays:
+		# We add one to ensure the next day is being found, not the same day
+		if current_day + 1 < sunday:
+			total = sunday - (7 - baseWeekNumber)
+			break
+	
+	return total
 
 #endregion

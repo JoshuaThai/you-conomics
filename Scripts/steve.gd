@@ -109,6 +109,8 @@ func print_all_events():
 func load_necessary_data(objectName:String, relevantData: Dictionary):
 	house_object.load_necessary_data(objectName, relevantData)
 	
+func reload_calendar():
+	house_object.reload_calendar()
 	
 func interact_with_object(objectName):
 	clickAllObjects[objectName] = true
@@ -199,6 +201,7 @@ func get_finance_snapshot() -> Dictionary:
 func _ready():
 	#print("Steve is ready!")
 	#set_task_label()
+	#print("Day Number: ", DayManager.find_next_day_number("Saturday"))
 	%NextPeriodButton.hide()
 	steve_profile["debt_amount"] = randi() % 1000 + 800
 	total_income = randi_range(150, 200)

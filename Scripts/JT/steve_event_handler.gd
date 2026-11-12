@@ -31,7 +31,7 @@ func randomize_event():
 		
 		steve.morningEvents.append(selectedMorning)
 		steve.afternoonEvents.append(shuffledAfternoon)
-		steve.eveningEvents.append(shuffledEvening)
+		steve.eveningEvents.append("Legit Email")
 		steve.nightEvents.append(shuffledNight)
 		
 		var randomEvent = steve_manager.steve_weekly_events[0]
@@ -73,6 +73,7 @@ func find_options(choices):
 func _show_current_period_dialogue():
 	var current_period = DayManager.get_period()
 	print(current_period)
+	steve.reload_calendar()
 #	Play Breakfast event if morning
 # Note: We will grab the breakfast info from steve_profile
 # Look at how freddie did it in his script.
@@ -133,16 +134,6 @@ func _show_current_period_dialogue():
 		for event in steve.afternoonEvents:
 			print("event: ", event)
 			if(event == "Nothing"): continue
-			#var eventData = ""
-			#if event == "Hate Mail":
-				#eventData = steve_manager.steve_weekly_events_info[event]
-				#
-##				Load in the mail
-				#steve_manager.steve_hate_mails.shuffle()
-				#steve.mail.append(steve_manager.steve_hate_mails[0])
-				#
-				#steve.load_necessary_data("HouseDoor", steve.mail[0])
-			#else:
 			var eventData = steve_manager.normal_afternoon_events_info[event]
 			var speaker = steve_manager.steve_profile["name"]
 			var message = eventData["message"]
@@ -177,6 +168,7 @@ func _show_current_period_dialogue():
 					steve.load_necessary_data("Computer", steve.email[0])
 				if event == "Legit Email":
 					if steve_email.steve_emails[0]["used"]:
+						print("It is being erased")
 						steve.eveningEvents.erase(event)
 					else:
 						steve_email.steve_emails.shuffle()
