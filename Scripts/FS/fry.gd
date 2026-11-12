@@ -40,6 +40,7 @@ var total_spending: float = 0.0
 
 
 # Fry gets paid every seven days.
+# First economy-balancing test: four $150 paychecks.
 const PAYDAYS = {
 	7: 150.0,
 	14: 150.0,
@@ -49,6 +50,7 @@ const PAYDAYS = {
 
 # Bills belong to Fry. Other characters can have different
 # bills, amounts, and payment schedules.
+
 var bills: Dictionary = {
 	"phone": {
 		"name": "Phone bill",
@@ -111,6 +113,33 @@ var total_late_fees: float = 0.0
 var story_flags: Dictionary = {
 	"attend_campus": false,
 	"packed_lunch": false,
+	
+	# Day 1 - The Start
+	"day1_evening_seen": false,
+	"day1_budget_planned": false,
+	
+	# Day 2 - Late-Night Assignment.
+	"day2_evening_seen": false,
+	"day2_assignment_finished": false,
+	"day2_assignment_help": false,
+	"day2_assignment_deferred": false,
+
+	# Day 4 - After the Fair.
+	"day4_evening_seen": false,
+	"day4_club_links_saved": false,
+
+	"day5_party_invited": false,
+
+	# Day 6 - The Morning After.
+	"day6_evening_seen": false,
+	"day6_replied_to_friends": false,
+	"day6_reviewed_budget": false,
+	
+	# Day 7 - Payday Temptation.
+	"day7_evening_seen": false,
+	"day7_bought_game": false,
+	"day7_held_for_bills": false,
+	"day7_small_treat": false,
 
 	# Student club storyline.
 	"club_helped": false,
@@ -123,8 +152,12 @@ var story_flags: Dictionary = {
 	"movie_with_steve": false,
 	"movie_with_dulce": false,
 	"movie_with_both": false
+	
 }
 
+# Remembers the actual Day 5 Night decision.
+# 0, 1, or 2, based on the selected dialogue button.
+var day5_night_choice: int = -1
 
 # Fry's textbook decisions and their consequences.
 var textbook_choice: String = ""
@@ -281,6 +314,193 @@ var scheduled_events: Dictionary = {
 	}
 
 }
+
+
+func make_day1_first_night_event() -> Dictionary:
+	return {
+		"id": "fry_day1_first_night",
+		"speaker": "FRY",
+		"message": (
+			"First night in my own place. I've only got "
+			+ "a hundred bucks right now, and payday "
+			+ "isn't until next week. I've got bills coming "
+			+ "up too. How should I handle tonight?"
+		),
+		"choices": [
+			{
+				"text": "Make a spending plan - $0",
+				"mood": 3,
+				"energy": -3,
+				"set_flag": "day1_budget_planned",
+				"flag_value": true,
+				"reaction": (
+					"Alright, phone bill, utilities, rent... "
+					+ "I should keep track of what's coming up "
+					+ "before spending too much. "
+					+ "At least now I have a plan."
+				)
+			},
+			{
+				"text": "Treat myself to takeout - $12",
+				"money": -12.0,
+				"mood": 7,
+				"energy": 4,
+				"finance_label": "First-night takeout",
+				"finance_category": "Food",
+				"reaction": (
+					"Okay, that was pretty good! "
+					+ "My first dinner in my own apartment. "
+					+ "I guess I should watch how often "
+					+ "I do this, though."
+				)
+			},
+			{
+				"text": "Keep tonight simple - $0",
+				"mood": 2,
+				"energy": 3,
+				"reaction": (
+					"I've got enough things to worry about "
+					+ "this month. No reason to spend money "
+					+ "just because it's my first night here."
+				)
+			}
+		]
+	}
+
+
+func make_day2_late_night_assignment_event() -> Dictionary:
+	return {
+		"id": "fry_day2_late_night_assignment",
+		"speaker": "FRY",
+		"message": (
+			"Wait... I almost forgot! I have an assignment due "
+			+ "tomorrow at noon. I was ready to relax tonight. "
+			+ "What should I do?"
+		),
+		"choices": [
+			{
+				"text": "Finish it tonight - $0",
+				"energy": -11,
+				"mood": 5,
+				"set_flag": "day2_assignment_finished",
+				"flag_value": true,
+				"reaction": (
+					"Finally, submitted! That took more effort "
+					+ "than I expected. At least I won't have "
+					+ "to worry about it tomorrow. "
+					+ "Now, where was I?"
+				)
+			},
+			{
+				"text": "Ask Dulce for help - $0",
+				"energy": -4,
+				"mood": 2,
+				"set_flag": "day2_assignment_help",
+				"flag_value": true,
+				"reaction_speaker": "DULCE",
+				"reaction": (
+					"Hey! I can send you my notes. The last "
+					+ "question is a little confusing, but "
+					+ "I think you'll figure it out. Just "
+					+ "make sure you finish before class!"
+				),
+				"delayed": {
+					"days_later": 1,
+					"period": "Morning",
+					"energy": -7,
+					"mood": 1,
+					"text": (
+						"Dulce's notes really helped. I managed "
+						+ "to finish my assignment before class, "
+						+ "although it took some morning energy."
+					)
+				}
+			},
+			{
+				"text": "Leave it for tomorrow - $0",
+				"energy": 3,
+				"mood": 1,
+				"set_flag": "day2_assignment_deferred",
+				"flag_value": true,
+				"reaction": (
+					"I'll deal with it tomorrow. It's not "
+					+ "that long anyway, right? "
+					+ "Besides, I could really use a break. "
+					+ "Tomorrow-me can handle it."
+				),
+				"delayed": {
+					"days_later": 1,
+					"period": "Morning",
+					"energy": -13,
+					"mood": -5,
+					"text": (
+						"Oh no, the assignment! I completely "
+						+ "forgot how much was left. I managed "
+						+ "to submit it before the deadline, "
+						+ "but that was way too stressful."
+					)
+				}
+			}
+		]
+	}
+
+
+func make_day4_after_fair_event() -> Dictionary:
+	var message: String = ""
+
+	if bool(story_flags.get("attend_campus", false)):
+		message = (
+			"Dulce sent our group photo from the fair. "
+			+ "Steve blinked in every shot! Now the group "
+			+ "chat won't stop buzzing. What should I do?"
+		)
+	else:
+		message = (
+			"Dulce sent pictures from the club fair. "
+			+ "Looks like they had fun! Steve apparently "
+			+ "found a very weird club. Should I reply?"
+		)
+
+	return {
+		"id": "fry_day4_after_fair",
+		"speaker": "FRY",
+		"message": message,
+		"choices": [
+			{
+				"text": "Browse free clubs - $0",
+				"energy": -4,
+				"mood": 2,
+				"set_flag": "day4_club_links_saved",
+				"flag_value": true,
+				"reaction": (
+					"Huh, some clubs offer free workshops. "
+					+ "I saved a few links in case something "
+					+ "interesting comes up later."
+				)
+			},
+			{
+				"text": "Joke in the group chat - $0",
+				"energy": -2,
+				"mood": 5,
+				"reaction_speaker": "STEVE",
+				"reaction": (
+					"For the record, I didn't blink. "
+					+ "The camera was clearly trying "
+					+ "to sabotage me!"
+				)
+			},
+			{
+				"text": "Unplug and recharge - $0",
+				"energy": 5,
+				"mood": 1,
+				"reaction": (
+					"Phone on silent. I like those guys, "
+					+ "but I've had enough notifications "
+					+ "for one night. Time to relax."
+				)
+			}
+		]
+	}
 
 
 func add_late_month_events() -> void:
@@ -743,6 +963,516 @@ func make_fry_random_event(event_id: String) -> Dictionary:
 #endregion
 
 
+#region Fry - Day 5 Party
+
+
+func show_day5_party_guests() -> void:
+	# Reuse the existing Steve and Dulce sprites.
+	reset_speaker_effects()
+
+	# Calculate the camera's visible horizontal area.
+	var half_width: float = (
+		get_viewport().get_visible_rect().size.x * 0.5
+		/ bedroom_camera.zoom.x
+	)
+
+	var camera_x: float = clampf(
+		bedroom_camera.position.x,
+		float(bedroom_camera.limit_left) + half_width,
+		float(bedroom_camera.limit_right) - half_width
+	)
+
+	var safe_left: float = camera_x - half_width + 170.0
+	var safe_right: float = camera_x + half_width - 170.0
+
+	var fry_x: float = fry_bedroom_position.x
+	var steve_x: float = fry_x - 260.0
+	var dulce_x: float = fry_x + 260.0
+
+	# Keep guests visible even if Fry is near a room edge.
+	if steve_x < safe_left:
+		steve_x = fry_x + 200.0
+		dulce_x = fry_x + 450.0
+
+	elif dulce_x > safe_right:
+		steve_x = fry_x - 450.0
+		dulce_x = fry_x - 200.0
+
+	steve_x = clampf(steve_x, safe_left, safe_right)
+	dulce_x = clampf(dulce_x, safe_left, safe_right)
+
+	# Match the bottom of each sprite to Fry's feet.
+	var floor_y: float = (
+		fry_sprite.position.y
+		+ fry_sprite.get_rect().end.y * fry_sprite.scale.y
+	)
+
+	steve_campus.position = Vector2(
+		steve_x,
+		floor_y - steve_campus.get_rect().end.y * steve_campus.scale.y
+	)
+
+	dulce_campus.position = Vector2(
+		dulce_x,
+		floor_y - dulce_campus.get_rect().end.y * dulce_campus.scale.y
+	)
+
+	# Draw party guests above the bedroom background.
+	steve_campus.z_index = fry_sprite.z_index + 10
+	dulce_campus.z_index = fry_sprite.z_index + 10
+
+	# Reset any transparency or tint.
+	steve_campus.modulate = Color.WHITE
+	dulce_campus.modulate = Color.WHITE
+	steve_campus.self_modulate = Color.WHITE
+	dulce_campus.self_modulate = Color.WHITE
+
+	# Explicitly enable both sprites.
+	steve_campus.visible = true
+	dulce_campus.visible = true
+	steve_campus.flip_h = not steve_default_flip_h
+
+
+var day5_party_lines: Array[Dictionary] = []
+
+func make_day5_party_invitation_event() -> Dictionary:
+	return {
+		"id": "fry_day5_party_invitation",
+		"speaker": "STEVE",
+		"message": (
+			"Hey Fry! Dulce and I were thinking of coming over "
+			+ "tonight for games, music, and food. "
+			+ "We could make it a little party. You in?"
+		),
+		"choices": [
+			{
+				"text": "Invite them over tonight",
+				"mood": 3,
+				"set_flag": "day5_party_invited",
+				"flag_value": true,
+				"reaction": (
+					"Sounds fun! I'll figure out the food situation "
+					+ "when they get here."
+				)
+			},
+			{
+				"text": "Have a quiet night instead",
+				"energy": 3,
+				"set_flag": "day5_party_invited",
+				"flag_value": false,
+				"reaction": (
+					"I could use a quiet night. "
+					+ "Maybe we'll hang out another time."
+				)
+			}
+		]
+	}
+
+
+
+func start_day5_party_story() -> void:
+	show_day5_party_guests()
+	day5_party_lines = [
+		{
+			"speaker": "FRY",
+			"message": (
+				"Alright, everyone's here. "
+				+ "Hopefully my apartment isn't too messy."
+			)
+		},
+		{
+			"speaker": "STEVE",
+			"message": (
+				"I brought the games! "
+				+ "And no, we are NOT talking about what "
+				+ "happened to my last controller."
+			)
+		},
+		{
+			"speaker": "DULCE",
+			"message": (
+				"He's officially banned from choosing "
+				+ "the first game tonight."
+			)
+		},
+		{
+			"speaker": "FRY",
+			"message": (
+				"Fair enough. So... what are we doing for food?"
+			)
+		}
+	]
+
+	event_state = "day5_party_line"
+	next_day_button.hide()
+	show_next_day5_party_line()
+
+
+func show_next_day5_party_line() -> void:
+	if not day5_party_lines.is_empty():
+		var line: Dictionary = day5_party_lines.pop_front()
+
+		dialogue_manager.show_dialogue(
+			str(line.get("speaker", "FRY")),
+			str(line.get("message", "")),
+			["Continue"]
+		)
+		return
+
+	# Once the conversation ends, show the spending decision.
+	active_event = make_day5_party_main_event()
+	event_state = "event_choice"
+
+	var options: Array[String] = []
+
+	for choice in active_event.get("choices", []):
+		options.append(str(choice.get("text", "Choose")))
+
+	dialogue_manager.show_dialogue(
+		str(active_event.get("speaker", "FRY")),
+		str(active_event.get("message", "")),
+		options
+	)
+
+
+func make_day5_party_main_event() -> Dictionary:
+	return {
+		"id": "fry_day5_party",
+		"speaker": "FRY",
+		"message": (
+			"Everyone's having fun, but we're getting hungry. "
+			+ "I've still got bills coming up. "
+			+ "What should I do about snacks?"
+		),
+		"choices": [
+			{
+				"text": "Order party food - $18",
+				"money": -18,
+				"mood": 10,
+				"energy": -9,
+				"consumes_period": true,
+				"finance_label": "Party food",
+				"finance_category": "Entertainment",
+				"reaction_speaker": "STEVE",
+				"reaction": (
+					"Now THAT'S what I'm talking about! "
+					+ "This food is incredible!"
+				),
+
+				"after_period_reaction": (
+					"Last night was great! That $18 came out "
+					+ "of my budget, though. Worth remembering "
+					+ "with my bills coming up."
+				)
+			},
+			{
+				"text": "Share snacks from my groceries (1 portion)",
+				"pantry_cost": 1,
+				"mood": 8,
+				"energy": -7,
+				"consumes_period": true,
+				"reaction_speaker": "DULCE",
+				"reaction": (
+					"These are actually pretty good! "
+					+ "We didn't need to order anything."
+				),
+				"after_period_reaction": (
+					"That was fun, and I didn't spend extra cash. "
+					+ "I'll need to remember I used some of my groceries."
+				)
+			},
+			{
+				"text": "Keep it simple: games and music - $0",
+				"mood": 7,
+				"energy": -6,
+				"consumes_period": true,
+				"reaction_speaker": "STEVE",
+				"reaction": (
+					"No food? That's criminal. "
+					+ "Fine, but I'm winning the next round!"
+				),
+				"after_period_reaction": (
+					"We had a really good time without spending "
+					+ "anything. Maybe we should do that more often."
+				)
+			}
+		]
+	}
+
+
+func make_day5_quiet_night_event() -> Dictionary:
+	return {
+		"id": "fry_day5_quiet_night",
+		"speaker": "FRY",
+		"message": (
+			"Steve and Dulce are probably having fun tonight. "
+			+ "I've got the apartment to myself. "
+			+ "How should I spend the evening?"
+		),
+		"choices": [
+			{
+				"text": "Finish a small editing gig (+$14)",
+				"money": 14,
+				"energy": -13,
+				"mood": -2,
+				"consumes_period": true,
+				"finance_label": "Late-night editing gig",
+				"finance_category": "Income",
+				"reaction": (
+					"That took a while, but I finished the job. "
+					+ "Fourteen extra dollars isn't bad."
+				),
+				"after_period_reaction": (
+					"At least I earned some money last night. "
+					+ "I could use a little more sleep, though."
+				)
+			},
+			{
+				"text": "Make a simple dinner (1 grocery portion)",
+				"pantry_cost": 1,
+				"energy": 6,
+				"mood": 4,
+				"consumes_period": true,
+				"reaction": (
+					"Nothing fancy, but a homemade dinner "
+					+ "really hit the spot."
+				),
+				"after_period_reaction": (
+					"That was a nice, inexpensive evening at home."
+				)
+			},
+			{
+				"text": "Relax with a free movie - $0",
+				"energy": 11,
+				"mood": 4,
+				"consumes_period": true,
+				"reaction": (
+					"Sometimes staying home and doing nothing "
+					+ "is exactly what I need."
+				),
+				"after_period_reaction": (
+					"I feel pretty refreshed after last night."
+				)
+			}
+		]
+	}
+
+#endregion
+
+
+#region Fry - Day 6 The Morning After
+
+func make_day6_morning_after_event() -> Dictionary:
+	var message: String = ""
+
+	# The party actually happened.
+	if bool(story_flags.get("day5_party_invited", false)):
+		match day5_night_choice:
+			0:
+				# Fry bought party food.
+				message = (
+					"Steve sent a photo of last night's takeout. "
+					+ "Great memories, but that $18 came from my "
+					+ "budget. What's the move?"
+				)
+
+			1:
+				# Fry shared groceries.
+				message = (
+					"Dulce loved the snacks we shared! "
+					+ "My wallet survived, but my pantry "
+					+ "took a hit. Steve wants a rematch!"
+				)
+
+			2:
+				# Fry kept the party free.
+				message = (
+					"Steve says he won every game last night. "
+					+ "That's funny. I remember him losing! "
+					+ "At least we spent nothing."
+				)
+
+			_:
+				message = (
+					"Last night's party was a lot of fun. "
+					+ "Dulce and Steve are already talking "
+					+ "about getting together again."
+				)
+
+	# Fry declined the party invitation.
+	else:
+		match day5_night_choice:
+			0:
+				# Fry completed the editing gig.
+				message = (
+					"The client loved last night's editing "
+					+ "work! That $14 helps, though I'm "
+					+ "tired. Dulce texted to check in."
+				)
+
+			1:
+				# Fry cooked dinner.
+				message = (
+					"Last night's dinner was simple, but "
+					+ "nice. I used a meal portion and "
+					+ "stayed in. Dulce sent a message."
+				)
+
+			2:
+				# Fry watched a free movie.
+				message = (
+					"That free movie was just what I needed. "
+					+ "Steve texted to ask how my Friday "
+					+ "went. Should I answer?"
+				)
+
+			_:
+				message = (
+					"Dulce and Steve sent a weekend "
+					+ "check-in. Friday's over, but "
+					+ "I still have my Saturday evening."
+				)
+
+	return {
+		"id": "fry_day6_morning_after",
+		"speaker": "FRY",
+		"message": message,
+		"choices": [
+			{
+				"text": "Reply to friends - $0",
+				"mood": 5,
+				"energy": -2,
+				"set_flag": "day6_replied_to_friends",
+				"flag_value": true,
+				"reaction": (
+					"I sent a quick message. "
+					+ "It's nice having people to talk to. "
+					+ "Maybe we can hang out again soon."
+				)
+			},
+			{
+				"text": "Check my budget - $0",
+				"mood": 2,
+				"energy": -3,
+				"set_flag": "day6_reviewed_budget",
+				"flag_value": true,
+				"reaction": (
+					"Okay, I've still got bills coming up. "
+					+ "I should check my Finances app "
+					+ "before buying anything else."
+				)
+			},
+			{
+				"text": "Take it slow - $0",
+				"mood": 1,
+				"energy": 4,
+				"reaction": (
+					"It's Saturday. I can slow down "
+					+ "a little. No need to rush "
+					+ "into something else tonight."
+				)
+			}
+		]
+	}
+
+#endregion
+
+
+#region Fry - Day 7 Payday Temptation
+
+func make_day7_payday_temptation_event() -> Dictionary:
+	var message: String = ""
+
+	var planned_budget: bool = bool(
+		story_flags.get("day1_budget_planned", false)
+	)
+
+	var checked_budget: bool = bool(
+		story_flags.get("day6_reviewed_budget", false)
+	)
+
+	# Remember Fry's earlier financial decisions.
+	if planned_budget and checked_budget:
+		message = (
+			"My $150 paycheck came in! I made a plan "
+			+ "and checked my bills yesterday. "
+			+ "But that new game looks so tempting..."
+		)
+
+	elif planned_budget:
+		message = (
+			"Payday! $150 from the bookstore. "
+			+ "I made a budget last week, but "
+			+ "that new game is calling my name."
+		)
+
+	elif checked_budget:
+		message = (
+			"Payday! $150 in my account. "
+			+ "I checked my bills yesterday... "
+			+ "but I keep looking at that new game."
+		)
+
+	else:
+		message = (
+			"Payday! $150 from the bookstore. "
+			+ "That new game looks amazing, "
+			+ "but I've got bills coming up."
+		)
+
+	return {
+		"id": "fry_day7_payday_temptation",
+		"speaker": "FRY",
+		"message": message,
+		"choices": [
+			{
+				"text": "Buy the new game - $24",
+				"money": -24.0,
+				"mood": 9,
+				"energy": 2,
+				"finance_label": "New video game",
+				"finance_category": "Entertainment",
+				"set_flag": "day7_bought_game",
+				"flag_value": true,
+				"reaction": (
+					"Finally! I've wanted this for weeks. "
+					+ "I can't wait to play it tonight. "
+					+ "Hopefully I don't regret the $24."
+				)
+			},
+			{
+				"text": "Keep cash for bills - $0",
+				"mood": 3,
+				"energy": -2,
+				"set_flag": "day7_held_for_bills",
+				"flag_value": true,
+				"reaction": (
+					"The game can wait. My water and "
+					+ "phone bills are coming up. "
+					+ "Maybe I'll grab it another time."
+				)
+			},
+			{
+				"text": "Get a small treat - $9",
+				"money": -9.0,
+				"mood": 5,
+				"energy": 3,
+				"finance_label": "Payday snack and drink",
+				"finance_category": "Food",
+				"set_flag": "day7_small_treat",
+				"flag_value": true,
+				"reaction": (
+					"A little snack and a cold drink "
+					+ "hit the spot! I got to celebrate "
+					+ "without spending too much."
+				)
+			}
+		]
+	}
+
+#endregion
+
+
 #region Fry - Movie Night
 
 # A unique social event on Day 10 Evening, before the Day 12 exam.
@@ -1092,6 +1822,8 @@ func finish_movie_night() -> void:
 
 @onready var dialogue_manager: DialogueManager = $UI/HUD/DialoguePanel
 @onready var campus_backdrop: ColorRect = $CampusBackdrop
+@onready var bedroom_camera: Camera2D = $Camera2D
+
 @onready var dulce_campus: Sprite2D = $DulceCampus
 @onready var fry_sprite: Sprite2D = $Fry
 @onready var steve_campus: Sprite2D = $SteveCampus
@@ -1122,6 +1854,278 @@ func finish_movie_night() -> void:
 #endregion
 
 
+#region Fry - Bedroom Movement
+
+# Fry walks along one horizontal floor. The cinema and campus use their
+# existing fixed character positions. World coordinates match 1920x1080 art.
+const FRY_BEDROOM_WALK_SPEED: float = 260.0
+const FRY_BEDROOM_EDGE_PADDING: float = 80.0
+const FRY_BEDROOM_COLLISION_LAYER: int = 1 << 9 # Layer 10, Fry-only.
+
+var fry_bedroom_min_x: float = 0.0
+var fry_bedroom_max_x: float = 0.0
+
+var fry_room_body: CharacterBody2D
+var fry_default_flip_h: bool = false
+var fry_bedroom_flip_h: bool = false
+var steve_default_flip_h: bool = false
+
+
+func build_fry_bedroom_collision() -> void:
+	# Keep Fry as Sprite2D for existing dialogue and story systems.
+	# A separate physics body handles bedroom movement.
+	fry_room_body = CharacterBody2D.new()
+	fry_room_body.name = "FryBedroomMovementBody"
+	fry_room_body.motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
+	fry_room_body.collision_layer = FRY_BEDROOM_COLLISION_LAYER
+	fry_room_body.collision_mask = FRY_BEDROOM_COLLISION_LAYER
+	add_child(fry_room_body)
+
+	# Calculate Fry's size.
+	var visual_width: float = fry_sprite.get_rect().size.x * absf(fry_sprite.scale.x)
+	var visual_height: float = fry_sprite.get_rect().size.y * absf(fry_sprite.scale.y)
+
+	# Calculate bedroom boundaries using Camera2D.
+	var edge_inset: float = maxf(
+		FRY_BEDROOM_EDGE_PADDING,
+		visual_width * 0.5
+	)
+
+	fry_bedroom_min_x = float(bedroom_camera.limit_left) + edge_inset
+	fry_bedroom_max_x = float(bedroom_camera.limit_right) - edge_inset
+
+	# Place Fry inside the allowed movement area.
+	fry_room_body.position = fry_bedroom_position
+	fry_room_body.position.x = clampf(
+		fry_room_body.position.x,
+		fry_bedroom_min_x,
+		fry_bedroom_max_x
+	)
+
+	fry_bedroom_position.x = fry_room_body.position.x
+	fry_sprite.position.x = fry_room_body.position.x
+
+	# Character collider.
+	var body_width: float = clampf(visual_width * 0.45, 32.0, 80.0)
+	var body_height: float = clampf(visual_height * 0.75, 48.0, 144.0)
+
+	var character_shape := RectangleShape2D.new()
+	character_shape.size = Vector2(body_width, body_height)
+
+	var character_collider := CollisionShape2D.new()
+	character_collider.name = "FryCollision"
+	character_collider.shape = character_shape
+	fry_room_body.add_child(character_collider)
+
+	# Invisible walls at the bedroom edges.
+	create_fry_bedroom_wall(
+		fry_bedroom_min_x - body_width * 0.5 - 12.0,
+		"LeftBedroomWall"
+	)
+
+	create_fry_bedroom_wall(
+		fry_bedroom_max_x + body_width * 0.5 + 12.0,
+		"RightBedroomWall"
+	)
+
+
+
+func create_fry_bedroom_wall(wall_x: float, wall_name: String) -> void:
+	var wall := StaticBody2D.new()
+	wall.name = wall_name
+	wall.position = Vector2(wall_x, fry_bedroom_position.y)
+	wall.collision_layer = FRY_BEDROOM_COLLISION_LAYER
+	wall.collision_mask = 0
+	add_child(wall)
+
+	var rectangle := RectangleShape2D.new()
+	rectangle.size = Vector2(24.0, 2160.0)
+	var collider := CollisionShape2D.new()
+	collider.shape = rectangle
+	wall.add_child(collider)
+
+
+func _physics_process(_delta: float) -> void:
+	if fry_room_body == null:
+		return
+
+	# Do not walk during events, dialogue, cutscenes or end-of-month UI.
+	var can_walk: bool = (
+		current_location == "bedroom"
+		and not transitioning
+		and not DayManager.finished
+		and not dialogue_manager.visible
+		and event_state == ""
+		and active_event.is_empty()
+		and period_queue.is_empty()
+		and not month_recap_overlay.visible
+		and not month_complete_overlay.visible
+	)
+
+	if not can_walk:
+		fry_room_body.velocity = Vector2.ZERO
+		room_interaction_prompt.hide()
+		return
+
+	var direction: float = 0.0
+	if Input.is_key_pressed(KEY_A):
+		direction -= 1.0
+	if Input.is_key_pressed(KEY_D):
+		direction += 1.0
+
+	fry_room_body.velocity = Vector2(direction * FRY_BEDROOM_WALK_SPEED, 0.0)
+	fry_room_body.move_and_slide()
+	
+	fry_room_body.position.x = clampf(
+		fry_room_body.position.x,
+		fry_bedroom_min_x,
+		fry_bedroom_max_x
+	)
+
+	if not is_zero_approx(direction):
+		fry_bedroom_flip_h = direction < 0.0
+		fry_sprite.flip_h = fry_bedroom_flip_h
+
+	# Preserve Fry's last bedroom spot when returning from campus/cinema.
+	fry_sprite.position.x = fry_room_body.position.x
+	fry_bedroom_position.x = fry_room_body.position.x
+	
+	# Follow Fry horizontally while exploring the bedroom.
+	bedroom_camera.position.x = fry_room_body.position.x
+	update_room_interaction_prompt()
+
+#endregion
+
+#region Fry - Bedroom Interaction Prompts
+
+const ROOM_INTERACTION_RANGE: float = 150.0
+
+var room_interaction_prompt: PanelContainer
+var room_interaction_label: Label
+
+
+func build_room_interaction_prompt() -> void:
+	room_interaction_prompt = PanelContainer.new()
+	room_interaction_prompt.name = "RoomInteractionPrompt"
+	room_interaction_prompt.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("#1A2530")
+	style.border_color = Color("#7898AC")
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(8)
+	style.content_margin_left = 12
+	style.content_margin_right = 12
+	style.content_margin_top = 7
+	style.content_margin_bottom = 7
+
+	room_interaction_prompt.add_theme_stylebox_override(
+		"panel", style
+	)
+
+	room_interaction_label = Label.new()
+	room_interaction_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	room_interaction_label.add_theme_font_size_override("font_size", 21)
+	room_interaction_label.add_theme_color_override(
+		"font_color", Color("#F4F1EA")
+	)
+	room_interaction_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	room_interaction_prompt.add_child(room_interaction_label)
+	$UI/HUD.add_child(room_interaction_prompt)
+	room_interaction_prompt.hide()
+
+
+func get_room_area_center_x(area: Area2D) -> float:
+	# Use the existing click target's collision shape as its center.
+	for child in area.get_children():
+		if child is CollisionShape2D:
+			return child.global_position.x
+
+	return area.global_position.x
+
+
+func get_nearby_room_activity() -> String:
+	if not can_use_room_activity():
+		return ""
+
+	if dialogue_manager.visible:
+		return ""
+
+	var fry_x: float = fry_sprite.global_position.x
+
+	var bed_distance: float = absf(
+		fry_x - get_room_area_center_x(bed_area)
+	)
+
+	var desk_distance: float = absf(
+		fry_x - get_room_area_center_x(desk_area)
+	)
+
+	if bed_distance <= ROOM_INTERACTION_RANGE:
+		if bed_distance <= desk_distance:
+			return "sleep"
+
+	if desk_distance <= ROOM_INTERACTION_RANGE:
+		return "study"
+
+	return ""
+
+
+func update_room_interaction_prompt() -> void:
+	# Never show the prompt during dialogue or an event.
+	if dialogue_manager.visible or not can_use_room_activity():
+		room_interaction_prompt.hide()
+		return
+
+	var activity: String = get_nearby_room_activity()
+
+	if activity.is_empty():
+		room_interaction_prompt.hide()
+		return
+
+	if activity == "sleep":
+		room_interaction_label.text = "[E] Use Bed"
+	else:
+		room_interaction_label.text = "[E] Study at Desk"
+
+	room_interaction_prompt.show()
+	room_interaction_prompt.reset_size()
+
+	# Keep the prompt near the bottom center of the screen,
+	# independently of Fry's position and camera movement.
+	var hud_size: Vector2 = $UI/HUD.size
+
+	room_interaction_prompt.position = Vector2(
+		(hud_size.x - room_interaction_prompt.size.x) * 0.5,
+		hud_size.y - 210.0
+	)
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if not (event is InputEventKey):
+		return
+
+	var key_event: InputEventKey = event as InputEventKey
+
+	if not key_event.pressed or key_event.echo:
+		return
+
+	if key_event.keycode != KEY_E and key_event.physical_keycode != KEY_E:
+		return
+
+	var activity: String = get_nearby_room_activity()
+
+	if activity.is_empty():
+		return
+
+	room_interaction_prompt.hide()
+	show_room_activity(activity)
+	get_viewport().set_input_as_handled()
+
+#endregion
+
+
 #region Fry - Initialization
 
 func _ready() -> void:
@@ -1131,6 +2135,15 @@ func _ready() -> void:
 	dulce_normal_scale = dulce_campus.scale
 	steve_normal_scale = steve_campus.scale
 	dialogue_default_position = dialogue_manager.position
+	fry_default_flip_h = fry_sprite.flip_h
+	fry_bedroom_flip_h = fry_sprite.flip_h
+	steve_default_flip_h = steve_campus.flip_h
+	
+	build_fry_bedroom_collision()
+	build_room_interaction_prompt()
+	
+	bedroom_camera.position.x = fry_room_body.position.x
+	bedroom_camera.reset_smoothing()
 	
 	campus_backdrop.hide()
 	dulce_campus.hide()
@@ -1144,16 +2157,10 @@ func _ready() -> void:
 	$UI/HUD.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
 	DayManager.reset_calendar()
-	# TEMP DEBUG: Movie Night.
-	DayManager.current_day = 10
-	DayManager.period_index = 2
-	DayManager.isWeekend = DayManager.is_weekend_day(10)
 	
 	# DAY DEBUG: Choose which day and period to start on. DEVELOPER DELETE
-	#DayManager.current_day = 30
-	#DayManager.period_index = 2
-	#
-	
+	DayManager.current_day = 7
+	DayManager.period_index = 0
 	DayManager.isWeekend = DayManager.is_weekend_day(DayManager.current_day)
 	
 	add_late_month_events()
@@ -1995,6 +3002,11 @@ func start_current_period() -> void:
 	active_room_activity = ""
 	period_queue.clear()
 	
+	# Party guests leave when the next bedroom period begins.
+	if current_location == "bedroom":
+		dulce_campus.hide()
+		steve_campus.hide()
+		steve_campus.flip_h = steve_default_flip_h
 
 	# Process deliveries when their scheduled period arrives.
 	if not pending_grocery_delivery.is_empty():
@@ -2104,6 +3116,51 @@ func load_period_event() -> void:
 	]
 
 	var scheduled = scheduled_events.get(key, null)
+	
+	# Day 1: introduce budgeting without consuming the Evening.
+	if key == "1_Evening" and not bool(
+		story_flags.get("day1_evening_seen", false)
+	):
+		scheduled = make_day1_first_night_event()
+
+	# Day 2: a short college assignment story.
+	# Show it once, without consuming the Evening.
+	if key == "2_Evening" and not bool(
+		story_flags.get("day2_evening_seen", false)
+	):
+		scheduled = make_day2_late_night_assignment_event()
+
+	# Day 4: follow up on the campus club fair.
+	# This event is shown once and does not consume Evening.
+	if key == "4_Evening" and not bool(
+		story_flags.get("day4_evening_seen", false)
+	):
+		scheduled = make_day4_after_fair_event()
+
+	# Day 6: follow up on the previous night's decision.
+	# Show once, then allow the normal random encounter roll.
+	if key == "6_Evening" and not bool(
+		story_flags.get("day6_evening_seen", false)
+	):
+		scheduled = make_day6_morning_after_event()
+
+	# Day 7: first paycheck spending decision.
+	# The automatic paycheck already arrived in the Morning.
+	if key == "7_Evening" and not bool(
+		story_flags.get("day7_evening_seen", false)
+	):
+		scheduled = make_day7_payday_temptation_event()
+
+	# Day 5: a special Evening invitation and Night event.
+	if key == "5_Evening":
+		scheduled = make_day5_party_invitation_event()
+
+	elif key == "5_Night":
+		if bool(story_flags.get("day5_party_invited", false)):
+			start_day5_party_story()
+			return
+
+		scheduled = make_day5_quiet_night_event()
 
 	# Day 10: Movie Night is always a player-initiated choice.
 	# It runs before the regular random events and never overwrites other days.
@@ -2431,7 +3488,14 @@ func resolve_event_choice(index: int) -> void:
 	
 	if choice.has("textbook_returned"):
 		textbook_returned = bool(choice["textbook_returned"])
-	
+	# Save which Day 5 Night choice actually succeeded.
+	# This runs after money and grocery requirements are checked.
+	if str(active_event.get("id", "")) in [
+		"fry_day5_party",
+		"fry_day5_quiet_night"
+	]:
+		day5_night_choice = index
+
 	event_consumes_period = bool(choice.get("consumes_period", false))
 	
 	# Save any dialogue that should appear after
@@ -2454,11 +3518,10 @@ func resolve_event_choice(index: int) -> void:
 	event_state = "event_reaction"
 
 	dialogue_manager.show_dialogue(
-		"FRY",
+		str(choice.get("reaction_speaker", "FRY")),
 		str(choice.get("reaction", "Alright, that's settled.")),
 		["Continue"]
 	)
-
 
 
 func finish_event() -> void:
@@ -2497,11 +3560,9 @@ func finish_event() -> void:
 			}
 		]
 
-
 		after_campus_lines = "textbook_finish"
 		show_next_campus_line()
 		return
-
 
 	if finished_id == "fry_campus_lunch":
 		campus_lines = [
@@ -2516,6 +3577,41 @@ func finish_event() -> void:
 
 	event_state = ""
 	dialogue_manager.close_dialogue()
+
+	# After the Day 1 introduction, allow the usual random
+	# encounter roll. Then return to normal bedroom free time.
+	if finished_id == "fry_day1_first_night":
+		story_flags["day1_evening_seen"] = true
+		load_period_event()
+		return
+
+	# Day 2: mark the assignment story as completed.
+	# The seen flag prevents the story from repeating.
+	# Roll for a normal encounter, then restore free time.
+	if finished_id == "fry_day2_late_night_assignment":
+		story_flags["day2_evening_seen"] = true
+		load_period_event()
+		return
+
+	# Day 4: finish the fair follow-up without using up Evening.
+	# The flag prevents replay when we check random encounters.
+	if finished_id == "fry_day4_after_fair":
+		story_flags["day4_evening_seen"] = true
+		load_period_event()
+		return
+
+	# Day 6: complete the follow-up without ending Evening.
+	if finished_id == "fry_day6_morning_after":
+		story_flags["day6_evening_seen"] = true
+		load_period_event()
+		return
+
+	# Day 7: remember the payday decision.
+	# Allow one normal random-event opportunity afterward.
+	if finished_id == "fry_day7_payday_temptation":
+		story_flags["day7_evening_seen"] = true
+		load_period_event()
+		return
 
 	if should_advance:
 		advance_time(true)
@@ -2535,6 +3631,9 @@ func _on_dialogue_choice_selected(index: int) -> void:
 
 		"movie_intro":
 			choose_movie_night_plan(index)
+
+		"day5_party_line":
+			show_next_day5_party_line()
 
 		"movie_invite":
 			choose_movie_companion(index)
@@ -3071,18 +4170,24 @@ func _on_main_menu_pressed() -> void:
 func make_club_invitation_event() -> Dictionary:
 	var message: String = ""
 
-	if bool(story_flags.get("attend_campus", false)):
+	if bool(story_flags.get("day4_club_links_saved", false)):
 		message = (
-			"Dulce just texted me. That student club we saw at the fair "
-			+ "is organizing a fundraiser. She and Steve asked if I could "
-			+ "help build a signup page."
+			"Dulce texted me! A club from those free "
+			+ "listings I saved needs a fundraiser signup "
+			+ "page. She and Steve want my help."
+		)
+	elif bool(story_flags.get("attend_campus", false)):
+		message = (
+			"Dulce just texted me. That student club we "
+			+ "saw at the fair is organizing a fundraiser. "
+			+ "She and Steve asked for my help."
 		)
 	else:
 		message = (
-			"Dulce just texted me. She's helping Steve with a student "
-			+ "club fundraiser, and they need someone to build a signup page."
+			"Dulce just texted me. She's helping Steve "
+			+ "with a club fundraiser, and they need "
+			+ "someone to build a signup page."
 		)
-
 	return {
 		"id": "fry_club_invitation",
 		"speaker": "FRY",
@@ -3670,6 +4775,16 @@ func fade_to_location(destination: String) -> void:
 	await fade_out.finished
 
 	current_location = destination
+	
+	# Follow Fry in the bedroom.
+	# Use the normal camera center for campus and cinema.
+	if destination == "bedroom":
+		bedroom_camera.position.x = fry_bedroom_position.x
+	else:
+		bedroom_camera.position.x = 960.0
+	
+	bedroom_camera.reset_smoothing()
+	
 	# Preserve the tested -180 Movie Night offset.
 	if destination == "cinema":
 		dialogue_manager.position = dialogue_default_position + Vector2(0, -180)
@@ -3703,6 +4818,7 @@ func update_location_characters(destination: String) -> void:
 
 	if destination == "campus":
 		fry_sprite.show()
+		fry_sprite.flip_h = fry_default_flip_h
 		# Day 4 and Day 8 involve all three friends.
 		var group_meeting: bool = (
 			(
@@ -3738,6 +4854,10 @@ func update_location_characters(destination: String) -> void:
 	else:
 		# Return Fry to his bedroom.
 		fry_sprite.position = fry_bedroom_position
+		fry_sprite.flip_h = fry_bedroom_flip_h
+		if fry_room_body != null:
+			fry_room_body.position = fry_bedroom_position
+			fry_room_body.velocity = Vector2.ZERO
 		fry_sprite.show()
 
 		dulce_campus.hide()
@@ -3746,6 +4866,7 @@ func update_location_characters(destination: String) -> void:
 
 
 func _on_dialogue_speaker_changed(speaker: String) -> void:
+	# Cinema characters are baked into the background; only campus sprites animate.
 	if current_location != "campus":
 		return
 
