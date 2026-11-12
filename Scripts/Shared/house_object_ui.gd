@@ -61,6 +61,12 @@ func _on_respond_button_pressed():
 	if currentRelevantData.is_empty(): return
 	
 	if (currentRelevantData["type"] == "legit"):
+		if currentRelevantData["subject"] == "Hang out Saturday?":
+#			We will need people to append it as a dictionary with
+#			the event name and the day it will happen,
+#			So we know when to move the event to the todayEvent
+			owner.upcomingEvents.append("Hang out with friends")
+			
 		owner.mood += randi_range(5,10)
 	else:
 		owner.mood += randi_range(-5, -2)

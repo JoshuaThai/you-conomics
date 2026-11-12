@@ -163,6 +163,7 @@ func _show_current_period_dialogue():
 			print("event: ", event)
 			if(event == "Nothing"): continue
 			var eventData = ""
+			steve.currentEvent = event.capitalize()
 			if (event == "Buy New Computer" or event == "Buy New Socks" 
 			or event == "Pay Bonus"):
 				eventData = steve_manager.steve_weekly_events_info[event]
@@ -175,10 +176,14 @@ func _show_current_period_dialogue():
 					print(steve.email)
 					steve.load_necessary_data("Computer", steve.email[0])
 				if event == "Legit Email":
-					steve_email.steve_emails.shuffle()
-					steve.email.append(steve_email.steve_emails[0])
-					print(steve.email)
-					steve.load_necessary_data("Computer", steve.email[0])
+					if steve_email.steve_emails[0]["used"]:
+						steve.eveningEvents.erase(event)
+					else:
+						steve_email.steve_emails.shuffle()
+						steve.email.append(steve_email.steve_emails[0])
+						steve_email.steve_emails[0]["used"] = true
+						print(steve.email)
+						steve.load_necessary_data("Computer", steve.email[0])
 					
 			
 			var speaker = steve_manager.steve_profile["name"]

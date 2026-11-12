@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dcxjhn02rh77h"]
 
 [ext_resource type="Script" uid="uid://cos4sl0h2nlri" path="res://Scripts/Shared/house_object_ui.gd" id="1_its33"]
-[ext_resource type="PackedScene" uid="uid://2haqgxdn2n4p" path="res://Scenes/UI/House Objects/event_container.tscn" id="2_rklgk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bexil"]
 bg_color = Color(0.09411765, 0.13725491, 0.19607843, 1)
@@ -259,10 +258,8 @@ offset_top = 68.0
 offset_right = 1060.0
 offset_bottom = 409.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CalendarPanel/Calendar/TodayEventsContainer/Control/ScrollContainer" unique_id=397586876]
-layout_mode = 2
-
-[node name="EventContainer" parent="CalendarPanel/Calendar/TodayEventsContainer/Control/ScrollContainer/VBoxContainer" unique_id=1130629042 instance=ExtResource("2_rklgk")]
+[node name="TodayEvents" type="VBoxContainer" parent="CalendarPanel/Calendar/TodayEventsContainer/Control/ScrollContainer" unique_id=397586876]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="UpcomingEventsContainer" type="PanelContainer" parent="CalendarPanel/Calendar" unique_id=749842719]
@@ -293,10 +290,8 @@ offset_top = 68.0
 offset_right = 1060.0
 offset_bottom = 409.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CalendarPanel/Calendar/UpcomingEventsContainer/Control/ScrollContainer" unique_id=1354460749]
-layout_mode = 2
-
-[node name="EventContainer" parent="CalendarPanel/Calendar/UpcomingEventsContainer/Control/ScrollContainer/VBoxContainer" unique_id=1027952194 instance=ExtResource("2_rklgk")]
+[node name="UpcomingEvents" type="VBoxContainer" parent="CalendarPanel/Calendar/UpcomingEventsContainer/Control/ScrollContainer" unique_id=1354460749]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="FridgePanel" type="Panel" parent="." unique_id=626994201]

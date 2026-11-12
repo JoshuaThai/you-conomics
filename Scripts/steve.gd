@@ -87,6 +87,9 @@ var mail = []
 
 var currentEvent = ""
 
+var todayEvents = []
+var upcomingEvents = []
+
 
 
 # Variables
