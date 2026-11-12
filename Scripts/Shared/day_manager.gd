@@ -21,8 +21,8 @@ const PERIODS = ["Morning", "Afternoon", "Evening", "Night"]
 # Day 1 is Monday. Days 6 and 7 are Saturday and Sunday.
 const DAY_ONE_WEEKDAY_INDEX: int = 0
 
-var current_day: int = 5
-var period_index: int = 2
+var current_day: int = 1
+var period_index: int = 0
 var finished: bool = false
 
 # Preserved for compatibility
@@ -147,7 +147,8 @@ func find_next_day_number(dayName: String):
 #	Find nearest sunday:
 	var nearest_sundays = [7,14,21,28]
 	for sunday in nearest_sundays:
-		# We add one to ensure the next day is being found, not the same day
+		#Check if the current day is the same as the day being searched
+		#if(DayManager.current_day == baseWeekNumber)
 		if current_day + 1 < sunday:
 			total = sunday - (7 - baseWeekNumber)
 			break
