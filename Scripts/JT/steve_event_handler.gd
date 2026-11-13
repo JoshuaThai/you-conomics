@@ -6,6 +6,12 @@ extends Control
 
 # Randomize the events for each day
 func randomize_event():
+	if steve_manager.normal_evening_events_info["Sleep"]["cooldown"]:
+		steve_manager.normal_evening_events_info["Sleep"]["duration"] -= 1
+		if steve_manager.normal_evening_events_info["Sleep"]["duration"] == 0:
+			print("Sleep is available again!")
+			steve_manager.normal_evening_events_info["Sleep"]["cooldown"] = false
+			steve_manager.normal_evening_events_info["Sleep"]["duration"] = 5
 	if DayManager.isWeekend:
 		steve_manager.steve_special_events.shuffle()
 		var selectedSpecial = steve_manager.steve_special_events[0]
@@ -31,8 +37,24 @@ func randomize_event():
 		
 		steve.morningEvents.append(selectedMorning)
 		steve.afternoonEvents.append(shuffledAfternoon)
-		steve.eveningEvents.append("Legit Email")
+		if shuffledAfternoon == "Nap" and shuffledAfternoon == "Sleep":
+			steve.eveningEvents.append("Nothing")
+		else:
+			if shuffledEvening == "Sleep":
+				if not steve_manager.normal_evening_events_info[shuffledEvening]["cooldown"]:
+					steve_manager.normal_evening_events_info[shuffledEvening]["cooldown"] = true
+					steve.eveningEvents.append(shuffledEvening)
+			else:
+				steve.eveningEvents.append(shuffledEvening)
+			
 		steve.nightEvents.append(shuffledNight)
+		if randomSharedEvents[0] == "wishlist_sale":
+			steve.afternoonEvents.append(randomSharedEvents[0])
+		if randomSharedEvents[0] == "small_refund":
+			steve.eveningEvents.append(randomSharedEvents[0])
+		
+		if steve.eveningEvents.is_empty():
+			steve.eveningEvents.append("Nothing")
 		
 		var randomEvent = steve_manager.steve_weekly_events[0]
 		#print("Random Event ", randomEvent)
@@ -78,6 +100,7 @@ func _show_current_period_dialogue():
 # Note: We will grab the breakfast info from steve_profile
 # Look at how freddie did it in his script.
 	if current_period == "Morning":
+		steve.nappingOrSleep = false
 		var eventData = EventManager.create_shared_event("breakfast", 
 		steve_manager.steve_profile )
 		print(eventData)
@@ -130,12 +153,19 @@ func _show_current_period_dialogue():
 						await get_tree().process_frame
 			steve.set_task_label()
 	elif current_period == "Afternoon":
+		steve.nappingOrSleep = false
 		print("Current period is now afternoon!")
 		print("Afternoon: ", steve.afternoonEvents)
 		for event in steve.afternoonEvents:
 			print("event: ", event)
 			if(event == "Nothing"): continue
-			var eventData = steve_manager.normal_afternoon_events_info[event]
+			var eventData = ""
+			steve.currentEvent = event.capitalize()
+			if event == "wishlist_sale":
+				eventData = EventManager.create_shared_event(event, 
+		steve_manager.steve_profile )
+			else:
+				eventData = steve_manager.normal_afternoon_events_info[event]
 			var speaker = steve_manager.steve_profile["name"]
 			var message = eventData["message"]
 			
@@ -149,6 +179,7 @@ func _show_current_period_dialogue():
 			await get_tree().create_timer(3.0).timeout
 		steve.set_task_label()
 	elif current_period == "Evening":
+		steve.nappingOrSleep = false
 		print("Current period is now Evening!")
 		print("Evening: ", steve.eveningEvents)
 		for event in steve.eveningEvents:
@@ -156,9 +187,14 @@ func _show_current_period_dialogue():
 			if(event == "Nothing"): continue
 			var eventData = ""
 			steve.currentEvent = event.capitalize()
+			
 			if (event == "Buy New Computer" or event == "Buy New Socks" 
-			or event == "Pay Bonus"):
-				eventData = steve_manager.steve_weekly_events_info[event]
+			or event == "Pay Bonus" or event == "small_refund"):
+				if event == "small_refund":
+					eventData = EventManager.create_shared_event(event, 
+		steve_manager.steve_profile )
+				else:	
+					eventData = steve_manager.steve_weekly_events_info[event]
 			else:
 				eventData = steve_manager.normal_evening_events_info[event]
 #				Store email in steve if that is the event name

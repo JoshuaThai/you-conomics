@@ -4,6 +4,7 @@ const WALKSPEED : int = 2
 var debounce : bool = false
 var movement_Tween : Tween
 var ongoingDialogue = false
+var nappingOrSleep = false
 
 # Player State
 var moving_Forward : bool = true
@@ -17,8 +18,8 @@ var money: int = 100
 var mood: int = 70
 var energy: int = 80
 
-# Fry starts with two portions already in his kitchen.
-var grocery_meals: int = 1
+# Steve starts with two portions already in his kitchen.
+var grocery_meals: int = 2
 
 var total_income: int = 200
 
@@ -262,6 +263,7 @@ func load_next_period():
 	return true
 
 func set_task_label():
+	if nappingOrSleep: return
 	%TaskLabel.text = "Check: "
 	var iterateOnce = false
 	var anyObjectLeft = false
@@ -374,7 +376,7 @@ func show_dialogue(speaker: String, message: String, options: Array):
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("Clicked"):
-		if debounce: return
+		if debounce or ongoingDialogue: return
 		print("Click detected!")
 		var mousePos : Vector2 = get_global_mouse_position()
 #		Prevent user from moving into negative coordinates and breaking stuff

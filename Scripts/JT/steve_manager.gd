@@ -190,7 +190,9 @@ var normal_evening_events_info = {
 	},
 	"Sleep" : {
 		"message": "I am tired! Let's go to sleep!",
-		#"Options": ["Yes", "No"],
+#		Player will be unable to sleep for another 5 days after sleeping once
+		"duration": 5,
+		"cooldown": false,
 		"choices": [
 			{"text" :"Yes",
 			"money": 0,

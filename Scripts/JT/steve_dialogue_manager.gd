@@ -148,12 +148,25 @@ func check_if_correct_response(choiceSelected: String):
 				await get_tree().create_timer(3.0).timeout
 			#owner.money += choice["money"]
 			owner.mood += choice["mood"]
-			owner.energy += choice["energy"]
+			if choice.has("energy"):
+				owner.energy += choice["energy"]
 			close_dialogue()
-			display_other_UI()
 			owner.change_money(choice["money"], owner.currentEvent)
 			owner.unpause_movement()
+			
+			display_other_UI()
 			owner.ongoingDialogue = false
+			#print("Current Event: ", owner.currentEvent)
+			if owner.currentEvent == "Nap" and choiceSelected == "Yes":
+				owner.nappingOrSleep = true
+				owner.afternoonEvents.clear()
+				owner._on_next_period_button_pressed()
+			if (owner.currentEvent == "Sleep" 
+			and choiceSelected == "Yes"):
+				owner.nappingOrSleep = true
+				owner.eveningEvents.clear()
+				owner._on_next_period_button_pressed()
+			
 			#print("Owner Debounce: ", owner.debounce)
 			
 			#show_response()
