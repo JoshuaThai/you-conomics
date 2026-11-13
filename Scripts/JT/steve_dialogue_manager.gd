@@ -64,6 +64,19 @@ func show_dialogue(speaker: String,message: String, options: Array) -> void:
 		var button := choice_buttons[i]
 
 		if i < options.size():
+#			Hide choice if grocery meals number is too low
+			if (options[i].contains("Make breakfast")
+			or (owner.currentEvent == "Lunch" 
+			and options[i].contains("Prepare Lunch Yourself"))
+			or (owner.currentEvent == "Get a Drink"
+			and options[i].contains("Yes"))
+			or (owner.currentEvent == "Dinner"
+			and options[i].contains("Prepare Dinner Yourself"))
+			or (owner.currentEvent == "Snack" 
+			and options[i].contains("Prepare a Snack"))):
+				if owner.grocery_meals <= 0:
+					button.hide()
+					continue
 			button.text = str(options[i])
 			player_choices.append(options[i])
 			button.show()
@@ -112,7 +125,15 @@ func display_other_UI():
 	
 
 func check_if_correct_response(choiceSelected: String):
-	if choiceSelected.contains("Make breakfast"):
+	if (choiceSelected.contains("Make breakfast")
+	or (owner.currentEvent == "Lunch" 
+	and choiceSelected.contains("Prepare Lunch Yourself"))
+	or (owner.currentEvent == "Get a Drink"
+	and choiceSelected.contains("Yes"))
+	or (owner.currentEvent == "Dinner"
+	and choiceSelected.contains("Prepare Dinner Yourself"))
+	or (owner.currentEvent == "Snack" 
+	and choiceSelected.contains("Prepare a Snack"))):
 		owner.grocery_meals -= 1
 		owner.load_necessary_data("Fridge", {})
 	#print(owner.available_choices_info)

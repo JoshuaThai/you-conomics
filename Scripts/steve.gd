@@ -18,7 +18,7 @@ var mood: int = 70
 var energy: int = 80
 
 # Fry starts with two portions already in his kitchen.
-var grocery_meals: int = 2
+var grocery_meals: int = 1
 
 var total_income: int = 200
 
