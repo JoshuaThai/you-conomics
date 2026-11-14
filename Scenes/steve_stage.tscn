@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://ujpiwuuy3c3k" path="res://Scripts/JT/steve_manager.gd" id="5_g4rsn"]
 [ext_resource type="Script" uid="uid://cvg36ixffr153" path="res://Scripts/JT/steve_event_handler.gd" id="6_lb1u3"]
 [ext_resource type="Script" uid="uid://cvu143re1rgq4" path="res://Scripts/JT/steve_mail_handler.gd" id="7_d1u5k"]
+[ext_resource type="Script" uid="uid://c6h0ffmid1u4s" path="res://Scripts/JT/steve_event_dialogue.gd" id="8_cxle0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yfxnn"]
 size = Vector2(100, 20)
@@ -62,3 +63,11 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("7_d1u5k")
+
+[node name="SteveEventDialogue" type="Control" parent="PlayerModules" unique_id=2122799600]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("8_cxle0")

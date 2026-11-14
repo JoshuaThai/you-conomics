@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://cvar4dagk0x0p"]
+
+[ext_resource type="Texture2D" uid="uid://cgtruaxixdj37" path="res://Characters/Fry/Sprites/Fry.png" id="1_2sjh6"]
+[ext_resource type="Script" uid="uid://cl4vxt46cgsqo" path="res://Scripts/JT/with_friends.gd" id="1_6ukyk"]
+[ext_resource type="Texture2D" uid="uid://bxbg62sfs053n" path="res://Characters/Steve/Steve.png" id="2_81xm8"]
+[ext_resource type="Texture2D" uid="uid://d2w2mln3pa27n" path="res://Characters/Dulce/Sprites/dulce.png" id="3_absq7"]
+
+[node name="WithFriends" type="Control" unique_id=651506842]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6ukyk")
+
+[node name="Fry" type="Sprite2D" parent="." unique_id=548465584]
+texture_filter = 1
+position = Vector2(579, 636)
+scale = Vector2(10, 10)
+texture = ExtResource("1_2sjh6")
+
+[node name="Steve" type="Sprite2D" parent="." unique_id=426949414]
+texture_filter = 1
+position = Vector2(1020, 672)
+scale = Vector2(8, 8)
+texture = ExtResource("2_81xm8")
+
+[node name="Dulce" type="Sprite2D" parent="." unique_id=1464987672]
+texture_filter = 1
+position = Vector2(1411, 690)
+scale = Vector2(9, 9)
+texture = ExtResource("3_absq7")
+flip_h = true

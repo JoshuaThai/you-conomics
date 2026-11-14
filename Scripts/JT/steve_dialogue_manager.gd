@@ -151,10 +151,17 @@ func check_if_correct_response(choiceSelected: String):
 			if choice.has("energy"):
 				owner.energy += choice["energy"]
 			close_dialogue()
-			owner.change_money(choice["money"], owner.currentEvent)
+			var money = choice["money"]
+#			Fix bug where money would be added from purchasing wishlist sale item
+			if owner.currentEvent == "wishlist_sale":
+				money *= -1
+			owner.change_money(money, owner.currentEvent)
 			owner.unpause_movement()
 			
 			display_other_UI()
+#			Play the scene where I hang out with friends before ending dialogue
+			if owner.currentEvent == "Hanging out with friends":
+				%WithFriends.visible = true
 			owner.ongoingDialogue = false
 			#print("Current Event: ", owner.currentEvent)
 			if owner.currentEvent == "Nap" and choiceSelected == "Yes":

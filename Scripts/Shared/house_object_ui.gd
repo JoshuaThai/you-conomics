@@ -1,6 +1,7 @@
 extends Control
 
 var currentRelevantEmailData = {}
+var emailInteractedWith = false
 
 
 @onready var steve = %steve
@@ -56,12 +57,14 @@ func clear_email():
 	_on_close_button_pressed()
 
 func _on_report_button_pressed():
-	if currentRelevantEmailData.is_empty(): return
+	if (currentRelevantEmailData.is_empty() 
+	or emailInteractedWith): return
 	
 	if (currentRelevantEmailData["type"] == "scam"):
 		owner.mood += randi_range(2,4)
 	else:
 		owner.mood += randi_range(-15, -10)
+	emailInteractedWith = true
 	clear_email()
 
 func add_new_items_to_calendar():
@@ -103,7 +106,8 @@ func reload_calendar():
 		%TodayEvents.add_child(eventContainer)
 
 func _on_respond_button_pressed():
-	if currentRelevantEmailData.is_empty(): return
+	if (currentRelevantEmailData.is_empty() 
+	or emailInteractedWith): return
 	
 	if (currentRelevantEmailData["type"] == "legit"):
 		if currentRelevantEmailData["subject"] == "Hang out Saturday?":
@@ -112,7 +116,7 @@ func _on_respond_button_pressed():
 #			So we know when to move the event to the todayEvent
 			owner.upcomingEvents.append(
 				{"title": "Hanging out with friends on Saturday",
-				"time": DayManager.find_next_day_number("Saturday")
+				"time": DayManager.find_next_day_number("Tuesday")
 				})
 			add_new_items_to_calendar()
 			
@@ -120,6 +124,7 @@ func _on_respond_button_pressed():
 	else:
 		owner.mood += randi_range(-5, -2)
 		owner.change_money(-40, "Scam LOL", "Entertainment")
+	emailInteractedWith = true
 	clear_email()
 
 

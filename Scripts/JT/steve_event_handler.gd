@@ -2,6 +2,7 @@ extends Control
 
 @onready var steve_manager = %SteveManager
 @onready var steve_email = %SteveMailHandler
+@onready var steve_dialogue = %SteveEventDialogue
 @onready var steve = %Steve
 
 # Randomize the events for each day
@@ -31,6 +32,7 @@ func randomize_event():
 		randomSharedEvents.shuffle()
 		steve_manager.normal_evening_events.shuffle()
 		var shuffledEvening = steve_manager.normal_evening_events[0]
+		shuffledEvening = "Legit Email"
 		steve_manager.normal_night_events.shuffle()
 		var shuffledNight = steve_manager.normal_night_events[0]
 		steve_manager.steve_weekly_events.shuffle()
@@ -96,6 +98,10 @@ func _show_current_period_dialogue():
 	var current_period = DayManager.get_period()
 	print(current_period)
 	steve.reload_calendar()
+	for event in steve.get_today_events():
+		print("Today event: ", event)
+		if event["title"].contains("Hanging out with friends"):
+			steve.morningEvents.append("Hanging out with friends")
 #	Play Breakfast event if morning
 # Note: We will grab the breakfast info from steve_profile
 # Look at how freddie did it in his script.
@@ -124,6 +130,17 @@ func _show_current_period_dialogue():
 				steve.currentEvent = chosenMorningEvent.capitalize()
 				if(steve_manager.normal_morning_events_info.has(event)):
 					eventData = steve_manager.normal_morning_events_info[chosenMorningEvent]
+				elif(steve_manager.steve_special_events_info.has(event)):
+					eventData = steve_manager.steve_special_events_info[chosenMorningEvent]
+#					Start from here tomorrow!
+					if chosenMorningEvent == "Hanging out with friends":
+						var dialogues = steve_dialogue.steve_hang_out_with_friends["dialogues"]
+						for dialogue in dialogues:
+							print(dialogue)
+							steve.show_dialogue(dialogue["speaker"], 
+							dialogue["text"], dialogue["options"])
+							while steve.ongoingDialogue:
+								await get_tree().process_frame
 				else:
 					eventData = steve_manager.steve_weekly_events_info[chosenMorningEvent]
 				print(eventData)
@@ -151,6 +168,7 @@ func _show_current_period_dialogue():
 					steve.show_dialogue(speaker, message, options)
 					while steve.ongoingDialogue:
 						await get_tree().process_frame
+			
 			steve.set_task_label()
 	elif current_period == "Afternoon":
 		steve.nappingOrSleep = false

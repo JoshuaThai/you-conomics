@@ -389,7 +389,7 @@ var steve_low_energy_events_info = {
 }
 
 var steve_special_events = [
-	"Hang out with friends", "Go to the movies",
+	"Hanging out with friends", "Go to the movies",
 	"Buy Auto Theft 67", "Nothing", "Nothing", "Nothing"
 ]
 # This will contain all relevant info to the special events
@@ -398,7 +398,7 @@ var steve_special_events = [
 var steve_special_events_info = {
 #	Yes and No will contain the min/max amount of money you 
 # could lose and the min/max mood and energy you could lose
-	"Hang out with friends" : {
+	"Hanging out with friends" : {
 		"message": "My friends want to hang out today!",
 		#"Options": ["Yes", "No"],
 		"choices": [
@@ -408,12 +408,12 @@ var steve_special_events_info = {
 			"mood": randi_range(5, 10),
 			"reaction": "We're going out today!"
 			},
-			{"text": "No",
-			"money": 0,
-			"energy": randi_range(5, 10),
-			"mood": randi_range(-10, -5),
-			"reaction": "Nope. Staying home!"
-			}
+			#{"text": "No",
+			#"money": 0,
+			#"energy": randi_range(5, 10),
+			#"mood": randi_range(-10, -5),
+			#"reaction": "Nope. Staying home!"
+			#}
 		]
 
 	},

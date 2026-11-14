@@ -22,7 +22,7 @@ const PERIODS = ["Morning", "Afternoon", "Evening", "Night"]
 const DAY_ONE_WEEKDAY_INDEX: int = 0
 
 var current_day: int = 1
-var period_index: int = 0
+var period_index: int = 2
 var finished: bool = false
 
 # Preserved for compatibility

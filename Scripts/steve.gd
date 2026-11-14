@@ -233,6 +233,8 @@ func purchase_groceries(delivery: bool) -> Dictionary:
 
 #endregion
 
+func get_today_events():
+	return todayEvents
 
 func print_all_events():
 	print("morning events: ", morningEvents)
@@ -482,6 +484,7 @@ func _on_next_period_button_pressed():
 	%PhoneUI.hide()
 	%DayLabel.hide()
 	%PeriodLabel.hide()
+	house_object.emailInteractedWith = false
 	await steve_Home.trigger_transition()
 	DayManager.advance_period()
 	
