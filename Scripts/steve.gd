@@ -474,8 +474,8 @@ func clear_events():
 	afternoonEvents.clear()
 	eveningEvents.clear()
 	nightEvents.clear()
-
-func _on_next_period_button_pressed():
+	
+func go_to_next_period():
 	var current_day = DayManager.current_day
 	%NextPeriodButton.hide()
 	%MoneyLabel.hide()
@@ -499,6 +499,9 @@ func _on_next_period_button_pressed():
 		clear_events()
 		%SteveEventHandler.randomize_event()
 	%SteveEventHandler._show_current_period_dialogue()
+
+func _on_next_period_button_pressed():
+	go_to_next_period()
 	
 func open_panel(panelName: String):
 	house_object.show()

@@ -159,9 +159,11 @@ func check_if_correct_response(choiceSelected: String):
 			owner.unpause_movement()
 			
 			display_other_UI()
+			print("Current Event: ", owner.currentEvent)
 #			Play the scene where I hang out with friends before ending dialogue
-			if owner.currentEvent == "Hanging out with friends":
-				%WithFriends.visible = true
+			#if owner.currentEvent == "Hanging Out With Friends":
+				#print("WithFriends UI should be visible")
+				#%WithFriends.visible = true
 			owner.ongoingDialogue = false
 			#print("Current Event: ", owner.currentEvent)
 			if owner.currentEvent == "Nap" and choiceSelected == "Yes":

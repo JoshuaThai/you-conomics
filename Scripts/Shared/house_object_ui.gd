@@ -2,6 +2,7 @@ extends Control
 
 var currentRelevantEmailData = {}
 var emailInteractedWith = false
+var grocery_Cost = 35
 
 
 @onready var steve = %steve
@@ -25,10 +26,19 @@ func close_all_other_panels(panelName: String):
 
 func open_panel(panelName: String):
 	if panelName == "Calendar":
+		%GroceryShopBox.visible = false
 		$CalendarPanel.show()
 	if panelName == "Computer":
+		%GroceryShopBox.visible = false
 		$ComputerPanel.show()
 	if panelName == "Fridge":
+		%GroceryShopBox.visible = false
+		food_availability.text = "Food Items Available: " + str(owner.grocery_meals)
+		if owner.grocery_meals <= 2:
+			%SuggestionLabel.text = "Suggestion: You may need to consider buying additional food items! \n
+			Buy more food by going to your phone or your house's door."
+		else:
+			%SuggestionLabel.text = "Keep up the great work with keeping the food in stock"
 		$FridgePanel.show()
 	if panelName == "HouseDoor":
 		$HouseDoorPanel.show()
@@ -116,7 +126,7 @@ func _on_respond_button_pressed():
 #			So we know when to move the event to the todayEvent
 			owner.upcomingEvents.append(
 				{"title": "Hanging out with friends on Saturday",
-				"time": DayManager.find_next_day_number("Tuesday")
+				"time": DayManager.find_next_day_number("Saturday")
 				})
 			add_new_items_to_calendar()
 			
@@ -132,3 +142,18 @@ func _on_mail_button_pressed():
 	$HouseDoorPanel.hide()
 	$MailPanel.show()
 	
+
+
+func _on_grocery_button_pressed():
+	%GroceryShopBox.visible = true
+	if owner.money <= grocery_Cost:
+		%GroceryStatus.text = "Not enough money for grocery shopping!"
+	else:
+		owner.change_money(-1 * grocery_Cost, 
+		"Grocery Shopping", "Grocery")
+		owner.grocery_meals += 3
+		%GroceryStatus.text = "Successful grocery shopping!"
+
+
+func _on_close_grocery_shop_pressed():
+	%GroceryShopBox.visible = false

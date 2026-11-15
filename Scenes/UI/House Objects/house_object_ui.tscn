@@ -49,6 +49,13 @@ corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b1awt"]
+bg_color = Color(0.2382622, 0.2382622, 0.23826218, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bhppe"]
 bg_color = Color(0, 0, 0, 0.4862745)
 corner_radius_top_left = 8
@@ -295,6 +302,7 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="FridgePanel" type="Panel" parent="." unique_id=626994201]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -338,7 +346,6 @@ text = "Suggestion: You may need to consider buying additional food items! Buy m
 autowrap_mode = 2
 
 [node name="HouseDoorPanel" type="Panel" parent="." unique_id=1236345622]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -400,7 +407,48 @@ offset_right = 843.0
 offset_bottom = 245.0
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_054cv")
-text = "Go Grocery Shopping"
+text = "Go Grocery Shopping (-$35)"
+alignment = 0
+
+[node name="GroceryShopBox" type="ColorRect" parent="HouseDoorPanel/Control/PanelContainer" unique_id=1681129620]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+color = Color(0, 0, 0, 0.7372549)
+
+[node name="GroceryStatus" type="Label" parent="HouseDoorPanel/Control/PanelContainer/GroceryShopBox" unique_id=1937734224]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+
+[node name="CloseGroceryShop" type="Button" parent="HouseDoorPanel/Control/PanelContainer/GroceryShopBox" unique_id=353269754]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = 175.0
+offset_right = 4.0
+offset_bottom = 183.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_b1awt")
+text = "Close"
 
 [node name="MailPanel" type="Panel" parent="." unique_id=1961674645]
 visible = false
@@ -460,4 +508,6 @@ text = "X"
 [connection signal="pressed" from="ComputerPanel/Email/ButtonContainer/HBoxContainer/ReportButton" to="." method="_on_report_button_pressed"]
 [connection signal="pressed" from="ComputerPanel/Email/ButtonContainer/HBoxContainer/RespondButton" to="." method="_on_respond_button_pressed"]
 [connection signal="pressed" from="HouseDoorPanel/Control/PanelContainer/VBoxContainer/HBoxContainer/MailButton" to="." method="_on_mail_button_pressed"]
+[connection signal="pressed" from="HouseDoorPanel/Control/PanelContainer/VBoxContainer/HBoxContainer/GroceryButton" to="." method="_on_grocery_button_pressed"]
+[connection signal="pressed" from="HouseDoorPanel/Control/PanelContainer/GroceryShopBox/CloseGroceryShop" to="." method="_on_close_grocery_shop_pressed"]
 [connection signal="pressed" from="CloseButton" to="." method="_on_close_button_pressed"]

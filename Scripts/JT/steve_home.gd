@@ -93,3 +93,11 @@ func trigger_transition():
 	transition_Screen.visible = false
 	steve.unpause_movement()
 	return true
+	
+func halfway_transition():
+	var tween = get_tree().create_tween()
+	steve.pause_movement()
+	transition_Screen.visible = true
+	tween.tween_property(transition_Screen, "modulate:a", 0.75, 3.0)
+	await tween.finished
+	

@@ -17,12 +17,13 @@ func highlight_speaker(name: String):
 	#get_node(name).
 	for child in get_children():
 		if child.name == name: continue
-		child.modulate = Color.from_rgba8(255, 255, 255, 200)
+		child.modulate = Color.from_rgba8(255, 255, 255, 124)
 		
 	#await get_tree().create_timer(3.0).timeout
 	#remove_old_speaker()
 
 func remove_old_speaker():
+	if currentSpeaker == "": return
 	var orgScale = get_node(currentSpeaker).scale
 	get_node(currentSpeaker).scale = Vector2(orgScale.x - 2, 
 	orgScale.y - 2)

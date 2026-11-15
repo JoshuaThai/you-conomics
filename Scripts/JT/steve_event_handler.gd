@@ -32,7 +32,6 @@ func randomize_event():
 		randomSharedEvents.shuffle()
 		steve_manager.normal_evening_events.shuffle()
 		var shuffledEvening = steve_manager.normal_evening_events[0]
-		shuffledEvening = "Legit Email"
 		steve_manager.normal_night_events.shuffle()
 		var shuffledNight = steve_manager.normal_night_events[0]
 		steve_manager.steve_weekly_events.shuffle()
@@ -132,15 +131,28 @@ func _show_current_period_dialogue():
 					eventData = steve_manager.normal_morning_events_info[chosenMorningEvent]
 				elif(steve_manager.steve_special_events_info.has(event)):
 					eventData = steve_manager.steve_special_events_info[chosenMorningEvent]
-#					Start from here tomorrow!
 					if chosenMorningEvent == "Hanging out with friends":
+						await %SteveHome.halfway_transition()
+						%Steve.get_node("%WithFriends").visible = true
 						var dialogues = steve_dialogue.steve_hang_out_with_friends["dialogues"]
 						for dialogue in dialogues:
 							print(dialogue)
+							%Steve.get_node("%WithFriends").remove_old_speaker()
+							%Steve.get_node("%WithFriends").highlight_speaker(dialogue["speaker"])
+							#print(dialogue["choices"])
+							#print("Choices Data Type: ",
+								#type_string(typeof(dialogue["choices"])))
+							options = find_options(dialogue["choices"])
+							steve.available_choices_info = dialogue["choices"]
+							
 							steve.show_dialogue(dialogue["speaker"], 
-							dialogue["text"], dialogue["options"])
+							dialogue["text"], options)
 							while steve.ongoingDialogue:
 								await get_tree().process_frame
+						
+						%Steve.get_node("%WithFriends").visible = false
+						steve.go_to_next_period()
+						return
 				else:
 					eventData = steve_manager.steve_weekly_events_info[chosenMorningEvent]
 				print(eventData)
