@@ -67,7 +67,6 @@ func _on_calendar_button_pressed():
 func _on_computer_button_pressed():
 	if steve.ongoingDialogue: return
 	steve.open_panel("Computer")
-	steve.interact_with_object("Computer")
 
 
 func _on_fridge_button_pressed():
@@ -79,7 +78,6 @@ func _on_fridge_button_pressed():
 func _on_mail_button_pressed():
 	if steve.ongoingDialogue: return
 	steve.open_panel("HouseDoor")
-	steve.interact_with_object("HouseDoor")
 	
 func trigger_transition():
 	var tween = get_tree().create_tween()

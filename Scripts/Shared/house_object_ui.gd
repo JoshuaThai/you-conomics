@@ -45,6 +45,7 @@ func open_panel(panelName: String):
 	close_all_other_panels(panelName)
 	
 func load_necessary_data(objectName: String, relevantData: Dictionary):
+	emailInteractedWith = false
 	if objectName == "Computer":
 		currentRelevantEmailData = relevantData
 		%subjectName.text = relevantData["subject"]
@@ -69,6 +70,7 @@ func clear_email():
 func _on_report_button_pressed():
 	if (currentRelevantEmailData.is_empty() 
 	or emailInteractedWith): return
+	owner.interact_with_object("Computer")
 	
 	if (currentRelevantEmailData["type"] == "scam"):
 		owner.mood += randi_range(2,4)
@@ -118,6 +120,7 @@ func reload_calendar():
 func _on_respond_button_pressed():
 	if (currentRelevantEmailData.is_empty() 
 	or emailInteractedWith): return
+	owner.interact_with_object("Computer")
 	
 	if (currentRelevantEmailData["type"] == "legit"):
 		if currentRelevantEmailData["subject"] == "Hang out Saturday?":
@@ -141,6 +144,7 @@ func _on_respond_button_pressed():
 func _on_mail_button_pressed():
 	$HouseDoorPanel.hide()
 	$MailPanel.show()
+	owner.interact_with_object("HouseDoor")
 	
 
 
