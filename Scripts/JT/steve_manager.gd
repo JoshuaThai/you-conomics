@@ -349,7 +349,7 @@ var steve_weekly_events_info = {
 # If steve becomes aware that he is struggling with money, he will
 # start to get risky in some events
 var steve_low_money_events = [
-	"Wager a bet", "Ask for Promotion", "Take out a loan"
+	"Ask for Promotion", "Take out a loan"
 ]
 
 

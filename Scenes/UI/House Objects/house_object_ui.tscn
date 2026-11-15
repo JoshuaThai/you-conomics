@@ -49,12 +49,26 @@ corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gbiql"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g8fnk"]
+expand_margin_left = 4.0
+expand_margin_right = 4.0
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b1awt"]
 bg_color = Color(0.2382622, 0.2382622, 0.23826218, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jd7vk"]
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 4.0
+expand_margin_right = 4.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bhppe"]
 bg_color = Color(0, 0, 0, 0.4862745)
@@ -396,6 +410,7 @@ offset_right = 498.0
 offset_bottom = 245.0
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_054cv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gbiql")
 text = "Look at Today's Mail"
 
 [node name="GroceryButton" type="Button" parent="HouseDoorPanel/Control/PanelContainer/VBoxContainer/HBoxContainer" unique_id=251113019]
@@ -405,10 +420,11 @@ offset_left = 506.0
 offset_top = 45.0
 offset_right = 843.0
 offset_bottom = 245.0
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_054cv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_g8fnk")
 text = "Go Grocery Shopping (-$35)"
-alignment = 0
 
 [node name="GroceryShopBox" type="ColorRect" parent="HouseDoorPanel/Control/PanelContainer" unique_id=1681129620]
 unique_name_in_owner = true
@@ -448,6 +464,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxFlat_b1awt")
+theme_override_styles/hover = SubResource("StyleBoxFlat_jd7vk")
 text = "Close"
 
 [node name="MailPanel" type="Panel" parent="." unique_id=1961674645]
