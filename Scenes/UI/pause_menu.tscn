@@ -1,0 +1,271 @@
+[gd_scene format=3 uid="uid://buwxgkpwmchay"]
+
+[ext_resource type="Script" uid="uid://bpymjw8x30ba2" path="res://Scripts/Shared/pause_menu.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="panel"]
+content_margin_left = 46.0
+content_margin_top = 38.0
+content_margin_right = 46.0
+content_margin_bottom = 38.0
+bg_color = Color(0.109804, 0.156863, 0.211765, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.282353, 0.407843, 0.470588, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 16
+
+[sub_resource type="StyleBoxFlat" id="primary"]
+bg_color = Color(0.286275, 0.713725, 0.619608, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="primary_hover"]
+bg_color = Color(0.352941, 0.819608, 0.701961, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="focus"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.647059, 0.937255, 0.831373, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="secondary"]
+bg_color = Color(0.137255, 0.2, 0.266667, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.254902, 0.341176, 0.407843, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="secondary_hover"]
+bg_color = Color(0.184314, 0.266667, 0.321569, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.352941, 0.819608, 0.701961, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=412937743]
+process_mode = 3
+layer = 80
+script = ExtResource("1_script")
+
+[node name="PauseRoot" type="Control" parent="." unique_id=33744482]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Backdrop" type="ColorRect" parent="PauseRoot" unique_id=629401234]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.027451, 0.039216, 0.062745, 0.86)
+
+[node name="Center" type="CenterContainer" parent="PauseRoot" unique_id=1391573559]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="PauseRoot/Center" unique_id=1256021120]
+custom_minimum_size = Vector2(570, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("panel")
+
+[node name="Contents" type="VBoxContainer" parent="PauseRoot/Center/Panel" unique_id=229108824]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Tag" type="Label" parent="PauseRoot/Center/Panel/Contents" unique_id=1029193353]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.435294, 0.745098, 0.686275, 1)
+theme_override_font_sizes/font_size = 19
+text = "YOU-CONOMICS"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="PauseRoot/Center/Panel/Contents" unique_id=960353482]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.941176, 0.956863, 0.937255, 1)
+theme_override_font_sizes/font_size = 54
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="PauseRoot/Center/Panel/Contents" unique_id=910003059]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.647059, 0.729412, 0.74902, 1)
+theme_override_font_sizes/font_size = 21
+text = "Take a moment. Your story isn't going anywhere."
+horizontal_alignment = 1
+
+[node name="Gap" type="Control" parent="PauseRoot/Center/Panel/Contents" unique_id=1085750520]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ResumeButton" type="Button" parent="PauseRoot/Center/Panel/Contents" unique_id=1794841628]
+custom_minimum_size = Vector2(0, 67)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.054902, 0.105882, 0.105882, 1)
+theme_override_colors/font_pressed_color = Color(0.054902, 0.105882, 0.105882, 1)
+theme_override_colors/font_hover_color = Color(0.054902, 0.105882, 0.105882, 1)
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("primary")
+theme_override_styles/pressed = SubResource("primary_hover")
+theme_override_styles/hover = SubResource("primary_hover")
+theme_override_styles/focus = SubResource("focus")
+text = "RESUME"
+
+[node name="SettingsButton" type="Button" parent="PauseRoot/Center/Panel/Contents" unique_id=1058224129]
+custom_minimum_size = Vector2(0, 67)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.94, 0.95, 1)
+theme_override_colors/font_disabled_color = Color(0.47, 0.54, 0.59, 1)
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("secondary")
+theme_override_styles/disabled = SubResource("secondary")
+disabled = true
+text = "SETTINGS  (SOON)"
+
+[node name="MainMenuButton" type="Button" parent="PauseRoot/Center/Panel/Contents" unique_id=1279239741]
+custom_minimum_size = Vector2(0, 67)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.94, 0.95, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("secondary")
+theme_override_styles/pressed = SubResource("secondary_hover")
+theme_override_styles/hover = SubResource("secondary_hover")
+theme_override_styles/focus = SubResource("focus")
+text = "MAIN MENU"
+
+[node name="QuitButton" type="Button" parent="PauseRoot/Center/Panel/Contents" unique_id=1590051498]
+custom_minimum_size = Vector2(0, 67)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.94, 0.95, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("secondary")
+theme_override_styles/pressed = SubResource("secondary_hover")
+theme_override_styles/hover = SubResource("secondary_hover")
+theme_override_styles/focus = SubResource("focus")
+text = "QUIT GAME"
+
+[node name="Footer" type="Label" parent="PauseRoot/Center/Panel/Contents" unique_id=1302912058]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.48, 0.56, 0.62, 1)
+theme_override_font_sizes/font_size = 17
+text = "ESC  -  Resume"
+horizontal_alignment = 1
+
+[node name="ConfirmationRoot" type="Control" parent="PauseRoot" unique_id=1530314094]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Shade" type="ColorRect" parent="PauseRoot/ConfirmationRoot" unique_id=972492238]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.015686, 0.023529, 0.035294, 0.86)
+
+[node name="Center" type="CenterContainer" parent="PauseRoot/ConfirmationRoot" unique_id=987536778]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="PauseRoot/ConfirmationRoot/Center" unique_id=701160038]
+custom_minimum_size = Vector2(590, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("panel")
+
+[node name="Contents" type="VBoxContainer" parent="PauseRoot/ConfirmationRoot/Center/Panel" unique_id=800921312]
+layout_mode = 2
+theme_override_constants/separation = 21
+
+[node name="Warning" type="Label" parent="PauseRoot/ConfirmationRoot/Center/Panel/Contents" unique_id=1176514039]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.435294, 0.745098, 0.686275, 1)
+theme_override_font_sizes/font_size = 26
+text = "ARE YOU SURE?"
+horizontal_alignment = 1
+
+[node name="Question" type="Label" parent="PauseRoot/ConfirmationRoot/Center/Panel/Contents" unique_id=271701461]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.941176, 0.956863, 0.937255, 1)
+theme_override_font_sizes/font_size = 25
+text = "Your current run will be lost."
+horizontal_alignment = 1
+
+[node name="ConfirmButtons" type="HBoxContainer" parent="PauseRoot/ConfirmationRoot/Center/Panel/Contents" unique_id=110577802]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="YesButton" type="Button" parent="PauseRoot/ConfirmationRoot/Center/Panel/Contents/ConfirmButtons" unique_id=1487631842]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.054902, 0.105882, 0.105882, 1)
+theme_override_colors/font_hover_color = Color(0.054902, 0.105882, 0.105882, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("primary")
+theme_override_styles/pressed = SubResource("primary_hover")
+theme_override_styles/hover = SubResource("primary_hover")
+theme_override_styles/focus = SubResource("focus")
+text = "YES"
+
+[node name="CancelButton" type="Button" parent="PauseRoot/ConfirmationRoot/Center/Panel/Contents/ConfirmButtons" unique_id=1046113795]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.91, 0.94, 0.95, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("secondary")
+theme_override_styles/pressed = SubResource("secondary_hover")
+theme_override_styles/hover = SubResource("secondary_hover")
+theme_override_styles/focus = SubResource("focus")
+text = "CANCEL"

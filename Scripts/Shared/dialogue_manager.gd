@@ -18,7 +18,6 @@ extends Panel
 #region Voice and Typewriter Settings
 
 # Assign the downloaded .ogg files in the Inspector.
-# Leave a voice empty for silent text (such as a notice).
 @export var fry_voice: AudioStream
 @export var dulce_voice: AudioStream
 @export var steve_voice: AudioStream
@@ -90,7 +89,10 @@ func _ready() -> void:
 	dialogue_label.fit_content = true
 	dialogue_label.clip_contents = false
 	dialogue_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-
+	
+	# Ensure voice blips freeze when the game is paused.
+	voice_blip.process_mode = Node.PROCESS_MODE_PAUSABLE
+	
 	voice_blip.volume_db = blip_volume_db
 	hide()
 
@@ -113,9 +115,6 @@ func show_dialogue(
 	pending_options = options.duplicate()
 
 	name_label.text = speaker
-	# `message` can contain BBCode for per-word text effects, e.g.:
-	# "[shake rate=18 level=4]Maybe...[/shake] if you're okay..."
-	# RichTextLabel draws the effect, but visible_characters ignores tags.
 	dialogue_label.text = message
 	dialogue_label.visible_characters = 0
 
@@ -128,9 +127,6 @@ func show_dialogue(
 	show()
 	speaker_changed.emit(speaker)
 
-	# Starts an asynchronous typewriter without blocking the caller.
-	# Type the parsed text, not the raw BBCode tags. This preserves
-	# both correct letter timing and blip timing for animated words.
 	_type_dialogue(dialogue_label.get_parsed_text(), this_line_id)
 
 
@@ -259,7 +255,7 @@ func _type_dialogue(message: String, this_line_id: int) -> void:
 		elif character in [",", ";", ":"]:
 			delay += punctuation_pause * 0.5 * current_punctuation_multiplier
 
-		await get_tree().create_timer(delay).timeout
+		await get_tree().create_timer(delay, false).timeout
 
 	if this_line_id == typing_id and is_typing:
 		_finish_typing()
