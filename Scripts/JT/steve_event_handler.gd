@@ -91,11 +91,49 @@ func find_options(choices):
 		options.append(choice["text"])
 	return options
 
+# Determine if checking fridge is necessary
+func check_fridge():
+	if steve.grocery_meals <= 0:
+		steve.clickAllObjects["Fridge"] = false
+	else:
+		steve.clickAllObjects["Fridge"] = true
+
+func check_calendar():
+	if (not steve.todayEvents.is_empty() 
+	or not steve.upcomingEvents.is_empty()):
+		steve.clickAllObjects["Calendar"] = false
+	else:
+		steve.clickAllObjects["Calendar"] = true
+	
+func check_computer(currentPeriod):
+	if (currentPeriod == "Evening" 
+	and (steve.eveningEvents.has("Legit Email") 
+	or steve.eveningEvents.has("Scam Email")) ):
+		steve.clickAllObjects["Computer"] = false
+	else:
+		steve.clickAllObjects["Computer"] = true
+	
+func check_mail(currentPeriod):
+	
+	if (currentPeriod == "Morning" 
+	and steve.morningEvents.has("Hate Mail")):
+		steve.clickAllObjects["HouseDoor"] = false
+	else:
+		steve.clickAllObjects["HouseDoor"] = true
+
+# Check all house objects before each period to prevent
+# unnecessary clicking!	
+func check_house_objects(currentPeriod):
+	check_fridge()
+	check_calendar()
+	check_computer(currentPeriod)
+	check_mail(currentPeriod)
 
 # Show the current period's event dialogue
 func _show_current_period_dialogue():
 	var current_period = DayManager.get_period()
 	print(current_period)
+	check_house_objects(current_period)
 	steve.reload_calendar()
 	for event in steve.get_today_events():
 		print("Today event: ", event)

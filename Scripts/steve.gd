@@ -64,12 +64,13 @@ var random_bills = {
 	}
 }
 
-# Player won't be able to move to next period until they interact with all items in house
+# Player won't be able to move to next period until they interact 
+# with the necessary items
 var clickAllObjects = {
-	"Calendar": false,
-	"Computer": false,
-	"Fridge": false,
-	"HouseDoor": false
+	"Calendar": true,
+	"Computer": true,
+	"Fridge": true,
+	"HouseDoor": true
 }
 
 var objectsLeft = []
@@ -261,7 +262,7 @@ func interact_with_object(objectName):
 
 func load_next_period():
 	for object in clickAllObjects:
-		clickAllObjects[object] = false
+		clickAllObjects[object] = true
 	return true
 
 func set_task_label():
