@@ -49,6 +49,27 @@ corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gbiql"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g8fnk"]
+expand_margin_left = 4.0
+expand_margin_right = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b1awt"]
+bg_color = Color(0.2382622, 0.2382622, 0.23826218, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jd7vk"]
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 4.0
+expand_margin_right = 4.0
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bhppe"]
 bg_color = Color(0, 0, 0, 0.4862745)
 corner_radius_top_left = 8
@@ -326,11 +347,13 @@ offset_bottom = 534.0
 layout_mode = 2
 
 [node name="FoodAvailability" type="Label" parent="FridgePanel/Fridge/FoodItemsContainer/VBoxContainer" unique_id=388001874]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 64
 text = "Food Items Available:"
 
 [node name="SuggestionLabel" type="Label" parent="FridgePanel/Fridge/FoodItemsContainer/VBoxContainer" unique_id=1900474081]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Suggestion: You may need to consider buying additional food items! Buy more food by going to your phone or your house's door."
@@ -387,6 +410,7 @@ offset_right = 498.0
 offset_bottom = 245.0
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_054cv")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gbiql")
 text = "Look at Today's Mail"
 
 [node name="GroceryButton" type="Button" parent="HouseDoorPanel/Control/PanelContainer/VBoxContainer/HBoxContainer" unique_id=251113019]
@@ -396,9 +420,52 @@ offset_left = 506.0
 offset_top = 45.0
 offset_right = 843.0
 offset_bottom = 245.0
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_054cv")
-text = "Go Grocery Shopping"
+theme_override_styles/hover = SubResource("StyleBoxFlat_g8fnk")
+text = "Go Grocery Shopping (-$35)"
+
+[node name="GroceryShopBox" type="ColorRect" parent="HouseDoorPanel/Control/PanelContainer" unique_id=1681129620]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+color = Color(0, 0, 0, 0.7372549)
+
+[node name="GroceryStatus" type="Label" parent="HouseDoorPanel/Control/PanelContainer/GroceryShopBox" unique_id=1937734224]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+
+[node name="CloseGroceryShop" type="Button" parent="HouseDoorPanel/Control/PanelContainer/GroceryShopBox" unique_id=353269754]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = 175.0
+offset_right = 4.0
+offset_bottom = 183.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_b1awt")
+theme_override_styles/hover = SubResource("StyleBoxFlat_jd7vk")
+text = "Close"
 
 [node name="MailPanel" type="Panel" parent="." unique_id=1961674645]
 visible = false
@@ -458,4 +525,6 @@ text = "X"
 [connection signal="pressed" from="ComputerPanel/Email/ButtonContainer/HBoxContainer/ReportButton" to="." method="_on_report_button_pressed"]
 [connection signal="pressed" from="ComputerPanel/Email/ButtonContainer/HBoxContainer/RespondButton" to="." method="_on_respond_button_pressed"]
 [connection signal="pressed" from="HouseDoorPanel/Control/PanelContainer/VBoxContainer/HBoxContainer/MailButton" to="." method="_on_mail_button_pressed"]
+[connection signal="pressed" from="HouseDoorPanel/Control/PanelContainer/VBoxContainer/HBoxContainer/GroceryButton" to="." method="_on_grocery_button_pressed"]
+[connection signal="pressed" from="HouseDoorPanel/Control/PanelContainer/GroceryShopBox/CloseGroceryShop" to="." method="_on_close_grocery_shop_pressed"]
 [connection signal="pressed" from="CloseButton" to="." method="_on_close_button_pressed"]

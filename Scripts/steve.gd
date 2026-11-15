@@ -4,6 +4,7 @@ const WALKSPEED : int = 2
 var debounce : bool = false
 var movement_Tween : Tween
 var ongoingDialogue = false
+var nappingOrSleep = false
 
 # Player State
 var moving_Forward : bool = true
@@ -16,6 +17,9 @@ var available_choices_info= {}
 var money: int = 100
 var mood: int = 70
 var energy: int = 80
+
+# Steve starts with two portions already in his kitchen.
+var grocery_meals: int = 2
 
 var total_income: int = 200
 
@@ -100,6 +104,138 @@ var upcomingEvents = []
 @onready var dialogue_panel = %DialoguePanel
 @onready var house_object = %HouseObjectUI
 
+#region Grocery System
+"""
+# Four meal portions per grocery purchase.
+const GROCERY_BUNDLE_SIZE: int = 4
+const GROCERY_STORE_PRICE: float = 24.0
+const FOODDASH_DELIVERY_FEE: float = 7.0
+
+# Fry starts with two portions already in his kitchen.
+var grocery_meals: int = 2
+
+# Only one FoodDash delivery can be pending at a time.
+var pending_grocery_delivery: Dictionary = {}
+
+# Groceries delivered while Fry was away or before he checked.
+var pending_home_delivery_meals: int = 0
+
+# Show the shopping trip reaction once Fry returns home.
+var pending_store_trip_notice: String = ""
+
+func get_grocery_snapshot() -> Dictionary:
+	var delivery_status: String = "No delivery scheduled."
+
+	if not pending_grocery_delivery.is_empty():
+		delivery_status = "Arriving Day %d, %s" % [
+			int(pending_grocery_delivery["day"]),
+			str(pending_grocery_delivery["period"])
+		]
+
+	return {
+		"meals": grocery_meals,
+		"balance": money,
+		"bundle_size": GROCERY_BUNDLE_SIZE,
+		"store_price": GROCERY_STORE_PRICE,
+		"delivery_fee": FOODDASH_DELIVERY_FEE,
+		"fooddash_price": GROCERY_STORE_PRICE + FOODDASH_DELIVERY_FEE,
+		"delivery_status": delivery_status,
+		"delivery_pending": not pending_grocery_delivery.is_empty()
+	} 
+	
+func purchase_groceries(delivery: bool) -> Dictionary:
+	if DayManager.finished:
+		return {
+			"success": false,
+			"message": "Groceries aren't available right now."
+		}
+
+	var next_time: Dictionary = DayManager.get_next_time()
+
+	if next_time.is_empty():
+		return {
+			"success": false,
+			"message": "There isn't enough time left in the month."
+		}
+
+	var cost: float = GROCERY_STORE_PRICE
+
+	if delivery:
+		cost += FOODDASH_DELIVERY_FEE
+
+		if not pending_grocery_delivery.is_empty():
+			return {
+				"success": false,
+				"message": "You already have a FoodDash order on the way."
+			}
+	else:
+		# In-person shopping is only available during free time at home.
+		if (
+			DayManager.get_period() not in ["Morning", "Afternoon"]
+		):
+			return {
+				"success": false,
+				"message": "Fry needs a free morning or afternoon at home to visit the store."
+			}
+
+	if money < cost:
+		return {
+			"success": false,
+			"message": "Not enough money. You need $%.2f." % cost
+		}
+
+	if delivery:
+		# Record groceries and the convenience fee separately.
+		change_money(
+			-GROCERY_STORE_PRICE,
+			"FoodDash groceries",
+			"Groceries"
+		)
+
+		change_money(
+			-FOODDASH_DELIVERY_FEE,
+			"FoodDash delivery fee",
+			"Delivery Fees"
+		)
+
+		pending_grocery_delivery = {
+			"day": int(next_time["day"]),
+			"period": str(next_time["period"]),
+			"meals": GROCERY_BUNDLE_SIZE
+		}
+
+		return {
+			"success": true,
+			"uses_period": false,
+			"message": "Order placed! Your groceries will arrive next period."
+		}
+
+	# Shopping in person is cheaper, but takes time.
+	change_money(
+		-GROCERY_STORE_PRICE,
+		"In-person groceries",
+		"Groceries"
+	)
+	
+	grocery_meals += GROCERY_BUNDLE_SIZE
+	
+	pending_store_trip_notice = (
+		"Nice, I've got the groceries now. "
+		+ "That's %d more meals covered."
+	) % GROCERY_BUNDLE_SIZE
+	
+	return {
+		"success": true,
+		"uses_period": true,
+		"message": "Shopping trip completed."
+	}
+"""
+
+#endregion
+
+func get_today_events():
+	return todayEvents
+
 func print_all_events():
 	print("morning events: ", morningEvents)
 	print("afternoon events: ", afternoonEvents)
@@ -109,6 +245,8 @@ func print_all_events():
 func load_necessary_data(objectName:String, relevantData: Dictionary):
 	house_object.load_necessary_data(objectName, relevantData)
 	
+func reload_calendar():
+	house_object.reload_calendar()
 	
 func interact_with_object(objectName):
 	clickAllObjects[objectName] = true
@@ -127,6 +265,7 @@ func load_next_period():
 	return true
 
 func set_task_label():
+	if nappingOrSleep: return
 	%TaskLabel.text = "Check: "
 	var iterateOnce = false
 	var anyObjectLeft = false
@@ -199,7 +338,10 @@ func get_finance_snapshot() -> Dictionary:
 func _ready():
 	#print("Steve is ready!")
 	#set_task_label()
+	#print("Day Number: ", DayManager.find_next_day_number("Saturday"))
 	%NextPeriodButton.hide()
+	%PhoneUI.phone_owner_name = "Steve"
+	%PhoneUI.change_phone_name()
 	steve_profile["debt_amount"] = randi() % 1000 + 800
 	total_income = randi_range(150, 200)
 	# Connect Fry's financial information to the phone.
@@ -236,7 +378,7 @@ func show_dialogue(speaker: String, message: String, options: Array):
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("Clicked"):
-		if debounce: return
+		if debounce or ongoingDialogue: return
 		print("Click detected!")
 		var mousePos : Vector2 = get_global_mouse_position()
 #		Prevent user from moving into negative coordinates and breaking stuff
@@ -332,8 +474,8 @@ func clear_events():
 	afternoonEvents.clear()
 	eveningEvents.clear()
 	nightEvents.clear()
-
-func _on_next_period_button_pressed():
+	
+func go_to_next_period():
 	var current_day = DayManager.current_day
 	%NextPeriodButton.hide()
 	%MoneyLabel.hide()
@@ -342,6 +484,7 @@ func _on_next_period_button_pressed():
 	%PhoneUI.hide()
 	%DayLabel.hide()
 	%PeriodLabel.hide()
+	house_object.emailInteractedWith = false
 	await steve_Home.trigger_transition()
 	DayManager.advance_period()
 	
@@ -356,6 +499,9 @@ func _on_next_period_button_pressed():
 		clear_events()
 		%SteveEventHandler.randomize_event()
 	%SteveEventHandler._show_current_period_dialogue()
+
+func _on_next_period_button_pressed():
+	go_to_next_period()
 	
 func open_panel(panelName: String):
 	house_object.show()

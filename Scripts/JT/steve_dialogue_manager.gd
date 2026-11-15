@@ -64,6 +64,19 @@ func show_dialogue(speaker: String,message: String, options: Array) -> void:
 		var button := choice_buttons[i]
 
 		if i < options.size():
+#			Hide choice if grocery meals number is too low
+			if (options[i].contains("Make breakfast")
+			or (owner.currentEvent == "Lunch" 
+			and options[i].contains("Prepare Lunch Yourself"))
+			or (owner.currentEvent == "Get a Drink"
+			and options[i].contains("Yes"))
+			or (owner.currentEvent == "Dinner"
+			and options[i].contains("Prepare Dinner Yourself"))
+			or (owner.currentEvent == "Snack" 
+			and options[i].contains("Prepare a Snack"))):
+				if owner.grocery_meals <= 0:
+					button.hide()
+					continue
 			button.text = str(options[i])
 			player_choices.append(options[i])
 			button.show()
@@ -112,6 +125,17 @@ func display_other_UI():
 	
 
 func check_if_correct_response(choiceSelected: String):
+	if (choiceSelected.contains("Make breakfast")
+	or (owner.currentEvent == "Lunch" 
+	and choiceSelected.contains("Prepare Lunch Yourself"))
+	or (owner.currentEvent == "Get a Drink"
+	and choiceSelected.contains("Yes"))
+	or (owner.currentEvent == "Dinner"
+	and choiceSelected.contains("Prepare Dinner Yourself"))
+	or (owner.currentEvent == "Snack" 
+	and choiceSelected.contains("Prepare a Snack"))):
+		owner.grocery_meals -= 1
+		owner.load_necessary_data("Fridge", {})
 	#print(owner.available_choices_info)
 	for choice in owner.available_choices_info:
 		#print(choice["text"])
@@ -124,12 +148,34 @@ func check_if_correct_response(choiceSelected: String):
 				await get_tree().create_timer(3.0).timeout
 			#owner.money += choice["money"]
 			owner.mood += choice["mood"]
-			owner.energy += choice["energy"]
+			if choice.has("energy"):
+				owner.energy += choice["energy"]
 			close_dialogue()
-			display_other_UI()
-			owner.change_money(choice["money"], owner.currentEvent)
+			var money = choice["money"]
+#			Fix bug where money would be added from purchasing wishlist sale item
+			if owner.currentEvent == "wishlist_sale":
+				money *= -1
+			owner.change_money(money, owner.currentEvent)
 			owner.unpause_movement()
+			
+			display_other_UI()
+			print("Current Event: ", owner.currentEvent)
+#			Play the scene where I hang out with friends before ending dialogue
+			#if owner.currentEvent == "Hanging Out With Friends":
+				#print("WithFriends UI should be visible")
+				#%WithFriends.visible = true
 			owner.ongoingDialogue = false
+			#print("Current Event: ", owner.currentEvent)
+			if owner.currentEvent == "Nap" and choiceSelected == "Yes":
+				owner.nappingOrSleep = true
+				owner.afternoonEvents.clear()
+				owner._on_next_period_button_pressed()
+			if (owner.currentEvent == "Sleep" 
+			and choiceSelected == "Yes"):
+				owner.nappingOrSleep = true
+				owner.eveningEvents.clear()
+				owner._on_next_period_button_pressed()
+			
 			#print("Owner Debounce: ", owner.debounce)
 			
 			#show_response()

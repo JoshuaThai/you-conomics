@@ -133,4 +133,26 @@ func advance_period() -> void:
 	
 	period_changed.emit(current_day, get_period())
 
+## Find the next occurence of the day and return it's number.
+## For example, you want to find the next saturday day number.
+## If the current day is day 5, which is a Friday.
+## Then the next saturday is day 13.
+func find_next_day_number(dayName: String):
+#	We add one to gets it real base number.
+	var total = 0
+	var baseWeekNumber = WEEKDAY_NAMES.find(dayName) + 1
+#	We will add a offset if the current day is the 
+# same as the day being searched
+	var offset = 0
+#	Find nearest sunday:
+	var nearest_sundays = [7,14,21,28]
+	for sunday in nearest_sundays:
+		#Check if the current day is the same as the day being searched
+		#if(DayManager.current_day == baseWeekNumber)
+		if current_day + 1 < sunday:
+			total = sunday - (7 - baseWeekNumber)
+			break
+	
+	return total
+
 #endregion

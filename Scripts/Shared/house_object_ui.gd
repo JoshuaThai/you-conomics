@@ -1,8 +1,12 @@
 extends Control
 
-var currentRelevantData = {}
+var currentRelevantEmailData = {}
+var emailInteractedWith = false
+var grocery_Cost = 35
+
 
 @onready var steve = %steve
+@onready var food_availability = %FoodAvailability
 
 # Close the panel
 func _on_close_button_pressed():
@@ -22,10 +26,19 @@ func close_all_other_panels(panelName: String):
 
 func open_panel(panelName: String):
 	if panelName == "Calendar":
+		%GroceryShopBox.visible = false
 		$CalendarPanel.show()
 	if panelName == "Computer":
+		%GroceryShopBox.visible = false
 		$ComputerPanel.show()
 	if panelName == "Fridge":
+		%GroceryShopBox.visible = false
+		food_availability.text = "Food Items Available: " + str(owner.grocery_meals)
+		if owner.grocery_meals <= 2:
+			%SuggestionLabel.text = "Suggestion: You may need to consider buying additional food items! \n
+			Buy more food by going to your phone or your house's door."
+		else:
+			%SuggestionLabel.text = "Keep up the great work with keeping the food in stock"
 		$FridgePanel.show()
 	if panelName == "HouseDoor":
 		$HouseDoorPanel.show()
@@ -33,13 +46,19 @@ func open_panel(panelName: String):
 	
 func load_necessary_data(objectName: String, relevantData: Dictionary):
 	if objectName == "Computer":
-		currentRelevantData = relevantData
+		currentRelevantEmailData = relevantData
 		%subjectName.text = relevantData["subject"]
 		%FromName.text = relevantData["from"]
 		%emailContent.text = relevantData["email"]
 	if objectName == "HouseDoor":
 		%MailLabel.text = relevantData["content"]
-
+	if objectName == "Fridge":
+		food_availability.text = "Food Items Available: " + str(owner.grocery_meals)
+		if owner.grocery_meals <= 2:
+			%SuggestionLabel.text = "Suggestion: You may need to consider buying additional food items! \n
+			Buy more food by going to your phone or your house's door."
+		else:
+			%SuggestionLabel.text = "Keep up the great work with keeping the food in stock"
 func clear_email():
 	owner.email.clear()
 	%subjectName.text = ""
@@ -48,29 +67,74 @@ func clear_email():
 	_on_close_button_pressed()
 
 func _on_report_button_pressed():
-	if currentRelevantData.is_empty(): return
+	if (currentRelevantEmailData.is_empty() 
+	or emailInteractedWith): return
 	
-	if (currentRelevantData["type"] == "scam"):
+	if (currentRelevantEmailData["type"] == "scam"):
 		owner.mood += randi_range(2,4)
 	else:
 		owner.mood += randi_range(-15, -10)
+	emailInteractedWith = true
 	clear_email()
 
+func add_new_items_to_calendar():
+	var eventContainer = load("res://Scenes/UI/House Objects/event_container.tscn").instantiate()
+	var title = owner.upcomingEvents[len(owner.upcomingEvents) - 1]["title"]
+	eventContainer.set_event(title)
+	%UpcomingEvents.add_child(eventContainer)
+
+## Reload the calendar upon the start of a new day
+func reload_calendar():
+	var upcomingEvents = %UpcomingEvents.get_children()
+	var todayEvents = %TodayEvents.get_children()
+	print("Calendar is reloading")
+	
+	for event in upcomingEvents:
+		event.queue_free()
+	for event in todayEvents:
+		event.queue_free()
+	for event in owner.upcomingEvents:
+		if(event["time"] == DayManager.current_day):
+			owner.todayEvents.append(event)
+			owner.upcomingEvents.erase(event)
+			continue
+		var eventContainer = load(
+			"res://Scenes/UI/House Objects/event_container.tscn"
+			).instantiate()
+		var title = event["title"]
+		eventContainer.set_event(title)
+		%UpcomingEvents.add_child(eventContainer)
+	for event in owner.todayEvents:
+		if(event["time"] < DayManager.current_day):
+			owner.todayEvents.erase(event)
+			continue
+		var eventContainer = load(
+			"res://Scenes/UI/House Objects/event_container.tscn"
+			).instantiate()
+		var title = event["title"]
+		eventContainer.set_event(title)
+		%TodayEvents.add_child(eventContainer)
 
 func _on_respond_button_pressed():
-	if currentRelevantData.is_empty(): return
+	if (currentRelevantEmailData.is_empty() 
+	or emailInteractedWith): return
 	
-	if (currentRelevantData["type"] == "legit"):
-		if currentRelevantData["subject"] == "Hang out Saturday?":
+	if (currentRelevantEmailData["type"] == "legit"):
+		if currentRelevantEmailData["subject"] == "Hang out Saturday?":
 #			We will need people to append it as a dictionary with
 #			the event name and the day it will happen,
 #			So we know when to move the event to the todayEvent
-			owner.upcomingEvents.append("Hang out with friends")
+			owner.upcomingEvents.append(
+				{"title": "Hanging out with friends on Saturday",
+				"time": DayManager.find_next_day_number("Saturday")
+				})
+			add_new_items_to_calendar()
 			
 		owner.mood += randi_range(5,10)
 	else:
 		owner.mood += randi_range(-5, -2)
 		owner.change_money(-40, "Scam LOL", "Entertainment")
+	emailInteractedWith = true
 	clear_email()
 
 
@@ -78,3 +142,18 @@ func _on_mail_button_pressed():
 	$HouseDoorPanel.hide()
 	$MailPanel.show()
 	
+
+
+func _on_grocery_button_pressed():
+	%GroceryShopBox.visible = true
+	if owner.money <= grocery_Cost:
+		%GroceryStatus.text = "Not enough money for grocery shopping!"
+	else:
+		owner.change_money(-1 * grocery_Cost, 
+		"Grocery Shopping", "Grocery")
+		owner.grocery_meals += 3
+		%GroceryStatus.text = "Successful grocery shopping!"
+
+
+func _on_close_grocery_shop_pressed():
+	%GroceryShopBox.visible = false
