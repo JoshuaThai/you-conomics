@@ -4235,7 +4235,7 @@ func finish_movie_night() -> void:
 
 # Fry walks along one horizontal floor. The cinema and campus use their
 # existing fixed character positions. World coordinates match 1920x1080 art.
-const FRY_BEDROOM_WALK_SPEED: float = 260.0
+const FRY_BEDROOM_WALK_SPEED: float = 400.0
 const FRY_BEDROOM_EDGE_PADDING: float = 80.0
 const FRY_BEDROOM_COLLISION_LAYER: int = 1 << 9 # Layer 10, Fry-only.
 

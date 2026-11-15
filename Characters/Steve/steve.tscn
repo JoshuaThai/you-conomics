@@ -6,8 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://dqppedruiy2hu" path="res://Scenes/UI/phone.tscn" id="6_6id67"]
 [ext_resource type="PackedScene" uid="uid://dcxjhn02rh77h" path="res://Scenes/UI/House Objects/house_object_ui.tscn" id="7_drp4u"]
 [ext_resource type="Shader" uid="uid://ijpdxi0qxgn7" path="res://Scripts/Shared/dialogue_blur.gdshader" id="7_hexh2"]
+[ext_resource type="AudioStream" uid="uid://dfmdwwcjfgxew" path="res://Audios/Voices/blip_1.ogg" id="7_tntse"]
+[ext_resource type="AudioStream" uid="uid://cuoq0hpk0b05s" path="res://Audios/Voices/blip_2.ogg" id="8_1iva0"]
 [ext_resource type="Script" uid="uid://bok8rsoiqbfgj" path="res://Scripts/JT/steve_dialogue_manager.gd" id="8_hexh2"]
 [ext_resource type="PackedScene" path="res://Scenes/with_friends.tscn" id="8_sl06h"]
+[ext_resource type="AudioStream" uid="uid://bmeota3cdkb6n" path="res://Audios/Voices/blip_3.ogg" id="9_drbi8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kkqbf"]
 atlas = ExtResource("1_2d6gj")
@@ -352,6 +355,11 @@ offset_right = 1620.0
 offset_bottom = 985.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_w0nok")
 script = ExtResource("8_hexh2")
+fry_voice = ExtResource("7_tntse")
+dulce_voice = ExtResource("8_1iva0")
+steve_voice = ExtResource("9_drbi8")
+dulce_pitch = 1.1
+steve_pitch = 0.8
 
 [node name="VoiceBlip" type="AudioStreamPlayer" parent="UI/HUD/DialoguePanel" unique_id=1192377759]
 
