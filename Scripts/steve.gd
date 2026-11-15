@@ -350,17 +350,24 @@ func _ready():
 	await steve_Home._trigger_transition_on_start()
 	%UI.visible = true
 
+func update_recap_body():
+	%RecapBodyLabel.text = ("Starting balance: $100.00\n" +
+	"Total earned: $" + str("%.2f" % total_income) + "\n" +
+	"Total spent: $" + str("%.2f" % total_spending) + "\n" +
+	"Remaining cash: $" + str("%.2f" % money) )
+	
 func _process(delta):
 	#set_task_label()
 	var nextTime = DayManager.get_next_time()
-	if nextTime["period"] == "Afternoon":
-		%NextPeriodButton.text = "To Work"
+	if nextTime.is_empty():
+		%NextPeriodButton.text = "Finish" 
 	else:
 		%NextPeriodButton.text = "To " + nextTime["period"]
 		
 	%DayLabel.text = "DAY %s / 30" % DayManager.current_day
 	var weekdayName = DayManager.get_weekday_name(DayManager.current_day).to_upper()
 	%PeriodLabel.text = weekdayName + " " + DayManager.get_period().to_upper()
+	update_recap_body()
 	
 func pause_movement():
 	debounce = true
@@ -486,6 +493,9 @@ func go_to_next_period():
 	%PeriodLabel.hide()
 	house_object.emailInteractedWith = false
 	await steve_Home.trigger_transition()
+	if current_day == 30 and DayManager.get_period() == "Evening":
+		%MonthRecapOverlay.visible = true
+		return
 	DayManager.advance_period()
 	
 	%MoneyLabel.show()

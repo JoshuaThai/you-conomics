@@ -8,6 +8,7 @@
 [ext_resource type="Shader" uid="uid://ijpdxi0qxgn7" path="res://Scripts/Shared/dialogue_blur.gdshader" id="7_hexh2"]
 [ext_resource type="Script" uid="uid://bok8rsoiqbfgj" path="res://Scripts/JT/steve_dialogue_manager.gd" id="8_hexh2"]
 [ext_resource type="PackedScene" uid="uid://cvar4dagk0x0p" path="res://Scenes/with_friends.tscn" id="8_sl06h"]
+[ext_resource type="Script" uid="uid://brmvea3icibg0" path="res://Scripts/JT/month_complete_overlay.gd" id="9_sl06h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kkqbf"]
 atlas = ExtResource("1_2d6gj")
@@ -656,6 +657,8 @@ unique_name_in_owner = true
 visible = false
 
 [node name="MonthRecapOverlay" type="ColorRect" parent="UI" unique_id=1357193366]
+unique_name_in_owner = true
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -701,6 +704,7 @@ modulate = Color(0.38039216, 0.44313726, 0.5058824, 1)
 layout_mode = 2
 
 [node name="RecapBodyLabel" type="Label" parent="UI/MonthRecapOverlay/RecapPanel/MarginContainer/VBoxContainer" unique_id=36075237]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.91764706, 0.9254902, 0.9372549, 1)
@@ -735,12 +739,15 @@ theme_override_colors/font_color = Color(0.6431373, 0.7137255, 0.76862746, 1)
 horizontal_alignment = 1
 
 [node name="MonthCompleteOverlay" type="ColorRect" parent="UI" unique_id=1514070641]
+unique_name_in_owner = true
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.6666667)
+script = ExtResource("9_sl06h")
 
 [node name="CompletePanel" type="PanelContainer" parent="UI/MonthCompleteOverlay" unique_id=820687279]
 layout_mode = 0
@@ -796,6 +803,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="PlayAgainButton" type="Button" parent="UI/MonthCompleteOverlay/CompletePanel/MarginContainer/VBoxContainer" unique_id=1815367952]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
@@ -812,6 +820,7 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_y3v7u")
 text = "Play Again"
 
 [node name="MainMenuButton" type="Button" parent="UI/MonthCompleteOverlay/CompletePanel/MarginContainer/VBoxContainer" unique_id=635077773]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8784314, 0.8980392, 0.9098039, 1)
@@ -831,3 +840,6 @@ text = "Main Menu"
 [connection signal="pressed" from="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices/Choice1Button" to="UI/HUD/DialoguePanel" method="_on_choice_1_button_pressed"]
 [connection signal="pressed" from="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices/Choice2Button" to="UI/HUD/DialoguePanel" method="_on_choice_2_button_pressed"]
 [connection signal="pressed" from="UI/HUD/DialoguePanel/ContentMargin/VBox/Choices/Choice3Button" to="UI/HUD/DialoguePanel" method="_on_choice_3_button_pressed"]
+[connection signal="pressed" from="UI/MonthRecapOverlay/RecapPanel/MarginContainer/VBoxContainer/RecapContinueButton" to="UI/MonthCompleteOverlay" method="_on_recap_continue_button_pressed"]
+[connection signal="pressed" from="UI/MonthCompleteOverlay/CompletePanel/MarginContainer/VBoxContainer/PlayAgainButton" to="UI/MonthCompleteOverlay" method="_on_play_again_button_pressed"]
+[connection signal="pressed" from="UI/MonthCompleteOverlay/CompletePanel/MarginContainer/VBoxContainer/MainMenuButton" to="UI/MonthCompleteOverlay" method="_on_main_menu_button_pressed"]
