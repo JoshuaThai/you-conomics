@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dcxjhn02rh77h" path="res://Scenes/UI/House Objects/house_object_ui.tscn" id="7_drp4u"]
 [ext_resource type="Shader" uid="uid://ijpdxi0qxgn7" path="res://Scripts/Shared/dialogue_blur.gdshader" id="7_hexh2"]
 [ext_resource type="Script" uid="uid://bok8rsoiqbfgj" path="res://Scripts/JT/steve_dialogue_manager.gd" id="8_hexh2"]
-[ext_resource type="PackedScene" uid="uid://cvar4dagk0x0p" path="res://Scenes/with_friends.tscn" id="8_sl06h"]
+[ext_resource type="PackedScene" path="res://Scenes/with_friends.tscn" id="8_sl06h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kkqbf"]
 atlas = ExtResource("1_2d6gj")
@@ -353,6 +353,8 @@ offset_bottom = 985.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_w0nok")
 script = ExtResource("8_hexh2")
 
+[node name="VoiceBlip" type="AudioStreamPlayer" parent="UI/HUD/DialoguePanel" unique_id=1192377759]
+
 [node name="ContentMargin" type="MarginContainer" parent="UI/HUD/DialoguePanel" unique_id=1898832023]
 layout_mode = 1
 anchors_preset = 15
@@ -377,15 +379,14 @@ theme_override_font_sizes/font_size = 22
 text = "FRY"
 vertical_alignment = 1
 
-[node name="DialogueLabel" type="Label" parent="UI/HUD/DialoguePanel/ContentMargin/VBox" unique_id=109308614]
+[node name="DialogueLabel" type="RichTextLabel" parent="UI/HUD/DialoguePanel/ContentMargin/VBox" unique_id=1712315963]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
+theme_override_colors/default_color = Color(0.95686275, 0.94509804, 0.91764706, 1)
 theme_override_constants/outline_size = 1
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/normal_font_size = 32
 text = "I'm starving. Should I order breakfast or just make something at home?"
-autowrap_mode = 3
 
 [node name="Choices" type="HBoxContainer" parent="UI/HUD/DialoguePanel/ContentMargin/VBox" unique_id=489809343]
 custom_minimum_size = Vector2(0, 58)

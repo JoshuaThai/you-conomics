@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://ujpiwuuy3c3k" path="res://Scripts/JT/steve_manager.gd" id="5_g4rsn"]
 [ext_resource type="Script" uid="uid://cvg36ixffr153" path="res://Scripts/JT/steve_event_handler.gd" id="6_lb1u3"]
 [ext_resource type="Script" uid="uid://cvu143re1rgq4" path="res://Scripts/JT/steve_mail_handler.gd" id="7_d1u5k"]
-[ext_resource type="Script" uid="uid://c6h0ffmid1u4s" path="res://Scripts/JT/steve_event_dialogue.gd" id="8_cxle0"]
+[ext_resource type="Script" path="res://Scripts/JT/steve_event_dialogue.gd" id="8_cxle0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yfxnn"]
 size = Vector2(100, 20)
@@ -22,6 +22,7 @@ offset_bottom = 0.0
 [node name="Steve" parent="." unique_id=2119416198 instance=ExtResource("1_350co")]
 unique_name_in_owner = true
 position = Vector2(273, 379)
+metadata/_edit_lock_ = true
 
 [node name="Platform" type="CharacterBody2D" parent="." unique_id=623532435]
 
