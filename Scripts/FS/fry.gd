@@ -42,10 +42,10 @@ var total_spending: float = 0.0
 # Fry gets paid every seven days.
 # First economy-balancing test: four $150 paychecks.
 const PAYDAYS = {
-	7: 150.0,
-	14: 150.0,
-	21: 150.0,
-	28: 150.0
+	7: 180.0,
+	14: 180.0,
+	21: 180.0,
+	28: 180.0
 }
 
 # Bills belong to Fry. Other characters can have different
@@ -109,7 +109,7 @@ var total_late_fees: float = 0.0
 
 #region Fry - College Story State
 
-# Personal story flags stay with Fry
+# Personal story flags stay with Fry -- STORY FLAGS HERE
 var story_flags: Dictionary = {
 	"attend_campus": false,
 	"packed_lunch": false,
@@ -140,6 +140,152 @@ var story_flags: Dictionary = {
 	"day7_bought_game": false,
 	"day7_held_for_bills": false,
 	"day7_small_treat": false,
+
+	# Day 8 - Study Group.
+	"day8_evening_seen": false,
+	"day8_studied_with_friends": false,
+	"day8_swapped_notes": false,
+
+	# Day 9 - Campus Food Pantry.
+	"day9_evening_seen": false,
+	"day9_donated_food": false,
+	"day9_volunteered": false,
+	"day9_used_pantry": false,
+	"day9_shared_info": false,
+
+	# Day 11 - Last-Minute Studying.
+	"day11_evening_seen": false,
+	"day11_final_review": false,
+	"day11_asked_dulce": false,
+
+	# Day 12 - After the Exam.
+	"day12_evening_seen": false,
+	"day12_connected_with_friends": false,
+	"day12_shared_good_news": false,
+	"day12_reflected_on_exam": false,
+
+	# Day 13 - Animal Shelter.
+	"day13_evening_seen": false,
+	"day13_donated": false,
+	"day13_volunteered": false,
+	"day13_adoption_posted": false,
+	"day13_shared_wishlist": false,
+
+	# Day 14 - Family Check-In.
+	"day14_evening_seen": false,
+	"day14_opened_up": false,
+	"day14_budget_advice": false,
+	"day14_family_visit": false,
+	"day14_long_call": false,
+
+	# Day 15 - New Assignment.
+	"day15_evening_seen": false,
+	"day15_project_budget": false,
+	"day15_started_slides": false,
+	"day15_split_tasks": false,
+
+	# Day 16 - Unexpected Invitation.
+	"day16_evening_seen": false,
+	"day16_arcade": false,
+	"day16_online_games": false,
+	"day16_free_walk": false,
+	"day16_stayed_home": false,
+	
+	# Day 17 - Student Club Fundraiser.
+	"day17_evening_seen": false,
+	
+	# Day 18 - Homeless Shelter and kitten update.
+	"day18_evening_seen": false,
+	"day18_donated_supplies": false,
+	"day18_collected_supplies": false,
+	"day18_volunteered": false,
+	"day18_shared_request": false,
+	"day18_kitten_update_seen": false,
+
+	# Day 19 - Financial Pressure.
+	"day19_evening_seen": false,
+	"day19_rush_job": false,
+	"day19_sold_game": false,
+	"day19_rest": false,
+
+	# Day 21 - Kitten Adoption.
+	"day21_kitten_decision_seen": false,
+	"day21_kittens_adopted": false,
+	"day21_saving_for_kittens": false,
+	"day21_visited_kittens": false,
+	"day21_helped_rehome": false,
+
+	# Day 21 - A Friend Needs Help.
+	"day21_friend_event_seen": false,
+	"day21_practiced_interview": false,
+	"day21_paid_transport": false,
+	"day21_found_bus_route": false,
+	"day21_encouraged_steve": false,
+
+	# Day 22 - Bookstore and Professor's Office Hours.
+	"day22_inventory_worked": false,
+	"day22_evening_seen": false,
+	"day22_office_hours": false,
+	"day22_emailed_professor": false,
+	"day22_rest": false,
+
+	# Day 23 - Fundraiser Final Checks.
+	"day23_evening_seen": false,
+
+	# Day 24 - Internship Opportunity.
+	"day24_afternoon_seen": false,
+	"day24_portfolio_applied": false,
+	"day24_quick_applied": false,
+	"day24_saved_listing": false,
+
+	# Day 25 - Fundraiser Results.
+	"day25_evening_seen": false,
+
+	# Day 26 - Friday Dinner.
+	"day26_evening_seen": false,
+	"day26_cooked_dinner": false,
+	"day26_community_meal": false,
+	"day26_ordered_takeout": false,
+	"day26_skipped_dinner": false,
+
+	# Day 27 - A Visit From Dulce and Steve.
+	"day27_kitten_visit_seen": false,
+
+	# Day 27 - Internship Follow-Up.
+	"day27_internship_seen": false,
+	"day27_screening_submitted": false,
+	"day27_screening_started": false,
+	"day27_sample_polished": false,
+	"day27_sample_sent": false,
+	"day27_requested_more_time": false,
+	"day27_late_application": false,
+	"day27_prepared_application": false,
+	"day27_listing_deferred": false,
+
+	# Day 27 - Kitten Supplies.
+	"day27_pet_care_seen": false,
+	"day27_pet_full_supplies": false,
+	"day27_pet_essentials": false,
+	"day27_pet_compared_prices": false,
+	"day27_pet_used_starter": false,
+	"day27_pet_budget_planned": false,
+
+	# Day 28 - The Final Paycheck.
+	"day28_evening_seen": false,
+	"day28_budget_reviewed": false,
+	"day28_extra_gig": false,
+	"day28_small_treat": false,
+	"day28_relaxed": false,
+
+	# Day 29 - Internship and Dulce.
+	"day29_internship_update_seen": false,
+	"day29_evening_seen": false,
+
+	# Day 30 - The End of the Month.
+	"day30_evening_seen": false,
+	"day30_planned_next_month": false,
+	"day30_texted_friends": false,
+	"day30_rest": false,
 
 	# Student club storyline.
 	"club_helped": false,
@@ -212,8 +358,8 @@ var activity_history: Array[Dictionary] = []
 var active_room_activity: String = ""
 
 const NAP_ENERGY_GAIN: int = 15
-const SLEEP_ENERGY_GAIN: int = 25
-const OVERNIGHT_ENERGY_GAIN: int = 5
+const SLEEP_ENERGY_GAIN: int = 40
+const OVERNIGHT_ENERGY_GAIN: int = 20
 # The passage of a period has a small cost even if Fry chooses to skip it.
 const PERIOD_ENERGY_COST: int = 3
 
@@ -294,6 +440,7 @@ var scheduled_events: Dictionary = {
 
 	"3_Evening": {
 		"id": "fry_campus_invitation",
+		"emotion": "excited",
 		"speaker": "DULCE",
 		"message": "Hey, Fry! Steve and I are going to the campus club fair tomorrow. Want to meet us there?",
 		"choices": [
@@ -319,6 +466,7 @@ var scheduled_events: Dictionary = {
 func make_day1_first_night_event() -> Dictionary:
 	return {
 		"id": "fry_day1_first_night",
+		"emotion": "nervous",
 		"speaker": "FRY",
 		"message": (
 			"First night in my own place. I've only got "
@@ -342,6 +490,7 @@ func make_day1_first_night_event() -> Dictionary:
 			},
 			{
 				"text": "Treat myself to takeout - $12",
+				"reaction_emotion": "happy",
 				"money": -12.0,
 				"mood": 7,
 				"energy": 4,
@@ -371,15 +520,17 @@ func make_day1_first_night_event() -> Dictionary:
 func make_day2_late_night_assignment_event() -> Dictionary:
 	return {
 		"id": "fry_day2_late_night_assignment",
+		"emotion": "nervous",
 		"speaker": "FRY",
 		"message": (
-			"Wait... I almost forgot! I have an assignment due "
+			"[shake rate=14 level=3]Wait... I almost forgot![/shake] I have an assignment due "
 			+ "tomorrow at noon. I was ready to relax tonight. "
 			+ "What should I do?"
 		),
 		"choices": [
 			{
 				"text": "Finish it tonight - $0",
+				"reaction_emotion": "excited",
 				"energy": -11,
 				"mood": 5,
 				"set_flag": "day2_assignment_finished",
@@ -393,6 +544,7 @@ func make_day2_late_night_assignment_event() -> Dictionary:
 			},
 			{
 				"text": "Ask Dulce for help - $0",
+				"reaction_emotion": "soft",
 				"energy": -4,
 				"mood": 2,
 				"set_flag": "day2_assignment_help",
@@ -418,6 +570,7 @@ func make_day2_late_night_assignment_event() -> Dictionary:
 			},
 			{
 				"text": "Leave it for tomorrow - $0",
+				"reaction_emotion": "tired",
 				"energy": 3,
 				"mood": 1,
 				"set_flag": "day2_assignment_deferred",
@@ -480,13 +633,14 @@ func make_day4_after_fair_event() -> Dictionary:
 			},
 			{
 				"text": "Joke in the group chat - $0",
+				"reaction_emotion": "dramatic",
 				"energy": -2,
 				"mood": 5,
 				"reaction_speaker": "STEVE",
 				"reaction": (
 					"For the record, I didn't blink. "
 					+ "The camera was clearly trying "
-					+ "to sabotage me!"
+					+ "to [wave amp=9 freq=4]sabotage me![/wave]"
 				)
 			},
 			{
@@ -541,14 +695,18 @@ func add_late_month_events() -> void:
 	# Day 19 - Extra money before tuition.
 	scheduled_events["19_Evening"] = {
 		"id": "fry_quick_money",
+		"emotion": "nervous",
 		"speaker": "FRY",
 		"message": "My school payment is due tomorrow. I could really use some extra cash tonight.",
 		"choices": [
 			{
 				"text": "Take a rush editing job (+$35)",
+				"reaction_emotion": "tired",
 				"money": 35,
 				"energy": -18,
 				"mood": -2,
+				"set_flag": "day19_rush_job",
+				"flag_value": true,
 				"consumes_period": true,
 				"finance_label": "Rush editing job",
 				"finance_category": "Income",
@@ -559,6 +717,8 @@ func add_late_month_events() -> void:
 				"text": "Sell an old video game (+$22)",
 				"money": 22,
 				"mood": -5,
+				"set_flag": "day19_sold_game",
+				"flag_value": true,
 				"finance_label": "Used video game sale",
 				"finance_category": "Income",
 				"reaction": "Kinda sad to let it go, but I needed the money more."
@@ -567,6 +727,8 @@ func add_late_month_events() -> void:
 				"text": "Take the evening off",
 				"energy": 8,
 				"mood": 3,
+				"set_flag": "day19_rest",
+				"flag_value": true,
 				"reaction": "I'll deal with tomorrow when it comes. I really need a break."
 			}
 		]
@@ -583,6 +745,8 @@ func add_late_month_events() -> void:
 				"energy": -14,
 				"mood": -3,
 				"consumes_period": true,
+				"set_flag": "day22_inventory_worked",
+				"flag_value": true,
 				"reaction": "Alright, a full shift it is. Time to get to work.",
 				"after_period_reaction": "That was a long afternoon. At least I've got some extra pay coming.",
 				"delayed": {
@@ -622,6 +786,7 @@ func add_late_month_events() -> void:
 	# Day 24 - Reliable versus cheap equipment.
 	scheduled_events["24_Morning"] = {
 		"id": "fry_broken_charger",
+		"emotion": "angry",
 		"speaker": "FRY",
 		"message": "Seriously? My laptop charger is acting up. I need this thing for school.",
 		"choices": [
@@ -657,11 +822,13 @@ func add_late_month_events() -> void:
 		]
 	}
 
+
 	# Day 26 - Dinner and pantry inventory.
 	scheduled_events["26_Evening"] = {
 		"id": "fry_friday_dinner",
+		"emotion": "tired",
 		"speaker": "FRY",
-		"message": "Finally Friday. I'm pretty hungry, but I don't really feel like cooking tonight.",
+		"message": "Finally Friday. What's for dinner?",
 		"choices": [
 			{
 				"text": "Cook dinner (1 grocery portion)",
@@ -669,34 +836,58 @@ func add_late_month_events() -> void:
 				"pantry_cost": 1,
 				"energy": 7,
 				"mood": 3,
-				"reaction": "Not bad! Glad I had something left in the kitchen."
+				"consumes_period": true,
+				"set_flag": "day26_cooked_dinner",
+				"flag_value": true,
+				"reaction": (
+					"Not bad! Glad I had something "
+					+ "left in the kitchen."
+				),
+				"after_period_reaction": (
+					"Dinner at home saved me money. "
+					+ "I should plan my next grocery trip."
+				)
 			},
 			{
 				"text": "Order takeout - $17",
+				"reaction_emotion": "excited",
 				"money": -17,
 				"energy": 9,
 				"mood": 6,
 				"finance_label": "Friday night takeout",
 				"finance_category": "Food",
-				"reaction": "Okay, that was worth it. I just hope I don't regret the cost later."
+				"set_flag": "day26_ordered_takeout",
+				"flag_value": true,
+				"reaction": (
+					"Okay, that was good! "
+					+ "Hopefully it was worth the $17."
+				)
 			},
 			{
 				"text": "Skip dinner - $0",
 				"energy": -10,
 				"mood": -3,
-				"reaction": "I'll just go to bed. Probably wasn't my best idea."
+				"set_flag": "day26_skipped_dinner",
+				"flag_value": true,
+				"reaction": (
+					"I'll just go to bed. "
+					+ "Probably wasn't my best idea."
+				)
 			}
 		]
 	}
 
+
 	# Day 29 - Catching up with Dulce.
 	scheduled_events["29_Evening"] = {
 		"id": "fry_dulce_checkin",
+		"emotion": "soft",
 		"speaker": "DULCE",
 		"message": "Hey Fry! This month's been pretty chaotic, huh? Want to catch up tonight?",
 		"choices": [
 			{
 				"text": "Meet for coffee - $9",
+				"reaction_emotion": "soft",
 				"money": -9,
 				"energy": -3,
 				"mood": 8,
@@ -709,6 +900,7 @@ func add_late_month_events() -> void:
 			},
 			{
 				"text": "Call and catch up - $0",
+				"reaction_emotion": "soft",
 				"energy": -2,
 				"mood": 5,
 				"set_flag": "caught_up_with_dulce",
@@ -1038,6 +1230,7 @@ var day5_party_lines: Array[Dictionary] = []
 func make_day5_party_invitation_event() -> Dictionary:
 	return {
 		"id": "fry_day5_party_invitation",
+		"emotion": "excited",
 		"speaker": "STEVE",
 		"message": (
 			"Hey Fry! Dulce and I were thinking of coming over "
@@ -1075,6 +1268,7 @@ func start_day5_party_story() -> void:
 	day5_party_lines = [
 		{
 			"speaker": "FRY",
+			"emotion": "nervous",
 			"message": (
 				"Alright, everyone's here. "
 				+ "Hopefully my apartment isn't too messy."
@@ -1082,14 +1276,16 @@ func start_day5_party_story() -> void:
 		},
 		{
 			"speaker": "STEVE",
+			"emotion": "excited",
 			"message": (
 				"I brought the games! "
-				+ "And no, we are NOT talking about what "
+				+ "And no, we are [shake rate=16 level=3]NOT[/shake] talking about what "
 				+ "happened to my last controller."
 			)
 		},
 		{
 			"speaker": "DULCE",
+			"emotion": "soft",
 			"message": (
 				"He's officially banned from choosing "
 				+ "the first game tonight."
@@ -1115,7 +1311,8 @@ func show_next_day5_party_line() -> void:
 		dialogue_manager.show_dialogue(
 			str(line.get("speaker", "FRY")),
 			str(line.get("message", "")),
-			["Continue"]
+			["Continue"],
+			str(line.get("emotion", "neutral"))
 		)
 		return
 
@@ -1422,11 +1619,13 @@ func make_day7_payday_temptation_event() -> Dictionary:
 
 	return {
 		"id": "fry_day7_payday_temptation",
+		"emotion": "excited",
 		"speaker": "FRY",
 		"message": message,
 		"choices": [
 			{
 				"text": "Buy the new game - $24",
+				"reaction_emotion": "excited",
 				"money": -24.0,
 				"mood": 9,
 				"energy": 2,
@@ -1435,7 +1634,7 @@ func make_day7_payday_temptation_event() -> Dictionary:
 				"set_flag": "day7_bought_game",
 				"flag_value": true,
 				"reaction": (
-					"Finally! I've wanted this for weeks. "
+					"[wave amp=8 freq=4]Finally![/wave] I've wanted this for weeks. "
 					+ "I can't wait to play it tonight. "
 					+ "Hopefully I don't regret the $24."
 				)
@@ -1469,6 +1668,2178 @@ func make_day7_payday_temptation_event() -> Dictionary:
 			}
 		]
 	}
+
+#endregion
+
+
+#region Fry - Day 8 Study Group
+
+func make_day8_study_group_event() -> Dictionary:
+	var message: String = ""
+
+	# Reference the textbook decision from Day 8 Afternoon.
+	match textbook_choice:
+		"library":
+			message = (
+				"Dulce invited me to study for Friday's exam. "
+				+ "My library book isn't ready yet. "
+				+ "Steve says his flashcards are 'legendary.' Join?"
+			)
+
+		"rent":
+			message = (
+				"I rented a textbook today. Dulce and Steve "
+				+ "are doing a review call. Steve's flashcards "
+				+ "have some weird answers. Join?"
+			)
+
+		"used":
+			message = (
+				"I bought a used textbook today. Dulce and "
+				+ "Steve are reviewing for Friday's exam. "
+				+ "Steve's flashcards are mostly jokes. Join?"
+			)
+
+		_:
+			message = (
+				"Dulce and Steve are reviewing for Friday's "
+				+ "exam. Steve made flashcards... and half "
+				+ "are memes. Join them?"
+			)
+
+	# A full study session must obey the same basic limits
+	# as Fry's bedroom desk.
+	var can_study: bool = (
+		not exam_completed
+		and study_sessions < 4
+		and last_study_day != DayManager.current_day
+		and energy >= STUDY_ENERGY_COST
+	)
+
+	var first_choice: Dictionary = {}
+
+	if can_study:
+		first_choice = {
+			"text": "Join study call (-18 Energy)",
+			"reaction_emotion": "excited",
+			"energy": -STUDY_ENERGY_COST,
+			"mood": 4,
+			"consumes_period": true,
+			"day8_study_session": true,
+			"set_flag": "day8_studied_with_friends",
+			"flag_value": true,
+			"reaction_speaker": "DULCE",
+			"reaction": (
+				"Nice work, Fry! That was a good review. "
+				+ "Steve, please fix your flashcards "
+				+ "before the next one."
+			),
+			"after_period_reaction": (
+				"That study call took the whole evening, "
+				+ "but I feel more prepared for the exam."
+			)
+		}
+	else:
+		# Don't offer an unusable full study session.
+		first_choice = {
+			"text": "Encourage the group - $0",
+			"reaction_emotion": "dramatic",
+			"energy": -1,
+			"mood": 2,
+			"reaction_speaker": "STEVE",
+			"reaction": (
+				"Thanks, Fry! My flashcards are "
+				+ "[wave amp=8 freq=4]educational masterpieces.[/wave] "
+				+ "Dulce just doesn't appreciate art."
+			)
+		}
+
+	return {
+		"id": "fry_day8_study_group",
+		"speaker": "FRY",
+		"message": message,
+		"choices": [
+			first_choice,
+			{
+				"text": "Swap notes and memes - $0",
+				"reaction_emotion": "excited",
+				"energy": -4,
+				"mood": 4,
+				"set_flag": "day8_swapped_notes",
+				"flag_value": true,
+				"reaction_speaker": "STEVE",
+				"reaction": (
+					"Sending my notes now! "
+					+ "Ignore the memes in between. "
+					+ "Actually, those might help."
+				)
+			},
+			{
+				"text": "Study another time - $0",
+				"energy": 2,
+				"mood": 1,
+				"reaction": (
+					"I'll catch the next one. "
+					+ "I can always use my desk if "
+					+ "I feel like studying later."
+				)
+			}
+		]
+	}
+
+#endregion
+
+
+#region Fry - Day 9 Campus Food Pantry
+
+func make_day9_campus_pantry_event() -> Dictionary:
+	var first_choice: Dictionary = {}
+
+	# Fry can donate a portion only if he owns one.
+	if grocery_meals > 0:
+		first_choice = {
+			"text": "Share 1 grocery portion - $0",
+			"pantry_cost": 1,
+			"energy": -3,
+			"mood": 5,
+			"set_flag": "day9_donated_food",
+			"flag_value": true,
+			"reaction_speaker": "DULCE",
+			"reaction": (
+				"Thanks, Fry! I'll add it to the pantry "
+				+ "supplies. Steve's still explaining "
+				+ "why he brought so much corn."
+			)
+		}
+	else:
+		# A zero-grocery player still has a way to help.
+		first_choice = {
+			"text": "Share the pantry's info - $0",
+			"energy": -2,
+			"mood": 2,
+			"set_flag": "day9_shared_info",
+			"flag_value": true,
+			"reaction_speaker": "DULCE",
+			"reaction": (
+				"Thanks for spreading the word! "
+				+ "There are students who don't "
+				+ "even know this place exists."
+			)
+		}
+
+	return {
+		"id": "fry_day9_campus_pantry",
+		"speaker": "FRY",
+		"message": (
+			"Dulce says the campus pantry has meal bags "
+			+ "tonight. Steve donated twelve cans of corn. "
+			+ "Should I go?"
+		),
+		"choices": [
+			first_choice,
+			{
+				"text": "Volunteer to sort food - $0",
+				"energy": -12,
+				"mood": 6,
+				"consumes_period": true,
+				"set_flag": "day9_volunteered",
+				"flag_value": true,
+				"reaction_speaker": "STEVE",
+				"reaction": (
+					"Fry! Perfect timing. We have so "
+					+ "many bags to pack. And no, "
+					+ "not all of them are corn!"
+				),
+				"after_period_reaction": (
+					"That took the whole evening, "
+					+ "but we packed a lot of meal bags. "
+					+ "Glad I came out to help."
+				)
+			},
+			{
+				"text": "Pick up a meal bag - $0",
+				"energy": -4,
+				"mood": 2,
+				"day9_pantry_gain": 2,
+				"set_flag": "day9_used_pantry",
+				"flag_value": true,
+				"reaction": (
+					"I picked up two meal portions. "
+					+ "That's a little less grocery "
+					+ "money to worry about this week."
+				)
+			}
+		]
+	}
+
+#endregion
+
+
+#region Fry - Day 11 Last-Minute Studying
+
+func make_day11_last_minute_studying_event() -> Dictionary:
+	var message: String = ""
+
+	# Respond to Fry's earlier exam preparation.
+	if not has_textbook:
+		message = (
+			"My exam is tomorrow, and I still don't "
+			+ "have the textbook. Dulce sent some tips. "
+			+ "What should I do tonight?"
+		)
+
+	elif study_sessions >= 3:
+		message = (
+			"The exam is tomorrow. I've studied quite "
+			+ "a bit, but I'm still nervous. "
+			+ "Should I review one more time?"
+		)
+
+	elif bool(story_flags.get("day8_studied_with_friends", false)):
+		message = (
+			"Exam tomorrow! Dulce sent a review sheet. "
+			+ "Steve says his flashcards are better. "
+			+ "What's my plan tonight?"
+		)
+
+	elif bool(story_flags.get("day8_swapped_notes", false)):
+		message = (
+			"Exam tomorrow. Steve sent more memes "
+			+ "with his notes. Dulce says I should "
+			+ "actually review. What now?"
+		)
+
+	else:
+		message = (
+			"[shake rate=14 level=3]The exam is tomorrow already?![/shake] "
+			+ "Dulce and Steve wished me luck. "
+			+ "I should figure out my plan tonight."
+		)
+
+	# A full review counts as a real study session.
+	var can_study: bool = (
+		not exam_completed
+		and study_sessions < 4
+		and last_study_day != DayManager.current_day
+		and energy >= STUDY_ENERGY_COST
+	)
+
+	var first_choice: Dictionary = {}
+
+	if can_study:
+		first_choice = {
+			"text": "Do a final review (-18 Energy)",
+			"reaction_emotion": "tired",
+			"energy": -STUDY_ENERGY_COST,
+			"mood": -2,
+			"consumes_period": true,
+			"day11_study_session": true,
+			"set_flag": "day11_final_review",
+			"flag_value": true,
+			"reaction": (
+				"Done. My brain feels like mashed potatoes, "
+				+ "but I understand a few things better now. "
+				+ "Hopefully that's enough."
+			),
+			"after_period_reaction": (
+				"My exam is today. That last review "
+				+ "was exhausting, but at least I tried."
+			)
+		}
+	else:
+		# Don't award an extra session when studying
+		# is no longer available.
+		first_choice = {
+			"text": "Organize my notes - $0",
+			"mood": 1,
+			"reaction": (
+				"At least everything is organized. "
+				+ "I should give my brain a break "
+				+ "instead of forcing another session."
+			)
+		}
+
+	return {
+		"id": "fry_day11_last_minute_studying",
+		"emotion": "nervous",
+		"speaker": "FRY",
+		"message": message,
+		"choices": [
+			first_choice,
+			{
+				"text": "Ask Dulce for tips - $0",
+				"reaction_emotion": "soft",
+				"energy": -4,
+				"mood": 4,
+				"set_flag": "day11_asked_dulce",
+				"flag_value": true,
+				"reaction_speaker": "DULCE",
+				"reaction": (
+					"Hey! Focus on what you know first. "
+					+ "And get some sleep, okay? "
+					+ "You've got this, Fry!"
+				)
+			},
+			{
+				"text": "Give my brain a break - $0",
+				"energy": 3,
+				"mood": 2,
+				"reaction": (
+					"One evening won't decide everything. "
+					+ "Maybe I'll unwind a little, "
+					+ "then decide whether to sleep."
+				)
+			}
+		]
+	}
+
+#endregion
+
+
+#region Fry - Day 12 After the Exam
+
+func make_day12_after_exam_event() -> Dictionary:
+	var message: String = ""
+	var choices: Array[Dictionary] = []
+
+	# The exam result was already calculated in the Afternoon.
+	# This event only reacts to that result.
+	if exam_passed:
+		message = (
+			"Dulce texted after the exam. [wave amp=7 freq=4]I passed![/wave] "
+			+ "Steve wants to celebrate, but I'm tired. "
+			+ "What sounds good?"
+		)
+
+		choices = [
+			{
+				"text": "Celebrate with friends - $12",
+				"reaction_emotion": "excited",
+				"money": -12.0,
+				"energy": -6,
+				"mood": 8,
+				"consumes_period": true,
+				"finance_label": "After-exam celebration",
+				"finance_category": "Social",
+				"set_flag": "day12_connected_with_friends",
+				"flag_value": true,
+				"reaction_speaker": "STEVE",
+				"reaction": (
+					"That's what I'm talking about! "
+					+ "You passed! Now, who's getting "
+					+ "the biggest plate of fries?"
+				)
+			},
+			{
+				"text": "Share in group chat - $0",
+				"energy": -2,
+				"mood": 4,
+				"set_flag": "day12_shared_good_news",
+				"flag_value": true,
+				"reaction_speaker": "STEVE",
+				"reaction": (
+					"See? My flashcards are legendary! "
+					+ "What do you mean half of them "
+					+ "were memes?"
+				)
+			},
+			{
+				"text": "Recharge at home - $0",
+				"energy": 6,
+				"mood": 2,
+				"reaction": (
+					"I passed! That's enough excitement "
+					+ "for today. Maybe I'll relax "
+					+ "and enjoy a quiet evening."
+				)
+			}
+		]
+
+	else:
+		message = (
+			"Dulce checked in after the exam. "
+			+ "I didn't pass. Steve sent a terrible joke. "
+			+ "What should I do tonight?"
+		)
+
+		choices = [
+			{
+				"text": "Talk with Dulce - $0",
+				"reaction_emotion": "soft",
+				"energy": -5,
+				"mood": 6,
+				"consumes_period": true,
+				"set_flag": "day12_connected_with_friends",
+				"flag_value": true,
+				"reaction_speaker": "DULCE",
+				"reaction": (
+					"One exam isn't the whole semester. "
+					+ "We can figure out what went wrong "
+					+ "and try something different."
+				)
+			},
+			{
+				"text": "Make a better plan - $0",
+				"energy": -4,
+				"mood": 3,
+				"set_flag": "day12_reflected_on_exam",
+				"flag_value": true,
+				"reaction": (
+					"That didn't go how I wanted. "
+					+ "Next time, I'll spread out "
+					+ "my studying a little more."
+				)
+			},
+			{
+				"text": "Unwind at home - $0",
+				"reaction_emotion": "tired",
+				"energy": 6,
+				"mood": 2,
+				"reaction": (
+					"Today was rough. I'll deal "
+					+ "with school again tomorrow. "
+					+ "I need some time for myself."
+				)
+			}
+		]
+
+	return {
+		"id": "fry_day12_after_exam",
+		"emotion": "excited" if exam_passed else "sad",
+		"speaker": "FRY",
+		"message": message,
+		"choices": choices
+	}
+
+#endregion
+
+
+#region Fry - Day 13 Animal Shelter
+
+func make_day13_animal_shelter_event() -> Dictionary:
+	var message: String = ""
+	var first_choice: Dictionary = {}
+
+	# Reference Fry's earlier community involvement.
+	if bool(story_flags.get("day9_volunteered", false)):
+		message = (
+			"Dulce texted: 'Thanks for helping at the "
+			+ "food pantry, Fry!' Now she says a local "
+			+ "animal shelter needs help with cats too."
+		)
+
+	elif exam_completed and not exam_passed:
+		message = (
+			"That exam was rough. Dulce sent me a shelter "
+			+ "appeal. Helping some animals might be "
+			+ "a nice change of pace. What should I do?"
+		)
+
+	else:
+		message = (
+			"Dulce sent me a local animal shelter's post. "
+			+ "They need pet food, volunteers, and help "
+			+ "finding homes for animals. What can I do?"
+		)
+
+	# Offer a donation only if Fry can afford it.
+	if money >= 15.0:
+		first_choice = {
+			"text": "Donate pet food - $15",
+			"money": -15.0,
+			"energy": -2,
+			"mood": 5,
+			"finance_label": "Animal shelter donation",
+			"finance_category": "Charity",
+			"set_flag": "day13_donated",
+			"flag_value": true,
+			"reaction": (
+				"I sent $15 for pet food. "
+				+ "Hopefully that helps keep "
+				+ "a few furry bellies full."
+			)
+		}
+	else:
+		# Helping doesn't always require money.
+		first_choice = {
+			"text": "Share shelter wishlist - $0",
+			"energy": -2,
+			"mood": 2,
+			"set_flag": "day13_shared_wishlist",
+			"flag_value": true,
+			"reaction": (
+				"I can't donate right now, but I shared "
+				+ "their supply wishlist. Maybe someone "
+				+ "else can send what they need."
+			)
+		}
+
+	return {
+		"id": "fry_day13_animal_shelter",
+		"emotion": "soft",
+		"speaker": "FRY",
+		"message": message,
+		"choices": [
+			first_choice,
+			{
+				"text": "Volunteer - Care for cats - $0",
+				"reaction_emotion": "excited",
+				"energy": -14,
+				"mood": 7,
+				"consumes_period": true,
+				"set_flag": "day13_volunteered",
+				"flag_value": true,
+				"reaction": (
+					"A tiny black Bombay kitten followed "
+					+ "me everywhere! Her gray sister "
+					+ "kept hiding behind my shoes."
+				),
+				"after_period_reaction": (
+					"I can't stop thinking about those "
+					+ "two kittens at the shelter. "
+					+ "Maybe I could adopt them both..."
+				)
+			},
+			{
+				"text": "Create adoption posts - $0",
+				"reaction_emotion": "excited",
+				"energy": -6,
+				"mood": 4,
+				"set_flag": "day13_adoption_posted",
+				"flag_value": true,
+				"reaction": (
+					"I made adoption posts for two "
+					+ "kitten sisters. One black, one "
+					+ "gray. [wave amp=7 freq=4]They're adorable together![/wave]"
+				)
+			}
+		]
+	}
+
+#endregion
+
+
+#region Fry - Day 14 Family Check-In
+
+func make_day14_family_checkin_event() -> Dictionary:
+	var message: String = ""
+	var honest_reaction: String = ""
+	var advice_reaction: String = ""
+	var third_choice: Dictionary = {}
+
+	# Fry has a personal connection to the two shelter kittens.
+	var met_kittens: bool = (
+		bool(story_flags.get("day13_volunteered", false))
+		or bool(story_flags.get("day13_adoption_posted", false))
+	)
+
+
+	# Family conversation always addresses Fry's life first.
+	if exam_completed and not exam_passed:
+		message = (
+			"Mom's calling. My exam didn't go well, "
+			+ "and I'm still thinking about it. "
+			+ "What should I tell her?"
+		)
+
+	elif money < 40.0:
+		message = (
+			"Mom called to check on me. Money's "
+			+ "getting tight, and she wants to know "
+			+ "if I'm managing okay."
+		)
+
+	elif exam_completed and exam_passed:
+		message = (
+			"Mom called to ask about school. "
+			+ "I passed my first exam! She's also "
+			+ "asking how my money's holding up."
+		)
+
+	else:
+		message = (
+			"Mom called to see how I'm doing. "
+			+ "School, work, bills... there's a lot "
+			+ "to catch her up on."
+		)
+
+	# Mention the kittens in addition to the normal story.
+	if met_kittens:
+		message += (
+			" I should tell her about those "
+			+ "two kittens at the shelter, too."
+		)
+
+
+	# Mom responds to Fry's circumstances first.
+	if exam_completed and not exam_passed:
+		honest_reaction = (
+			"One exam doesn't define you, Fry. "
+			+ "Learn from it and keep trying. "
+			+ "I'm proud you're doing your best."
+		)
+
+	elif money < 40.0:
+		honest_reaction = (
+			"I'm glad you told me. Keep an eye "
+			+ "on your bills, okay? You don't "
+			+ "have to figure everything out today."
+		)
+
+	else:
+		honest_reaction = (
+			"You've been handling a lot lately. "
+			+ "It's good hearing your voice. "
+			+ "I'm proud of you, Fry!"
+		)
+
+	# Add the kitten reference without replacing
+	# the main family conversation.
+	if met_kittens:
+		honest_reaction += (
+			" And those two kittens sound adorable! "
+			+ "I'd love to see pictures."
+		)
+
+	# Mom always gives her regular budgeting advice.
+	advice_reaction = (
+		"Start with rent and your bills. "
+		+ "Then groceries. Whatever's left "
+		+ "is what you can spend on extras."
+	)
+
+	# Additional advice about adopting both kittens.
+	if met_kittens:
+		advice_reaction += (
+			" And remember, two kittens mean "
+			+ "food, litter, and vet expenses!"
+		)
+
+	# Visiting costs money for transportation.
+	# Low-cash players get a free alternative.
+	if money >= 8.0:
+		third_choice = {
+			"text": "Visit family for dinner - $8",
+			"reaction_emotion": "soft",
+			"money": -8.0,
+			"mood": 9,
+			"energy": -7,
+			"consumes_period": true,
+			"finance_label": "Family visit transportation",
+			"finance_category": "Transport",
+			"set_flag": "day14_family_visit",
+			"flag_value": true,
+			"reaction_speaker": "MOM",
+			"reaction": (
+				"I'm so glad you came over! "
+				+ "We saved you a plate. "
+				+ "Come sit down and eat!"
+			),
+			"after_period_reaction": (
+				"Last night's family dinner was nice. "
+				+ "I should make time to visit "
+				+ "them more often."
+			)
+		}
+	else:
+		third_choice = {
+			"text": "Stay on the call - $0",
+			"reaction_emotion": "soft",
+			"mood": 3,
+			"energy": 2,
+			"set_flag": "day14_long_call",
+			"flag_value": true,
+			"reaction_speaker": "MOM",
+			"reaction": (
+				"No need to spend money visiting "
+				+ "right now. I'm just happy "
+				+ "we got to talk. Love you!"
+			)
+		}
+
+	return {
+		"id": "fry_day14_family_checkin",
+		"emotion": "soft",
+		"speaker": "FRY",
+		"message": message,
+		"choices": [
+			{
+				"text": "Talk honestly - $0",
+				"reaction_emotion": "soft",
+				"energy": -3,
+				"mood": 5,
+				"set_flag": "day14_opened_up",
+				"flag_value": true,
+				"reaction_speaker": "MOM",
+				"reaction": honest_reaction
+			},
+			{
+				"text": "Ask for money advice - $0",
+				"reaction_emotion": "soft",
+				"energy": -4,
+				"mood": 4,
+				"set_flag": "day14_budget_advice",
+				"flag_value": true,
+				"reaction_speaker": "MOM",
+				"reaction": advice_reaction
+			},
+			third_choice
+		]
+	}
+
+#endregion
+
+
+#region Fry - Day 15 New Assignment
+
+func make_day15_new_assignment_event() -> Dictionary:
+	var message: String = ""
+	var planning_reaction: String = ""
+
+	# Reflect Fry's experience with the first exam.
+	if (
+		exam_completed
+		and not exam_passed
+		and bool(story_flags.get("day12_reflected_on_exam", false))
+	):
+		message = (
+			"A new group presentation was assigned. "
+			+ "After my exam, I promised to plan ahead. "
+			+ "We need slides and handouts soon."
+		)
+
+	elif exam_completed and not exam_passed:
+		message = (
+			"Another assignment already? My last exam "
+			+ "didn't go well. Now we have a group "
+			+ "presentation to prepare. Where do I start?"
+		)
+
+	elif exam_completed and exam_passed:
+		message = (
+			"I passed my first exam, but there's "
+			+ "already a new group presentation! "
+			+ "Slides, handouts... what's my plan?"
+		)
+
+	else:
+		message = (
+			"A new group presentation was assigned. "
+			+ "We'll need slides and handouts. "
+			+ "How should I get started?"
+		)
+
+	# Mom's earlier advice is remembered,
+	# but it doesn't replace the assignment story.
+	if bool(story_flags.get("day14_budget_advice", false)):
+		planning_reaction = (
+			"Mom said to think about expenses before "
+			+ "spending. I'll price the handouts, "
+			+ "check free options, and set a limit."
+		)
+	else:
+		planning_reaction = (
+			"Before buying anything, I should "
+			+ "figure out what the project needs. "
+			+ "Maybe free options will work."
+		)
+
+	return {
+		"id": "fry_day15_new_assignment",
+		"speaker": "FRY",
+		"message": message,
+		"choices": [
+			{
+				"text": "Plan project costs - $0",
+				"energy": -4,
+				"mood": 3,
+				"set_flag": "day15_project_budget",
+				"flag_value": true,
+				"reaction": planning_reaction
+			},
+			{
+				"text": "Start slides tonight - $0",
+				"energy": -13,
+				"mood": 7,
+				"consumes_period": true,
+				"set_flag": "day15_started_slides",
+				"flag_value": true,
+				"reaction": (
+					"Alright, I finished the first "
+					+ "draft of our slides! It took "
+					+ "a while, but we're making progress."
+				),
+				"after_period_reaction": (
+					"Glad I started those slides last night. "
+					+ "Now I just need to figure out "
+					+ "the handouts."
+				)
+			},
+			{
+				"text": "Split tasks with friends - $0",
+				"reaction_emotion": "excited",
+				"energy": -3,
+				"mood": 4,
+				"set_flag": "day15_split_tasks",
+				"flag_value": true,
+				"reaction_speaker": "DULCE",
+				"reaction": (
+					"Good idea! I can handle the visuals, "
+					+ "Steve can research, and you can "
+					+ "put everything together."
+				)
+			}
+		]
+	}
+
+#endregion
+
+
+#region Fry - Day 16 Unexpected Invitation
+
+func make_day16_unexpected_invitation_event() -> Dictionary:
+	var message: String = ""
+	var first_choice: Dictionary = {}
+
+	var electricity_bill: Dictionary = bills.get(
+		"electricity", {}
+	)
+	var bill_paid: bool = bool(
+		electricity_bill.get("paid", false)
+	)
+
+	# The invitation happens regardless of earlier decisions.
+
+	# Keep the main invitation short.
+	message = (
+		"Steve and Dulce invited me to the arcade. "
+		+ "Should I go?"
+	)
+
+	# Brief reference to the electricity bill.
+	if bill_paid:
+		message += " My power bill is paid."
+	else:
+		message += " My $40 power bill is unpaid."
+
+	# Small callback to Day 15.
+	if bool(story_flags.get("day15_project_budget", false)):
+		message += " I planned my project costs."
+
+	elif bool(story_flags.get("day15_started_slides", false)):
+		message += " My slides are underway."
+
+	# The first option changes when cash is low.
+	if money >= 14.0:
+		first_choice = {
+			"text": "Go to the arcade - $14",
+			"reaction_emotion": "dramatic",
+			"money": -14.0,
+			"mood": 8,
+			"energy": -8,
+			"consumes_period": true,
+			"finance_label": "Arcade night with friends",
+			"finance_category": "Entertainment",
+			"set_flag": "day16_arcade",
+			"flag_value": true,
+			"reaction_speaker": "STEVE",
+			"reaction": (
+				"There's no way you beat my score! "
+				+ "[shake rate=15 level=3]That machine is clearly broken.[/shake] "
+				+ "Dulce, back me up here!"
+			),
+			"after_period_reaction": (
+				"Last night's arcade trip was fun. "
+				+ "I spent $14, though. I'd better "
+				+ "watch the rest of my budget."
+			)
+		}
+
+	else:
+		first_choice = {
+			"text": "Play games online - $0",
+			"reaction_emotion": "excited",
+			"mood": 5,
+			"energy": -5,
+			"consumes_period": true,
+			"set_flag": "day16_online_games",
+			"flag_value": true,
+			"reaction_speaker": "STEVE",
+			"reaction": (
+				"Can't make it to the arcade? "
+				+ "No problem! Let's play online. "
+				+ "Just don't rage quit when I win!"
+			),
+			"after_period_reaction": (
+				"Last night's online games were "
+				+ "a lot of fun, and I didn't "
+				+ "have to spend anything."
+			)
+		}
+
+	return {
+		"id": "fry_day16_unexpected_invitation",
+		"speaker": "FRY",
+		"message": message,
+		"choices": [
+			first_choice,
+			{
+				"text": "Take a free walk - $0",
+				"reaction_emotion": "soft",
+				"energy": -7,
+				"mood": 6,
+				"consumes_period": true,
+				"set_flag": "day16_free_walk",
+				"flag_value": true,
+				"reaction_speaker": "DULCE",
+				"reaction": (
+					"An evening walk sounds nice! "
+					+ "We don't have to spend money "
+					+ "every time we hang out."
+				),
+				"after_period_reaction": (
+					"That walk with Steve and Dulce "
+					+ "was actually really nice. "
+					+ "We should do that more often."
+				)
+			},
+			{
+				"text": "Stay home and recharge - $0",
+				"energy": 5,
+				"mood": 2,
+				"set_flag": "day16_stayed_home",
+				"flag_value": true,
+				"reaction": (
+					"I told Steve and Dulce I couldn't "
+					+ "make it tonight. They understood. "
+					+ "I could really use some rest."
+				)
+			}
+		]
+	}
+
+#endregion
+
+
+#region Fry - Day 18 Homeless Shelter
+
+func make_day18_homeless_shelter_event() -> Dictionary:
+	var first_choice: Dictionary = {}
+	var volunteer_reaction: String = ""
+
+	# Players who helped at the food pantry
+	# get a small callback in their reaction.
+	if bool(story_flags.get("day9_volunteered", false)):
+		volunteer_reaction = (
+			"That pantry shift really helped. "
+			+ "We packed the care kits and got "
+			+ "everything ready for the shelter."
+		)
+	else:
+		volunteer_reaction = (
+			"We packed soap, socks, and other "
+			+ "essentials into care kits. "
+			+ "Glad I could lend a hand!"
+		)
+
+	# A donation is offered only when affordable.
+	if money >= 12.0:
+		first_choice = {
+			"text": "Donate hygiene supplies - $12",
+			"money": -12.0,
+			"energy": -2,
+			"mood": 5,
+			"finance_label": "Shelter hygiene supplies",
+			"finance_category": "Charity",
+			"set_flag": "day18_donated_supplies",
+			"flag_value": true,
+			"reaction": (
+				"I sent $12 for hygiene supplies. "
+				+ "I'll need to keep an eye on "
+				+ "my school payment, too."
+			)
+		}
+	else:
+		first_choice = {
+			"text": "Collect spare supplies - $0",
+			"energy": -5,
+			"mood": 4,
+			"set_flag": "day18_collected_supplies",
+			"flag_value": true,
+			"reaction": (
+				"I asked around and collected "
+				+ "some unused supplies. "
+				+ "No money needed!"
+			)
+		}
+
+	return {
+		"id": "fry_day18_homeless_shelter",
+		"emotion": "soft",
+		"speaker": "FRY",
+		"message": (
+			"Dulce says the local homeless shelter "
+			+ "needs help packing care kits tonight. "
+			+ "How can I help?"
+		),
+		"choices": [
+			first_choice,
+			{
+				"text": "Volunteer to pack kits - $0",
+				"energy": -14,
+				"mood": 7,
+				"consumes_period": true,
+				"set_flag": "day18_volunteered",
+				"flag_value": true,
+				"reaction": volunteer_reaction,
+				"after_period_reaction": (
+					"That shelter shift was tiring, "
+					+ "but it felt good helping out. "
+					+ "Now, back to my own responsibilities."
+				)
+			},
+			{
+				"text": "Share shelter request - $0",
+				"energy": -2,
+				"mood": 3,
+				"set_flag": "day18_shared_request",
+				"flag_value": true,
+				"reaction": (
+					"I shared the shelter's supply list "
+					+ "with my classmates. Hopefully "
+					+ "it reaches someone who can help."
+				)
+			}
+		]
+	}
+
+#endregion
+
+
+#region Fry - Day 21 Kitten Adoption
+
+func make_day21_kitten_adoption_event() -> Dictionary:
+	var message: String = (
+		"The shelter called! The two kitten sisters "
+		+ "can be adopted together."
+	)
+	var first_choice: Dictionary = {}
+
+	var unpaid_total: float = get_unpaid_total()
+
+	# Remind Fry about financial commitments
+	# before he decides to adopt.
+	if unpaid_total > 0.0:
+		message += (
+			" I still have $%.0f in bills to cover."
+			% unpaid_total
+		)
+	else:
+		message += " Should I bring them home?"
+
+	# Adoption includes initial supplies.
+	if money >= 85.0:
+		first_choice = {
+			"text": "Adopt both kittens - $85",
+			"reaction_emotion": "excited",
+			"money": -85.0,
+			"mood": 9,
+			"energy": -8,
+			"consumes_period": true,
+			"finance_label": "Two kitten adoptions and starter supplies",
+			"finance_category": "Pets",
+			"set_flag": "day21_kittens_adopted",
+			"flag_value": true,
+			"reaction": (
+				"[wave amp=8 freq=4]I signed the papers![/wave] The black "
+				+ "kitten is Pantera, and her gray "
+				+ "sister is Galleta!"
+			),
+			"after_period_reaction": (
+				"Pantera and Galleta are officially "
+				+ "mine. I need to get the apartment "
+				+ "ready for both of them!"
+			)
+		}
+	else:
+		first_choice = {
+			"text": "Start saving for adoption - $0",
+			"reaction_emotion": "sad",
+			"mood": 2,
+			"energy": -2,
+			"set_flag": "day21_saving_for_kittens",
+			"flag_value": true,
+			"reaction": (
+				"I'd love to bring them home, "
+				+ "but I can't afford it yet. "
+				+ "I'll have to save up."
+			)
+		}
+
+	return {
+		"id": "fry_day21_kitten_adoption",
+		"emotion": "excited",
+		"speaker": "FRY",
+		"message": message,
+		"choices": [
+			first_choice,
+			{
+				"text": "Visit the kittens - $0",
+				"reaction_emotion": "excited",
+				"mood": 5,
+				"energy": -6,
+				"consumes_period": true,
+				"set_flag": "day21_visited_kittens",
+				"flag_value": true,
+				"reaction": (
+					"The black kitten ran right up "
+					+ "to me! Her gray sister wasn't "
+					+ "far behind. They're inseparable."
+				),
+				"after_period_reaction": (
+					"That shelter visit made me want "
+					+ "to adopt the sisters even more. "
+					+ "I should think about the cost."
+				)
+			},
+			{
+				"text": "Help find them a home - $0",
+				"mood": 4,
+				"energy": -3,
+				"set_flag": "day21_helped_rehome",
+				"flag_value": true,
+				"reaction": (
+					"I shared their adoption listing. "
+					+ "They deserve a good home "
+					+ "where they can stay together."
+				)
+			}
+		]
+	}
+
+#endregion
+
+
+#region Fry - Day 21 A Friend Needs Help
+
+func make_day21_friend_help_event() -> Dictionary:
+	var transport_choice: Dictionary = {}
+
+	# Provide an affordable way to help Steve.
+	if money >= 8.0:
+		transport_choice = {
+			"text": "Help with bus fare - $8",
+			"reaction_emotion": "soft",
+			"money": -8.0,
+			"mood": 4,
+			"energy": -2,
+			"finance_label": "Helping Steve with transportation",
+			"finance_category": "Social",
+			"set_flag": "day21_paid_transport",
+			"flag_value": true,
+			"reaction_speaker": "STEVE",
+			"reaction": (
+				"Seriously, thanks! I'll be able "
+				+ "to get to the interview now. "
+				+ "I owe you one!"
+			),
+			"delayed": {
+				"days_later": 1,
+				"period": "Morning",
+				"mood": 1,
+				"text": (
+					"Steve texted: Made it to the "
+					+ "interview on time! Thanks again!"
+				)
+			}
+		}
+	else:
+		transport_choice = {
+			"text": "Find a bus route - $0",
+			"mood": 3,
+			"energy": -5,
+			"set_flag": "day21_found_bus_route",
+			"flag_value": true,
+			"reaction_speaker": "STEVE",
+			"reaction": (
+				"Oh, there's a bus that stops "
+				+ "near the place? Nice! "
+				+ "Thanks for checking!"
+			),
+			"delayed": {
+				"days_later": 1,
+				"period": "Morning",
+				"mood": 1,
+				"text": (
+					"Steve texted: That bus route "
+					+ "worked! I made it on time."
+				)
+			}
+		}
+
+	return {
+		"id": "fry_day21_friend_help",
+		"emotion": "nervous",
+		"speaker": "STEVE",
+		"message": (
+			"I have a job interview tomorrow! "
+			+ "My ride fell through, and I'm "
+			+ "[shake rate=14 level=3]pretty nervous[/shake]. Can you help?"
+		),
+		"choices": [
+			{
+				"text": "Practice interview - $0",
+				"reaction_emotion": "excited",
+				"mood": 6,
+				"energy": -12,
+				"consumes_period": true,
+				"set_flag": "day21_practiced_interview",
+				"flag_value": true,
+				"reaction_speaker": "STEVE",
+				"reaction": (
+					"Okay, that actually helped a lot! "
+					+ "I feel way more prepared now. "
+					+ "Thanks, Fry!"
+				),
+				"delayed": {
+					"days_later": 1,
+					"period": "Morning",
+					"mood": 2,
+					"text": (
+						"Steve texted: The interview "
+						+ "went pretty well! Thanks "
+						+ "for practicing with me."
+					)
+				}
+			},
+			transport_choice,
+			{
+				"text": "Send encouragement - $0",
+				"reaction_emotion": "soft",
+				"mood": 2,
+				"energy": 3,
+				"set_flag": "day21_encouraged_steve",
+				"flag_value": true,
+				"reaction_speaker": "STEVE",
+				"reaction": (
+					"Thanks, man. I'll figure "
+					+ "something out. Wish me luck!"
+				)
+			}
+		]
+	}
+
+#endregion
+
+
+#region Fry - Day 22 Professor's Office Hours
+
+func make_day22_professor_event() -> Dictionary:
+	var message: String = ""
+	var rest_reaction: String = ""
+
+	# Reference the bookstore shift without
+	# replacing the main office-hours event.
+	if bool(story_flags.get("day22_inventory_worked", false)):
+		message = (
+			"Bookstore shift's done. Professor has "
+			+ "online office hours tonight. "
+			+ "Should I join?"
+		)
+	else:
+		message = (
+			"Professor has online office hours tonight. "
+			+ "I could ask about our presentation."
+		)
+
+	# Adopted kittens appear naturally in Fry's
+	# free time, without changing the academic story.
+	if bool(story_flags.get("day21_kittens_adopted", false)):
+		rest_reaction = (
+			"Pantera curled up beside me while "
+			+ "Galleta chased a shoelace. "
+			+ "This is a pretty nice evening."
+		)
+	else:
+		rest_reaction = (
+			"I've had a lot going on lately. "
+			+ "I'll recharge tonight and "
+			+ "work on school tomorrow."
+		)
+
+	return {
+		"id": "fry_day22_professor",
+		"speaker": "FRY",
+		"message": message,
+		"choices": [
+			{
+				"text": "Attend office hours - $0",
+				"reaction_emotion": "soft",
+				"energy": -10,
+				"mood": 6,
+				"consumes_period": true,
+				"set_flag": "day22_office_hours",
+				"flag_value": true,
+				"reaction_speaker": "PROFESSOR",
+				"reaction": (
+					"Your project has potential, Fry. "
+					+ "Keep examples of your work. "
+					+ "They'll help with internships."
+				),
+				"after_period_reaction": (
+					"Professor's feedback was helpful. "
+					+ "I should polish my work "
+					+ "for future opportunities."
+				)
+			},
+			{
+				"text": "Email the professor - $0",
+				"energy": -3,
+				"mood": 3,
+				"set_flag": "day22_emailed_professor",
+				"flag_value": true,
+				"reaction": (
+					"I sent a quick email asking "
+					+ "for project feedback. "
+					+ "Hopefully I hear back."
+				),
+				"delayed": {
+					"days_later": 1,
+					"period": "Morning",
+					"mood": 1,
+					"text": (
+						"Professor replied! She suggested "
+						+ "adding my project to a portfolio."
+					)
+				}
+			},
+			{
+				"text": "Stay home and rest - $0",
+				"reaction_emotion": "soft",
+				"energy": 8,
+				"mood": 2,
+				"set_flag": "day22_rest",
+				"flag_value": true,
+				"reaction": rest_reaction
+			}
+		]
+	}
+
+#endregion
+
+
+#region Fry - Day 24 Internship Opportunity
+
+func make_day24_internship_event() -> Dictionary:
+	var message: String = ""
+	var portfolio_reaction: String = ""
+
+	# Remember the professor's earlier advice.
+	if bool(story_flags.get("day22_office_hours", false)):
+		message = (
+			"[color=#FFD89B]Paid internship opening![/color] My professor "
+			+ "said my projects could help. Apply now?"
+		)
+
+	elif bool(story_flags.get("day22_emailed_professor", false)):
+		message = (
+			"Paid internship opening! My professor "
+			+ "mentioned portfolios. Should I apply?"
+		)
+
+	else:
+		message = (
+			"There's a paid internship opening! "
+			+ "I could apply using my class projects."
+		)
+
+	# Reward players who completed and tested
+	# the club fundraiser website.
+	if (
+		bool(story_flags.get("club_helped", false))
+		and bool(story_flags.get("club_ready", false))
+	):
+		portfolio_reaction = (
+			"I added our tested fundraiser website "
+			+ "to my portfolio. Application sent!"
+		)
+	else:
+		portfolio_reaction = (
+			"I cleaned up my class projects and "
+			+ "finished the application. Sent!"
+		)
+
+	return {
+		"id": "fry_day24_internship",
+		"emotion": "excited",
+		"speaker": "FRY",
+		"message": message,
+		"choices": [
+			{
+				"text": "Polish and apply - $0",
+				"reaction_emotion": "excited",
+				"energy": -16,
+				"mood": 6,
+				"consumes_period": true,
+				"set_flag": "day24_portfolio_applied",
+				"flag_value": true,
+				"reaction": portfolio_reaction,
+				"after_period_reaction": (
+					"That took a while, but I'm glad "
+					+ "I put effort into my application."
+				),
+				"delayed": {
+					"days_later": 3,
+					"period": "Morning",
+					"mood": 3,
+					"text": (
+						"The internship team emailed! "
+						+ "They liked my portfolio and "
+						+ "want me to complete a screening task."
+					)
+				}
+			},
+			{
+				"text": "Apply quickly - $0",
+				"reaction_emotion": "nervous",
+				"energy": -5,
+				"mood": 2,
+				"set_flag": "day24_quick_applied",
+				"flag_value": true,
+				"reaction": (
+					"Application sent. I could've "
+					+ "spent more time on it, "
+					+ "but at least I applied."
+				),
+				"delayed": {
+					"days_later": 3,
+					"period": "Morning",
+					"mood": 1,
+					"text": (
+						"The internship team replied. "
+						+ "They asked me to send "
+						+ "an example of my work."
+					)
+				}
+			},
+			{
+				"text": "Save listing - $0",
+				"energy": 3,
+				"mood": 1,
+				"set_flag": "day24_saved_listing",
+				"flag_value": true,
+				"reaction": (
+					"I saved the listing. "
+					+ "I should review my projects "
+					+ "before deciding."
+				),
+				"delayed": {
+					"days_later": 3,
+					"period": "Morning",
+					"text": (
+						"That internship listing is "
+						+ "still saved. I should "
+						+ "decide whether to apply."
+					)
+				}
+			}
+		]
+	}
+
+#endregion
+
+
+#region Fry - Day 27 Internship Follow-Up
+
+func make_day27_internship_followup_event() -> Dictionary:
+	var message: String = ""
+	var choices: Array[Dictionary] = []
+
+	# Fry submitted a polished application.
+	if bool(story_flags.get("day24_portfolio_applied", false)):
+		message = (
+			"The internship team wants a screening "
+			+ "task. How should I handle it?"
+		)
+
+		var screening_reaction: String = (
+			"I finished the screening task and "
+			+ "checked my answers. Submitted!"
+		)
+
+		if bool(story_flags.get("day22_office_hours", false)):
+			screening_reaction = (
+				"I followed my professor's advice "
+				+ "and reviewed everything. Sent!"
+			)
+
+		choices = [
+			{
+				"text": "Finish screening task - $0",
+				"reaction_emotion": "excited",
+				"energy": -15,
+				"mood": 6,
+				"consumes_period": true,
+				"set_flag": "day27_screening_submitted",
+				"flag_value": true,
+				"reaction": screening_reaction
+			},
+			{
+				"text": "Start task outline - $0",
+				"energy": -6,
+				"mood": 3,
+				"set_flag": "day27_screening_started",
+				"flag_value": true,
+				"reaction": (
+					"I've outlined the task. "
+					+ "Still need to finish and submit it."
+				)
+			},
+			{
+				"text": "Ask for more time - $0",
+				"reaction_emotion": "nervous",
+				"energy": 4,
+				"mood": -2,
+				"set_flag": "day27_requested_more_time",
+				"flag_value": true,
+				"reaction": (
+					"I asked about an extension. "
+					+ "Hopefully they get back to me."
+				)
+			}
+		]
+
+	# Fry sent a quick application on Day 24.
+	elif bool(story_flags.get("day24_quick_applied", false)):
+		message = (
+			"They want a sample of my work. "
+			+ "What should I send?"
+		)
+
+		choices = [
+			{
+				"text": "Polish and send sample - $0",
+				"reaction_emotion": "excited",
+				"energy": -12,
+				"mood": 5,
+				"consumes_period": true,
+				"set_flag": "day27_sample_polished",
+				"flag_value": true,
+				"reaction": (
+					"I cleaned up my best project "
+					+ "and sent it over. Much better!"
+				)
+			},
+			{
+				"text": "Send existing project - $0",
+				"energy": -4,
+				"mood": 2,
+				"set_flag": "day27_sample_sent",
+				"flag_value": true,
+				"reaction": (
+					"I sent one of my class projects. "
+					+ "Hopefully it's what they need."
+				)
+			},
+			{
+				"text": "Request more time - $0",
+				"energy": 3,
+				"mood": -1,
+				"set_flag": "day27_requested_more_time",
+				"flag_value": true,
+				"reaction": (
+					"I asked for a little more time "
+					+ "to prepare my work sample."
+				)
+			}
+		]
+
+	# Fry saved the internship listing.
+	else:
+		message = (
+			"That internship listing is still saved. "
+			+ "Should I finally apply?"
+		)
+
+		choices = [
+			{
+				"text": "Apply with portfolio - $0",
+				"energy": -12,
+				"mood": 5,
+				"consumes_period": true,
+				"set_flag": "day27_late_application",
+				"flag_value": true,
+				"reaction": (
+					"I got my projects together "
+					+ "and submitted the application!"
+				)
+			},
+			{
+				"text": "Prepare application - $0",
+				"energy": -5,
+				"mood": 2,
+				"set_flag": "day27_prepared_application",
+				"flag_value": true,
+				"reaction": (
+					"I've updated my portfolio. "
+					+ "Just need to finish applying."
+				)
+			},
+			{
+				"text": "Leave listing saved - $0",
+				"energy": 3,
+				"mood": -1,
+				"set_flag": "day27_listing_deferred",
+				"flag_value": true,
+				"reaction": (
+					"I'll leave it saved for now. "
+					+ "I know openings don't last forever."
+				)
+			}
+		]
+
+	return {
+		"id": "fry_day27_internship_followup",
+		"emotion": "nervous",
+		"speaker": "FRY",
+		"message": message,
+		"choices": choices
+	}
+
+#endregion
+
+
+#region Fry - Day 27 Kitten Supplies
+
+func make_day27_pet_care_event() -> Dictionary:
+	var message: String = ""
+	var full_choice: Dictionary = {}
+	var essentials_choice: Dictionary = {}
+
+	# Keep the introduction compact.
+	if bool(bills.get("rent", {}).get("paid", false)):
+		message = (
+			"Pantera and Galleta's starter supplies "
+			+ "are running low. Time to restock?"
+		)
+	else:
+		message = (
+			"The kittens need supplies soon, "
+			+ "but rent's still unpaid. "
+			+ "What should I do?"
+		)
+
+	# First option: a fuller supply purchase.
+	if money >= 22.0:
+		full_choice = {
+			"text": "Buy food and litter - $22",
+			"money": -22.0,
+			"energy": -8,
+			"mood": 5,
+			"consumes_period": true,
+			"finance_label": "Cat food and litter",
+			"finance_category": "Pets",
+			"set_flag": "day27_pet_full_supplies",
+			"flag_value": true,
+			"reaction": (
+				"Food and litter are stocked! "
+				+ "Pantera and Galleta are all set."
+			)
+		}
+	else:
+		full_choice = {
+			"text": "Compare supply prices - $0",
+			"energy": -5,
+			"mood": 2,
+			"set_flag": "day27_pet_compared_prices",
+			"flag_value": true,
+			"reaction": (
+				"I found some cheaper options. "
+				+ "I'll need to buy them soon."
+			)
+		}
+
+	# Second option: the smaller purchase.
+	if money >= 9.0:
+		essentials_choice = {
+			"text": "Buy essentials - $9",
+			"money": -9.0,
+			"energy": -3,
+			"mood": 3,
+			"finance_label": "Essential kitten supplies",
+			"finance_category": "Pets",
+			"set_flag": "day27_pet_essentials",
+			"flag_value": true,
+			"reaction": (
+				"This should get us through "
+				+ "the next few days. "
+				+ "I'll budget for more later."
+			)
+		}
+	else:
+		essentials_choice = {
+			"text": "Use starter supplies - $0",
+			"energy": -2,
+			"mood": 1,
+			"set_flag": "day27_pet_used_starter",
+			"flag_value": true,
+			"reaction": (
+				"There's still some food and litter "
+				+ "left. I'll have to restock soon."
+			)
+		}
+
+	return {
+		"id": "fry_day27_pet_care",
+		"emotion": "nervous" if not bool(bills.get("rent", {}).get("paid", false)) else "neutral",
+		"speaker": "FRY",
+		"message": message,
+		"choices": [
+			full_choice,
+			essentials_choice,
+			{
+				"text": "Plan a pet budget - $0",
+				"energy": -4,
+				"mood": 3,
+				"set_flag": "day27_pet_budget_planned",
+				"flag_value": true,
+				"reaction": (
+					"I set aside a plan for future "
+					+ "food, litter, and vet costs. "
+					+ "Now I need to follow it."
+				)
+			}
+		]
+	}
+
+#endregion
+
+
+#region Fry - Day 28 The Final Paycheck
+
+func make_day28_final_paycheck_event() -> Dictionary:
+	var message: String = ""
+	var budget_reaction: String = ""
+	var rest_reaction: String = ""
+	var treat_reaction: String = ""
+	var third_choice: Dictionary = {}
+
+	var unpaid_total: float = get_unpaid_total()
+
+	var adopted_kittens: bool = bool(
+		story_flags.get("day21_kittens_adopted", false)
+	)
+
+	var kitten_visit: bool = bool(
+		story_flags.get("day27_kitten_visit_seen", false)
+	)
+
+	# Acknowledge Fry's actual financial situation.
+	if unpaid_total > 0.0:
+		message = (
+			"Last paycheck's in. I still owe "
+			+ "$%.2f in bills. What should I do?"
+		) % unpaid_total
+	else:
+		message = (
+			"Last paycheck's in, and my bills "
+			+ "are paid! How should I end today?"
+		)
+
+	# Reviewing finances includes responsibilities
+	# from earlier story decisions.
+	if unpaid_total > 0.0:
+		if adopted_kittens:
+			budget_reaction = (
+				"I listed my unpaid bills and "
+				+ "the kittens' future expenses. "
+				+ "I need a better plan."
+			)
+		else:
+			budget_reaction = (
+				"I listed my unpaid bills and "
+				+ "figured out what needs priority."
+			)
+	else:
+		if adopted_kittens:
+			budget_reaction = (
+				"My bills are covered. "
+				+ "Now to plan for Pantera "
+				+ "and Galleta's expenses!"
+			)
+		else:
+			budget_reaction = (
+				"My bills are paid. I'll look "
+				+ "at my spending and plan "
+				+ "for next month."
+			)
+
+	# Small personal callbacks after Day 27 Night.
+	if adopted_kittens and kitten_visit:
+		rest_reaction = (
+			"Yesterday was fun. Dulce and Steve "
+			+ "really loved the kittens. "
+			+ "I'm still smiling about it."
+		)
+
+	elif adopted_kittens:
+		rest_reaction = (
+			"Pantera and Galleta curled up "
+			+ "beside me. It's nice having "
+			+ "them around."
+		)
+
+	else:
+		rest_reaction = (
+			"I've done enough for today. "
+			+ "Time to relax."
+		)
+
+	if adopted_kittens:
+		treat_reaction = (
+			"I got myself a little treat. "
+			+ "Pantera and Galleta were "
+			+ "waiting when I got home!"
+		)
+	else:
+		treat_reaction = (
+			"A little treat was nice. "
+			+ "I'll make sure it doesn't "
+			+ "become an everyday expense."
+		)
+
+	# Give players an affordable alternative.
+	if money >= 12.0:
+		third_choice = {
+			"text": "Enjoy a small treat - $12",
+			"money": -12.0,
+			"mood": 6,
+			"energy": 2,
+			"finance_label": "Sunday treat",
+			"finance_category": "Entertainment",
+			"set_flag": "day28_small_treat",
+			"flag_value": true,
+			"reaction": treat_reaction
+		}
+	else:
+		third_choice = {
+			"text": "Relax at home - $0",
+			"mood": 3,
+			"energy": 8,
+			"set_flag": "day28_relaxed",
+			"flag_value": true,
+			"reaction": rest_reaction
+		}
+
+	return {
+		"id": "fry_day28_final_paycheck",
+		"emotion": "nervous" if unpaid_total > 0.0 else "excited",
+		"speaker": "FRY",
+		"message": message,
+		"choices": [
+			{
+				"text": "Review my budget - $0",
+				"energy": -5,
+				"mood": 4,
+				"set_flag": "day28_budget_reviewed",
+				"flag_value": true,
+				"reaction": budget_reaction
+			},
+			{
+				"text": "Take a web gig (+$28)",
+				"reaction_emotion": "tired",
+				"money": 28.0,
+				"energy": -16,
+				"mood": -2,
+				"consumes_period": true,
+				"finance_label": "Last-minute website gig",
+				"finance_category": "Income",
+				"set_flag": "day28_extra_gig",
+				"flag_value": true,
+				"reaction": (
+					"A client needs a quick website "
+					+ "fix tonight. Let's get it done!"
+				),
+				"after_period_reaction": (
+					"Finally finished! The $28 came "
+					+ "through. I should check "
+					+ "what I still owe."
+				)
+			},
+			third_choice
+		]
+	}
+
+#endregion
+
+
+#region Fry - Day 30 Final Evening
+
+func make_day30_final_evening_event() -> Dictionary:
+	var message: String = ""
+	var plan_reaction: String = ""
+	var friends_reaction: String = ""
+	var rest_reaction: String = ""
+
+	var unpaid_total: float = get_unpaid_total()
+
+	var adopted_kittens: bool = bool(
+		story_flags.get("day21_kittens_adopted", false)
+	)
+
+	var kitten_visit: bool = bool(
+		story_flags.get("day27_kitten_visit_seen", false)
+	)
+
+	var caught_up: bool = bool(
+		story_flags.get("caught_up_with_dulce", false)
+	)
+
+	# Opening depends on Fry's finances.
+	if unpaid_total > 0.0:
+		message = (
+			"Last evening of the month. "
+			+ "I still owe $%.2f in bills. "
+			+ "What should I do tonight?"
+		) % unpaid_total
+	else:
+		message = (
+			"[color=#FFD89B]Thirty days already?[/color] My bills "
+			+ "are paid. How should I "
+			+ "spend my last evening?"
+		)
+
+	# Financial reflection.
+	if unpaid_total > 0.0:
+		plan_reaction = (
+			"I wrote down what I still owe. "
+			+ "Next month, bills need "
+			+ "to come first."
+		)
+	else:
+		plan_reaction = (
+			"I looked through my spending "
+			+ "and made a plan for next month. "
+			+ "Not a bad start!"
+		)
+
+	if adopted_kittens:
+		plan_reaction += (
+			" The kittens need a budget too."
+		)
+
+	# Friendship callback.
+	if kitten_visit and caught_up:
+		friends_reaction = (
+			"Dulce replied almost immediately. "
+			+ "She asked about the kittens again. "
+			+ "Steve sent a ridiculous cat meme."
+		)
+
+	elif kitten_visit:
+		friends_reaction = (
+			"Dulce asked how Pantera and Galleta "
+			+ "were doing. Steve says he's "
+			+ "still planning his ninja entrance."
+		)
+
+	elif caught_up:
+		friends_reaction = (
+			"Dulce said she enjoyed catching up. "
+			+ "Steve immediately started "
+			+ "planning another hangout."
+		)
+
+	else:
+		friends_reaction = (
+			"I sent Dulce and Steve a message. "
+			+ "Maybe we can hang out "
+			+ "more next month."
+		)
+
+	# Quiet ending with an optional kitten callback.
+	if adopted_kittens:
+		rest_reaction = (
+			"Pantera and Galleta are asleep "
+			+ "nearby. It's been a busy month. "
+			+ "I'm glad they're here."
+		)
+	else:
+		rest_reaction = (
+			"I turned everything off "
+			+ "and got comfortable. "
+			+ "What a month."
+		)
+
+	return {
+		"id": "fry_day30_final_evening",
+		"emotion": "tired" if unpaid_total > 0.0 else "soft",
+		"speaker": "FRY",
+		"message": message,
+		"choices": [
+			{
+				"text": "Plan next month's bills - $0",
+				"energy": -5,
+				"mood": 4,
+				"set_flag": "day30_planned_next_month",
+				"flag_value": true,
+				"reaction": plan_reaction
+			},
+			{
+				"text": "Text Dulce and Steve - $0",
+				"reaction_emotion": "soft",
+				"energy": -2,
+				"mood": 5,
+				"set_flag": "day30_texted_friends",
+				"flag_value": true,
+				"reaction": friends_reaction
+			},
+			{
+				"text": "Wind down at home - $0",
+				"reaction_emotion": "tired",
+				"energy": 8,
+				"mood": 3,
+				"set_flag": "day30_rest",
+				"flag_value": true,
+				"reaction": rest_reaction
+			}
+		]
+	}
+
+#endregion
+
+
+#region Fry - Day 27 Kitten Visit
+
+var day27_kitten_visit_lines: Array[Dictionary] = []
+
+
+func start_day27_kitten_visit_story() -> void:
+	# Reuse the existing bedroom guest positioning.
+	show_day5_party_guests()
+
+	day27_kitten_visit_lines = [
+		{
+			"speaker": "FRY",
+			"message": (
+				"Steve and Dulce came over to meet "
+				+ "Pantera and Galleta!"
+			)
+		},
+		{
+			"speaker": "DULCE",
+			"emotion": "excited",
+			"message": (
+				"Aww, they're so adorable! "
+				+ "I wish I had pets, but my "
+				+ "roommate is allergic."
+			)
+		},
+		{
+			"speaker": "FRY",
+			"message": (
+				"That's a shame. They're "
+				+ "really fun to have around."
+			)
+		},
+		{
+			"speaker": "DULCE",
+			"emotion": "nervous",
+			"message": (
+				"[shake rate=18 level=4]Maybe... if you're okay with it,[/shake] "
+				+ "I could come by every other day "
+				+ "to... see the kittens?"
+			)
+		},
+		{
+			"speaker": "FRY",
+			"emotion": "nervous",
+			"message": (
+				"[shake rate=22 level=5]Yeah, I'd love— I mean,[/shake] "
+				+ "THEY'D love that for sure!"
+			)
+		},
+		{
+			"speaker": "STEVE",
+			"message": "..."
+		},
+		{
+			"speaker": "FRY",
+			"message": "..."
+		},
+		{
+			"speaker": "DULCE",
+			"message": "..."
+		},
+		{
+			"speaker": "STEVE",
+			"emotion": "dramatic",
+			"message": (
+				"Okay, why are we all quiet? "
+				+ "And where's MY invitation? "
+				+ "I love the kittens too!"
+			)
+		},
+		{
+			"speaker": "FRY",
+			"message": (
+				"You're invited too, Steve! "
+				+ "Just text me before either "
+				+ "of you comes over."
+			)
+		},
+		{
+			"speaker": "DULCE",
+			"emotion": "soft",
+			"message": "Will do!"
+		},
+		{
+			"speaker": "STEVE",
+			"emotion": "dramatic",
+			"message": (
+				"I'm just gonna "
+				+ "[wave amp=12 freq=5]show up like a ninja.[/wave]"
+			)
+		},
+		{
+			"speaker": "FRY",
+			"message": (
+				"Of course you are."
+			)
+		}
+	]
+
+	event_state = "day27_kitten_visit_line"
+	next_day_button.hide()
+	show_next_day27_kitten_visit_line()
+
+
+func show_next_day27_kitten_visit_line() -> void:
+	if not day27_kitten_visit_lines.is_empty():
+		var line: Dictionary = (
+			day27_kitten_visit_lines.pop_front()
+		)
+
+		dialogue_manager.show_dialogue(
+			str(line.get("speaker", "FRY")),
+			str(line.get("message", "")),
+			["Continue"],
+			str(line.get("emotion", "neutral"))
+		)
+		return
+
+	# End the scene after Steve's final joke.
+	story_flags["day27_kitten_visit_seen"] = true
+
+	event_state = ""
+	dialogue_manager.close_dialogue()
+
+	reset_speaker_effects()
+	steve_campus.hide()
+	dulce_campus.hide()
+
+	# Continue naturally to Day 28 Morning.
+	advance_time(true)
 
 #endregion
 
@@ -1722,27 +4093,27 @@ func get_movie_dialogue(route: String) -> Array[Dictionary]:
 	match route:
 		"steve":
 			return [
-				{"speaker": "STEVE", "message": "Shark Attack! Finally, a movie with some real cinema."},
+				{"speaker": "STEVE", "emotion": "excited", "message": "[wave amp=8 freq=4]Shark Attack![/wave] Finally, a movie with some real cinema."},
 				{"speaker": "FRY", "message": "You haven't even seen it yet."},
 				{"speaker": "MOVIE CAPTAIN", "message": "GET OFF THE BOAT! THERE'S SOMETHING UNDERNEATH US!"},
 				{"speaker": "MOVIE SAILOR", "message": "CAPTAIN! WE LOST THE ENGINE!"},
-				{"speaker": "STEVE", "message": "Bro, WHY would you stay on the boat?!"},
+				{"speaker": "STEVE", "emotion": "angry", "message": "Bro, [shake rate=16 level=3]WHY[/shake] would you stay on the boat?!"},
 				{"speaker": "FRY", "message": "What would you do? Swim? There's like 12 sharks!"},
-				{"speaker": "STEVE", "message": "I'd simply defeat them."},
+				{"speaker": "STEVE", "emotion": "dramatic", "message": "I'd simply [wave amp=9 freq=4]defeat them.[/wave]"},
 				{"speaker": "FRY", "message": "Oh yeah, my bad. Didn't realize I invited Aquaman."}
 			]
 		"dulce":
 			return [
-				{"speaker": "DULCE", "message": "A mystery? Good choice. I've already got three theories."},
+				{"speaker": "DULCE", "emotion": "excited", "message": "A mystery? Good choice. I've already got three theories."},
 				{"speaker": "FRY", "message": "The opening credits aren't even over."},
 				{"speaker": "MOVIE DETECTIVE", "message": "I know who's responsible. The only witness who never changed their story... was you."},
 				{"speaker": "MOVIE SUSPECT", "message": "You can't prove a thing!"},
-				{"speaker": "DULCE", "message": "I knew it! I called that twenty minutes ago."},
+				{"speaker": "DULCE", "emotion": "excited", "message": "[wave amp=7 freq=4]I knew it![/wave] I called that twenty minutes ago."},
 				{"speaker": "FRY", "message": "You also accused the dog."},
 				{"speaker": "DULCE", "message": "He looked suspicious."},
-				{"speaker": "DULCE", "message": "I'm glad you asked me, by the way. It's nice hanging out when we're not rushing to class."},
-				{"speaker": "FRY", "message": "Yeah... I was hoping you'd say yes."},
-				{"speaker": "DULCE", "message": "Well, maybe ask me again sometime."}
+				{"speaker": "DULCE", "emotion": "soft", "message": "I'm glad you asked me, by the way. It's nice hanging out when we're not rushing to class."},
+				{"speaker": "FRY", "emotion": "nervous", "message": "[shake rate=12 level=2]Yeah...[/shake] I was hoping you'd say yes."},
+				{"speaker": "DULCE", "emotion": "soft", "message": "Well, maybe ask me again sometime."}
 			]
 		"both":
 			return [
@@ -1753,9 +4124,9 @@ func get_movie_dialogue(route: String) -> Array[Dictionary]:
 				{"speaker": "STEVE", "message": "I'm not gonna lie, I'd probably be the third guy."},
 				{"speaker": "DULCE", "message": "Probably?"},
 				{"speaker": "FRY", "message": "Nah, Steve's the first guy. He'd lock us in there."},
-				{"speaker": "STEVE", "message": "WOW. This is how you treat the person who invited you?"},
+				{"speaker": "STEVE", "emotion": "dramatic", "message": "[shake rate=14 level=3]WOW.[/shake] This is how you treat the person who invited you?"},
 				{"speaker": "DULCE", "message": "Fry invited us."},
-				{"speaker": "STEVE", "message": "...Oh."}
+				{"speaker": "STEVE", "emotion": "soft", "message": "...Oh."}
 			]
 	return []
 
@@ -1772,7 +4143,10 @@ func show_next_movie_line() -> void:
 				closing = "I think I liked the company even more than the movie..."
 			"both":
 				closing = "My face hurts from laughing. We should do this again sometime."
-		dialogue_manager.show_dialogue("FRY", closing, ["Head home"])
+		dialogue_manager.show_dialogue(
+			"FRY", closing, ["Head home"],
+			"soft" if movie_route == "dulce" else "neutral"
+		)
 		return
 
 	var line: Dictionary = movie_lines.pop_front()
@@ -1787,12 +4161,15 @@ func show_next_movie_line() -> void:
 	else:
 		# Fry, Dulce, and Steve use the regular dialogue box.
 		hide_cinema_subtitle()
-		dialogue_manager.show_dialogue(speaker, message, ["Continue"])
+		dialogue_manager.show_dialogue(
+			speaker, message, ["Continue"],
+			str(line.get("emotion", "neutral"))
+		)
 
 
 func show_movie_home_result(message: String) -> void:
 	event_state = "movie_home_result"
-	dialogue_manager.show_dialogue("FRY", message, ["Continue"])
+	dialogue_manager.show_dialogue("FRY", message, ["Continue"], "soft")
 
 
 func finish_movie_night() -> void:
@@ -2158,11 +4535,18 @@ func _ready() -> void:
 	
 	DayManager.reset_calendar()
 	
+	#=========================== DEBUG ======================================== #
 	# DAY DEBUG: Choose which day and period to start on. DEVELOPER DELETE
-	DayManager.current_day = 7
-	DayManager.period_index = 0
-	DayManager.isWeekend = DayManager.is_weekend_day(DayManager.current_day)
-	
+	#DayManager.current_day = 1
+	#DayManager.period_index = 3
+	#DayManager.isWeekend = DayManager.is_weekend_day(DayManager.current_day)
+	## Register the special Night period.
+	#DayManager.schedule_night_for_day(27)
+#
+	## Ensure the kitten visit takes place.
+	#story_flags["day21_kittens_adopted"] = true
+	#story_flags["day27_kitten_visit_seen"] = false
+	#=========================== DEBUG ======================================== #
 	add_late_month_events()
 	fry_random_rng.randomize()
 	fry_random_uses.clear()
@@ -2432,7 +4816,8 @@ func show_next_period_item() -> void:
 			dialogue_manager.show_dialogue(
 				str(item.get("speaker", "UPDATE")),
 				str(item.get("message", "")),
-				["Continue"]
+				["Continue"],
+				str(item.get("emotion", "neutral"))
 			)
 		
 		"bill":
@@ -2475,10 +4860,13 @@ func show_bill_prompt() -> void:
 			]
 		)
 	else:
+		# Show the bill information first.
+		# The shortfall is revealed in separate dialogue.
+		event_state = "bill_shortfall_intro"
 		dialogue_manager.show_dialogue(
 			"FRY",
-			message + "\nI don't have enough cash to pay it.",
-			["I'll have to wait"]
+			message,
+			["Continue"]
 		)
 
 func resolve_bill_choice(index: int) -> void:
@@ -3002,6 +5390,16 @@ func start_current_period() -> void:
 	active_room_activity = ""
 	period_queue.clear()
 	
+	# Day 27: schedule the kitten visit before updating
+	# the UI so the button correctly displays TO NIGHT.
+	if (
+		DayManager.current_day == 27
+		and DayManager.get_period() == "Evening"
+		and bool(story_flags.get("day21_kittens_adopted", false))
+		and not bool(story_flags.get("day27_kitten_visit_seen", false))
+	):
+		DayManager.schedule_night_for_day(27)
+
 	# Party guests leave when the next bedroom period begins.
 	if current_location == "bedroom":
 		dulce_campus.hide()
@@ -3080,6 +5478,29 @@ func start_current_period() -> void:
 		
 		pending_after_period_reaction = ""
 
+	# Day 18 Morning: optional update about
+	# the two kitten sisters from Day 13.
+	if (
+		DayManager.current_day == 18
+		and DayManager.get_period() == "Morning"
+		and not bool(story_flags.get("day18_kitten_update_seen", false))
+		and (
+			bool(story_flags.get("day13_volunteered", false))
+			or bool(story_flags.get("day13_adoption_posted", false))
+		)
+	):
+		story_flags["day18_kitten_update_seen"] = true
+
+		period_queue.append({
+			"type": "notice",
+			"speaker": "DULCE",
+			"emotion": "soft",
+			"message": (
+				"The black kitten and her gray sister "
+				+ "are still together at the animal shelter. "
+				+ "They're doing well, but still need a home."
+			)
+		})
 
 	dialogue_manager.close_dialogue()
 	update_ui()
@@ -3103,6 +5524,80 @@ func start_current_period() -> void:
 			"message": str(effect.get("text", "Something happened."))
 		})
 
+	# Day 29 Morning: follow up on Fry's internship work.
+	if (
+		DayManager.current_day == 29
+		and DayManager.get_period() == "Morning"
+		and not bool(story_flags.get(
+			"day29_internship_update_seen", false
+		))
+	):
+		var internship_message: String = ""
+		var internship_speaker: String = "FRY"
+
+		if bool(story_flags.get(
+			"day27_screening_submitted", false
+		)):
+			internship_speaker = "INBOX"
+			internship_message = (
+				"The internship team received my "
+				+ "screening task. They're reviewing it!"
+			)
+
+		elif (
+			bool(story_flags.get(
+				"day27_sample_polished", false
+			))
+			or bool(story_flags.get(
+				"day27_sample_sent", false
+			))
+		):
+			internship_speaker = "INBOX"
+			internship_message = (
+				"The internship team confirmed "
+				+ "they received my work sample."
+			)
+
+		elif bool(story_flags.get(
+			"day27_late_application", false
+		)):
+			internship_speaker = "INBOX"
+			internship_message = (
+				"My internship application was "
+				+ "received. Now I wait!"
+			)
+
+		elif bool(story_flags.get(
+			"day27_requested_more_time", false
+		)):
+			internship_message = (
+				"No reply yet about getting more "
+				+ "time. I should follow up."
+			)
+
+		elif (
+			bool(story_flags.get(
+				"day27_screening_started", false
+			))
+			or bool(story_flags.get(
+				"day27_prepared_application", false
+			))
+		):
+			internship_message = (
+				"I still need to finish my "
+				+ "internship application work."
+			)
+
+		if not internship_message.is_empty():
+			story_flags["day29_internship_update_seen"] = true
+
+			period_queue.append({
+				"type": "notice",
+				"speaker": internship_speaker,
+				"emotion": "nervous" if internship_speaker == "FRY" else "neutral",
+				"message": internship_message
+			})
+
 	# Display queued financial events first.
 	# Afterward, the normal event system continues.
 	show_next_period_item()
@@ -3116,7 +5611,6 @@ func load_period_event() -> void:
 	]
 
 	var scheduled = scheduled_events.get(key, null)
-	
 	# Day 1: introduce budgeting without consuming the Evening.
 	if key == "1_Evening" and not bool(
 		story_flags.get("day1_evening_seen", false)
@@ -3151,6 +5645,203 @@ func load_period_event() -> void:
 	):
 		scheduled = make_day7_payday_temptation_event()
 
+	# Day 8: optional study call after the textbook campus trip.
+	if key == "8_Evening" and not bool(
+		story_flags.get("day8_evening_seen", false)
+	):
+		scheduled = make_day8_study_group_event()
+
+	# Day 9: a student-run campus food pantry.
+	if key == "9_Evening" and not bool(
+		story_flags.get("day9_evening_seen", false)
+	):
+		scheduled = make_day9_campus_pantry_event()
+
+	# Day 11: the night before Fry's first exam.
+	if key == "11_Evening" and not bool(
+		story_flags.get("day11_evening_seen", false)
+	):
+		scheduled = make_day11_last_minute_studying_event()
+
+	# Day 12: react to the exam result after the
+	# existing result notification has been shown.
+	if (
+		key == "12_Evening"
+		and exam_completed
+		and not bool(story_flags.get("day12_evening_seen", false))
+	):
+		scheduled = make_day12_after_exam_event()
+
+	# Day 13: optional animal shelter community event.
+	# Fry may contribute money, time, or creative skills.
+	if key == "13_Evening" and not bool(
+		story_flags.get("day13_evening_seen", false)
+	):
+		scheduled = make_day13_animal_shelter_event()
+
+	# Day 14: family check-in after the second payday.
+	if key == "14_Evening" and not bool(
+		story_flags.get("day14_evening_seen", false)
+	):
+		scheduled = make_day14_family_checkin_event()
+
+	# Day 15: prepare for the new group presentation.
+	if key == "15_Evening" and not bool(
+		story_flags.get("day15_evening_seen", false)
+	):
+		scheduled = make_day15_new_assignment_event()
+
+	# Day 16: unexpected invitation from Steve and Dulce.
+	if key == "16_Evening" and not bool(
+		story_flags.get("day16_evening_seen", false)
+	):
+		scheduled = make_day16_unexpected_invitation_event()
+
+	# Day 16: remember how Fry prepared for the presentation.
+	# Change only the introduction, not the costs or options.
+	if key == "16_Afternoon" and scheduled is Dictionary:
+		scheduled = scheduled.duplicate(true)
+
+		if bool(story_flags.get("day15_started_slides", false)):
+			scheduled["message"] = (
+				"The slides I drafted last night are ready! "
+				+ "Now I need to prepare the handouts. "
+				+ "Which option should I use?"
+			)
+
+		elif bool(story_flags.get("day15_project_budget", false)):
+			scheduled["message"] = (
+				"I made a budget for this presentation. "
+				+ "Now I need handouts. Should I spend "
+				+ "extra on printing or go digital?"
+			)
+
+		elif bool(story_flags.get("day15_split_tasks", false)):
+			scheduled["message"] = (
+				"Dulce and Steve are working on their "
+				+ "parts of the presentation. Handouts "
+				+ "are my responsibility. What should I do?"
+			)
+
+	# Day 18: community shelter support.
+	if key == "18_Evening" and not bool(
+		story_flags.get("day18_evening_seen", false)
+	):
+		scheduled = make_day18_homeless_shelter_event()
+
+	# Day 19: respond to Fry's actual school bill.
+	if key == "19_Evening":
+		if bool(story_flags.get("day19_evening_seen", false)):
+			scheduled = null
+
+		elif scheduled is Dictionary:
+			scheduled = scheduled.duplicate(true)
+
+			var school_bill: Dictionary = bills.get("school", {})
+			var school_amount: float = float(
+				school_bill.get("amount", 150.0)
+			)
+
+			if bool(school_bill.get("paid", false)):
+				scheduled["message"] = (
+					"My school payment's covered. "
+					+ "A rush job popped up tonight. "
+					+ "Should I take it?"
+				)
+
+			elif money >= school_amount:
+				scheduled["message"] = (
+					"My school payment is due tomorrow, "
+					+ "but I have enough saved. "
+					+ "Should I earn more?"
+				)
+
+			else:
+				var shortfall: float = school_amount - money
+				scheduled["message"] = (
+					"School payment's due tomorrow. "
+					+ "I'm $%.2f short. What should I do?"
+				) % shortfall
+
+	# Day 21 Morning: optional kitten adoption.
+	# Financial notifications and bill payments run first.
+	if (
+		key == "21_Morning"
+		and not bool(story_flags.get("day21_kitten_decision_seen", false))
+		and (
+			bool(story_flags.get("day13_volunteered", false))
+			or bool(story_flags.get("day13_adoption_posted", false))
+		)
+	):
+		scheduled = make_day21_kitten_adoption_event()
+
+	# Day 21 Evening: Steve needs help.
+	if key == "21_Evening" and not bool(
+		story_flags.get("day21_friend_event_seen", false)
+	):
+		scheduled = make_day21_friend_help_event()
+
+	# Day 22: virtual office hours after the bookstore shift.
+	if key == "22_Evening" and not bool(
+		story_flags.get("day22_evening_seen", false)
+	):
+		scheduled = make_day22_professor_event()
+
+	# Day 24 Afternoon: paid internship opportunity.
+	if key == "24_Afternoon" and not bool(
+		story_flags.get("day24_afternoon_seen", false)
+	):
+		scheduled = make_day24_internship_event()
+
+	# Day 27 Morning: respond to the internship email.
+	if (
+		key == "27_Morning"
+		and not bool(story_flags.get("day27_internship_seen", false))
+		and (
+			bool(story_flags.get("day24_portfolio_applied", false))
+			or bool(story_flags.get("day24_quick_applied", false))
+			or bool(story_flags.get("day24_saved_listing", false))
+		)
+	):
+		scheduled = make_day27_internship_followup_event()
+
+	# Day 27 Evening: caring for the adopted kittens.
+	# Players without the kittens keep normal free time.
+	if (
+		key == "27_Evening"
+		and bool(story_flags.get("day21_kittens_adopted", false))
+		and not bool(story_flags.get("day27_pet_care_seen", false))
+	):
+		scheduled = make_day27_pet_care_event()
+
+	# Day 28 Evening: final paycheck decisions.
+	# The actual paycheck was already added in Morning.
+	if key == "28_Evening" and not bool(
+		story_flags.get("day28_evening_seen", false)
+	):
+		scheduled = make_day28_final_paycheck_event()
+
+	# Day 30: Fry's final evening reflection.
+	if key == "30_Evening" and not bool(
+		story_flags.get("day30_evening_seen", false)
+	):
+		scheduled = make_day30_final_evening_event()
+
+	# Day 27: optional kitten visit with Steve and Dulce.
+	if key == "27_Night":
+		if (
+			bool(story_flags.get("day21_kittens_adopted", false))
+			and not bool(story_flags.get(
+				"day27_kitten_visit_seen", false
+			))
+		):
+			start_day27_kitten_visit_story()
+		else:
+			# Safeguard for direct debug jumps to Night.
+			event_state = ""
+			advance_time(true)
+		return
+
 	# Day 5: a special Evening invitation and Night event.
 	if key == "5_Evening":
 		scheduled = make_day5_party_invitation_event()
@@ -3168,20 +5859,123 @@ func load_period_event() -> void:
 		start_movie_night()
 		return
 
-	# A small callback to the movie with Dulce on Day 29.
-	if key == "29_Evening" and scheduled is Dictionary:
-		if bool(story_flags.get("movie_with_dulce", false)):
+
+	# Day 29: catch up with Dulce.
+	# Remember the kitten visit and movie night.
+	if key == "29_Evening":
+		if bool(story_flags.get(
+			"day29_evening_seen", false
+		)):
+			scheduled = null
+
+		elif scheduled is Dictionary:
 			scheduled = scheduled.duplicate(true)
-			scheduled["message"] = (
-				"Hey, Fry! I've been thinking about that mystery movie. "
-				+ "We should catch up again tonight. What do you think?"
+
+			var kitten_visit: bool = (
+				bool(story_flags.get(
+					"day21_kittens_adopted", false
+				))
+				and bool(story_flags.get(
+					"day27_kitten_visit_seen", false
+				))
 			)
-		elif bool(story_flags.get("movie_with_both", false)):
-			scheduled = scheduled.duplicate(true)
-			scheduled["message"] = (
-				"Fry! Steve still won't stop quoting The Three Dum Dums. "
-				+ "Want to catch up tonight?"
+
+			# The kitten visit takes priority.
+			if kitten_visit:
+				scheduled["emotion"] = "nervous"
+				scheduled["message"] = (
+					"Hey, Fry! How are Pantera and "
+					+ "Galleta? I was thinking we "
+					+ "could hang out again... "
+					+ "[shake rate=12 level=2]if you're free?[/shake]"
+				)
+
+			elif bool(story_flags.get(
+				"movie_with_dulce", false
+			)):
+				scheduled["message"] = (
+					"Hey, Fry! I've been thinking "
+					+ "about that mystery movie. "
+					+ "Want to catch up tonight?"
+				)
+
+			elif bool(story_flags.get(
+				"movie_with_both", false
+			)):
+				scheduled["message"] = (
+					"Fry! Steve still won't stop "
+					+ "quoting The Three Dum Dums. "
+					+ "Want to catch up tonight?"
+				)
+
+			var choices: Array = scheduled.get(
+				"choices", []
 			)
+
+			if choices.size() >= 3:
+				var meet_choice: Dictionary = choices[0]
+				var call_choice: Dictionary = choices[1]
+				var rest_choice: Dictionary = choices[2]
+
+				# Make meeting up possible even
+				# when Fry can't afford coffee.
+				if money < 9.0:
+					meet_choice = {
+						"text": "Take a walk together - $0",
+						"reaction_emotion": "soft",
+						"energy": -5,
+						"mood": 6,
+						"consumes_period": true,
+						"set_flag": "caught_up_with_dulce",
+						"flag_value": true,
+						"reaction": (
+							"We walked around and talked "
+							+ "for a while. It was nice "
+							+ "not worrying about money."
+						)
+					}
+
+				# Personalize the reactions.
+				if kitten_visit:
+					meet_choice["reaction"] = (
+						"We talked about the kittens, "
+						+ "classes, and everything else. "
+						+ "I didn't want the night to end."
+					)
+
+					call_choice["reaction"] = (
+						"Dulce asked how the kittens "
+						+ "were doing. Somehow, we "
+						+ "ended up talking for an hour."
+					)
+
+					rest_choice["reaction"] = (
+						"Pantera and Galleta curled up "
+						+ "beside me. I'll catch up "
+						+ "with Dulce another time."
+					)
+
+				elif bool(story_flags.get(
+					"movie_with_dulce", false
+				)):
+					meet_choice["reaction"] = (
+						"We talked about that movie "
+						+ "and ended up laughing a lot. "
+						+ "I really enjoyed tonight."
+					)
+
+					call_choice["reaction"] = (
+						"Dulce still has theories "
+						+ "about that mystery movie. "
+						+ "It was fun talking again."
+					)
+
+				choices[0] = meet_choice
+				choices[1] = call_choice
+				choices[2] = rest_choice
+
+				scheduled["choices"] = choices
+
 
 	# The invitation on Day 3 changes what happens on Day 4.
 	if key == "4_Morning" and bool(story_flags.get("attend_campus", false)):
@@ -3214,14 +6008,110 @@ func load_period_event() -> void:
 		scheduled = make_textbook_resale_event()
 
 	# Student club storyline with Dulce and Steve.
-	if key == "17_Evening":
+	# Show Day 17 once, then allow random encounters.
+	if key == "17_Evening" and not bool(
+		story_flags.get("day17_evening_seen", false)
+	):
 		scheduled = make_club_invitation_event()
 
-	elif key == "23_Evening":
+	elif key == "23_Evening" and not bool(
+		story_flags.get("day23_evening_seen", false)
+	):
 		scheduled = make_club_preparation_event()
 
-	elif key == "25_Evening":
+	elif key == "25_Evening" and not bool(
+		story_flags.get("day25_evening_seen", false)
+	):
 		scheduled = make_club_result_event()
+
+	# Day 26: customize dinner based on groceries,
+	# rent, and whether Fry adopted the kittens.
+	if key == "26_Evening":
+		if bool(story_flags.get("day26_evening_seen", false)):
+			scheduled = null
+
+		elif scheduled is Dictionary:
+			scheduled = scheduled.duplicate(true)
+
+			var rent_bill: Dictionary = bills.get("rent", {})
+			var rent_paid: bool = bool(
+				rent_bill.get("paid", false)
+			)
+
+			var adopted_kittens: bool = bool(
+				story_flags.get(
+					"day21_kittens_adopted", false
+				)
+			)
+
+			# Short opening dialogue.
+			if rent_paid:
+				scheduled["message"] = (
+					"Finally Friday. I'm hungry. "
+					+ "What's for dinner?"
+				)
+			else:
+				scheduled["message"] = (
+					"It's Friday, and rent's still unpaid. "
+					+ "What should I do for dinner?"
+				)
+
+			var dinner_choices: Array = scheduled.get(
+				"choices", []
+			)
+
+			if dinner_choices.size() >= 3:
+
+				# No groceries: offer a free meal instead.
+				if grocery_meals <= 0:
+					dinner_choices[0] = {
+						"text": "Find a community meal - $0",
+						"energy": -7,
+						"mood": 2,
+						"consumes_period": true,
+						"set_flag": "day26_community_meal",
+						"flag_value": true,
+						"reaction": (
+							"I found a free dinner "
+							+ "at the community center. "
+							+ "Glad I checked!"
+						),
+						"after_period_reaction": (
+							"That meal helped. "
+							+ "I need to plan "
+							+ "my next grocery trip."
+						)
+					}
+
+				# Small kitten callbacks, without
+				# replacing the main dinner story.
+				if adopted_kittens:
+					if grocery_meals > 0:
+						dinner_choices[0]["reaction"] = (
+							"Dinner's ready! Pantera and "
+							+ "Galleta are napping nearby."
+						)
+					else:
+						dinner_choices[0][
+							"after_period_reaction"
+						] = (
+							"Pantera and Galleta greeted "
+							+ "me when I got home. "
+							+ "Time to plan groceries."
+						)
+
+					dinner_choices[1]["reaction"] = (
+						"Takeout was good! Pantera and "
+						+ "Galleta keep sniffing the bag."
+					)
+
+					dinner_choices[2]["reaction"] = (
+						"I skipped dinner, but Pantera "
+						+ "and Galleta have eaten. "
+						+ "I should eat, too."
+					)
+
+				scheduled["choices"] = dinner_choices
 
 	if scheduled is String:
 		active_event = EventManager.create_shared_event(
@@ -3245,7 +6135,17 @@ func load_period_event() -> void:
 				DayManager.get_period(),
 				fry_profile
 			)
-	
+	# Characterful delivery for a few surprising Fry-only encounters.
+	# Do not alter their finances, frequency or available choices!!
+	if not active_event.is_empty() and not active_event.has("emotion"):
+		match str(active_event.get("id", "")):
+			"fry_rand_laptop", "fry_rand_bike":
+				active_event["emotion"] = "angry"
+			"fry_rand_utility":
+				active_event["emotion"] = "nervous"
+			"fry_rand_refund":
+				active_event["emotion"] = "excited"
+		
 	if active_event.is_empty():
 		event_state = ""
 		dialogue_manager.close_dialogue()
@@ -3294,7 +6194,8 @@ func load_period_event() -> void:
 	dialogue_manager.show_dialogue(
 		str(active_event.get("speaker", "FRY")),
 		str(active_event.get("message", "")),
-		option_texts
+		option_texts,
+		str(active_event.get("emotion", "neutral"))
 	)
 
 
@@ -3448,8 +6349,82 @@ func resolve_event_choice(index: int) -> void:
 			"text": result_message
 		}
 		
+	# Validate Day 8 group studying before spending Energy.
+	if (
+		str(active_event.get("id", "")) == "fry_day8_study_group"
+		and bool(choice.get("day8_study_session", false))
+	):
+		if (
+			exam_completed
+			or study_sessions >= 4
+			or last_study_day == DayManager.current_day
+			or energy < STUDY_ENERGY_COST
+		):
+			event_state = "day8_study_unavailable"
+			dialogue_manager.show_dialogue(
+				"FRY",
+				"I can't manage a full study session "
+				+ "right now. I'll choose something else.",
+				["Choose again"]
+			)
+			return
+
+	# Validate Day 11 studying before applying its Energy cost.
+	if (
+		str(active_event.get("id", "")) == "fry_day11_last_minute_studying"
+		and bool(choice.get("day11_study_session", false))
+	):
+		if (
+			exam_completed
+			or study_sessions >= 4
+			or last_study_day == DayManager.current_day
+			or energy < STUDY_ENERGY_COST
+		):
+			# Refresh the choices if studying became unavailable.
+			active_event = make_day11_last_minute_studying_event()
+
+			var refreshed_labels: Array[String] = []
+			for option in active_event.get("choices", []):
+				refreshed_labels.append(str(option.get("text", "Choose")))
+
+			dialogue_manager.show_dialogue(
+				"FRY",
+				str(active_event.get("message", "")),
+				refreshed_labels
+			)
+			return
+
 	# Apply money, mood, and energy changes exactly once.
 	apply_stat_changes(choice)
+
+	# Day 11: count a real, paid-for study session.
+	if (
+		str(active_event.get("id", "")) == "fry_day11_last_minute_studying"
+		and bool(choice.get("day11_study_session", false))
+	):
+		study_sessions += 1
+		last_study_day = DayManager.current_day
+
+		activity_history.append({
+			"day": DayManager.current_day,
+			"period": DayManager.get_period(),
+			"activity": "last_minute_study"
+		})
+
+	# A full Day 8 study call counts as one real session.
+	# It costs Energy and consumes Evening, like desk studying.
+	if (
+		str(active_event.get("id", "")) == "fry_day8_study_group"
+		and bool(choice.get("day8_study_session", false))
+	):
+		study_sessions += 1
+		last_study_day = DayManager.current_day
+
+		activity_history.append({
+			"day": DayManager.current_day,
+			"period": DayManager.get_period(),
+			"activity": "group_study"
+		})
 
 	# Some surprise encounters offer pay-later invoices. They join
 	# the same bill list used by Phone > Finances and the Month Recap.
@@ -3476,6 +6451,20 @@ func resolve_event_choice(index: int) -> void:
 				"Not bad! Made breakfast with what I already had. "
 				+ "I've got %d meal portion(s) left."
 			) % grocery_meals
+	
+	# Day 9: receiving food from the campus pantry.
+	# This is a one-time story reward, not a cash transaction.
+	if (
+		str(active_event.get("id", "")) == "fry_day9_campus_pantry"
+		and choice.has("day9_pantry_gain")
+	):
+		var received_meals: int = maxi(
+			0,
+			int(choice.get("day9_pantry_gain", 0))
+		)
+
+		grocery_meals += received_meals
+		update_ui()
 	
 	# Remember Fry's textbook decision.
 	if choice.has("textbook_choice"):
@@ -3520,7 +6509,8 @@ func resolve_event_choice(index: int) -> void:
 	dialogue_manager.show_dialogue(
 		str(choice.get("reaction_speaker", "FRY")),
 		str(choice.get("reaction", "Alright, that's settled.")),
-		["Continue"]
+		["Continue"],
+		str(choice.get("reaction_emotion", "neutral"))
 	)
 
 
@@ -3613,6 +6603,256 @@ func finish_event() -> void:
 		load_period_event()
 		return
 
+	# Day 8: full studying uses the Evening.
+	if finished_id == "fry_day8_study_group":
+		story_flags["day8_evening_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 9: campus food pantry.
+	# Volunteering consumes Evening; quick choices do not.
+	if finished_id == "fry_day9_campus_pantry":
+		story_flags["day9_evening_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 11: full reviewing consumes Evening.
+	# Short choices allow random encounters and free time.
+	if finished_id == "fry_day11_last_minute_studying":
+		story_flags["day11_evening_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 12: the exam result has already been applied.
+	# This follow-up can either use Evening or return to free time.
+	if finished_id == "fry_day12_after_exam":
+		story_flags["day12_evening_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 13: volunteering takes the entire Evening.
+	# Donations and adoption posts leave free time available.
+	if finished_id == "fry_day13_animal_shelter":
+		story_flags["day13_evening_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 14: visiting family takes the Evening.
+	# Phone conversations leave free time available.
+	if finished_id == "fry_day14_family_checkin":
+		story_flags["day14_evening_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 15: drafting slides consumes Evening.
+	# Planning and teamwork leave free time available.
+	if finished_id == "fry_day15_new_assignment":
+		story_flags["day15_evening_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 16: social outings consume the Evening.
+	# Staying home allows normal free time.
+	if finished_id == "fry_day16_unexpected_invitation":
+		story_flags["day16_evening_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 17: building the signup page uses Evening.
+	# Other options can lead to random encounters.
+	if finished_id == "fry_club_invitation":
+		story_flags["day17_evening_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 18: volunteering consumes Evening.
+	# Other ways of helping leave free time.
+	if finished_id == "fry_day18_homeless_shelter":
+		story_flags["day18_evening_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 19: prevent the financial-pressure event
+	# from repeating after a choice.
+	if finished_id == "fry_quick_money":
+		story_flags["day19_evening_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 21 Morning: complete the adoption decision.
+	if finished_id == "fry_day21_kitten_adoption":
+		story_flags["day21_kitten_decision_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+
+		return
+
+	# Day 21 Evening: complete Steve's friendship event.
+	if finished_id == "fry_day21_friend_help":
+		story_flags["day21_friend_event_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 22: office hours consume Evening.
+	# Emailing or resting leave free time available.
+	if finished_id == "fry_day22_professor":
+		story_flags["day22_evening_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 23: full testing or promotional work
+	# consumes Evening.
+	if finished_id == "fry_club_preparation":
+		story_flags["day23_evening_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 24: polishing the portfolio uses Afternoon.
+	# Quick choices allow other random encounters.
+	if finished_id == "fry_day24_internship":
+		story_flags["day24_afternoon_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 25: meeting friends or repairing the
+	# website consumes Evening.
+	# Quick responses preserve free time.
+	if finished_id == "fry_club_result":
+		story_flags["day25_evening_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 26: dinner decisions play only once.
+	if finished_id == "fry_friday_dinner":
+		story_flags["day26_evening_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 27 Morning: internship follow-up.
+	if finished_id == "fry_day27_internship_followup":
+		story_flags["day27_internship_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+
+		return
+
+	# Day 27 Evening: kitten supplies.
+	# Longer shopping advances into the special Night.
+	if finished_id == "fry_day27_pet_care":
+		story_flags["day27_pet_care_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 28: the web gig consumes Evening.
+	# Budgeting and treating oneself preserve free time.
+	if finished_id == "fry_day28_final_paycheck":
+		story_flags["day28_evening_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 29: Dulce's catch-up event plays once.
+	# Coffee and walking consume Evening.
+	# Calling or resting leave free time available.
+	if finished_id == "fry_dulce_checkin":
+		story_flags["day29_evening_seen"] = true
+
+		if should_advance:
+			advance_time(true)
+		else:
+			load_period_event()
+		return
+
+	# Day 30: end the final conversation,
+	# but let the player choose FINISH MONTH.
+	if finished_id == "fry_day30_final_evening":
+		story_flags["day30_evening_seen"] = true
+
+		update_ui()
+		next_day_button.show()
+		return
+
 	if should_advance:
 		advance_time(true)
 	else:
@@ -3634,6 +6874,9 @@ func _on_dialogue_choice_selected(index: int) -> void:
 
 		"day5_party_line":
 			show_next_day5_party_line()
+
+		"day27_kitten_visit_line":
+			show_next_day27_kitten_visit_line()
 
 		"movie_invite":
 			choose_movie_companion(index)
@@ -3672,9 +6915,32 @@ func _on_dialogue_choice_selected(index: int) -> void:
 			event_state = ""
 			show_next_period_item()
 
+
 		"bill_choice":
 			resolve_bill_choice(index)
 
+		# First Continue: Fry pauses.
+		"bill_shortfall_intro":
+			event_state = "bill_shortfall_pause"
+
+			dialogue_manager.show_dialogue(
+				"FRY",
+				"...",
+				["Continue"]
+			)
+
+		# Second Continue: Fry realizes he cannot pay.
+		"bill_shortfall_pause":
+			event_state = "bill_reaction"
+
+			dialogue_manager.show_dialogue(
+				"FRY",
+				"I don't have enough money to pay it. "
+				+ "I'll have to wait.",
+				["Continue"]
+			)
+			
+		# Final Continue: resume the normal day.
 		"bill_reaction":
 			event_state = ""
 			active_bill_id = ""
@@ -3698,6 +6964,20 @@ func _on_dialogue_choice_selected(index: int) -> void:
 
 		"month_end":
 			pass
+
+		"day8_study_unavailable":
+			active_event = make_day8_study_group_event()
+			event_state = "event_choice"
+
+			var labels: Array[String] = []
+			for option in active_event.get("choices", []):
+				labels.append(str(option.get("text", "Choose")))
+
+			dialogue_manager.show_dialogue(
+				str(active_event.get("speaker", "FRY")),
+				str(active_event.get("message", "")),
+				labels
+			)
 
 		
 		"insufficient_cash":
@@ -3735,6 +7015,7 @@ func _on_month_completed() -> void:
 	# Calculate grocery costs from recorded transactions.
 	var grocery_spending: float = 0.0
 	var delivery_spending: float = 0.0
+	var pet_spending: float = 0.0
 
 	for transaction in finance_history:
 		var amount: float = float(transaction.get("amount", 0.0))
@@ -3748,6 +7029,77 @@ func _on_month_completed() -> void:
 
 		elif category == "Delivery Fees":
 			delivery_spending += absf(amount)
+
+		elif category == "Pets":
+			pet_spending += absf(amount)
+
+	# Internship progress at the end of the month.
+	var internship_summary: String = "Not pursued"
+
+	if bool(story_flags.get(
+		"day27_screening_submitted", false
+	)):
+		internship_summary = "Screening submitted"
+
+	elif (
+		bool(story_flags.get(
+			"day27_sample_polished", false
+		))
+		or bool(story_flags.get(
+			"day27_sample_sent", false
+		))
+	):
+		internship_summary = "Work sample sent"
+
+	elif bool(story_flags.get(
+		"day27_late_application", false
+	)):
+		internship_summary = "Applied"
+
+	elif bool(story_flags.get(
+		"day27_requested_more_time", false
+	)):
+		internship_summary = "More time requested"
+
+	elif (
+		bool(story_flags.get(
+			"day27_screening_started", false
+		))
+		or bool(story_flags.get(
+			"day27_prepared_application", false
+		))
+	):
+		internship_summary = "In progress"
+
+	elif (
+		bool(story_flags.get(
+			"day24_portfolio_applied", false
+		))
+		or bool(story_flags.get(
+			"day24_quick_applied", false
+		))
+	):
+		internship_summary = "Application sent"
+
+	# Adoption and friendship outcomes.
+	var kitten_summary: String = "Not adopted"
+
+	if bool(story_flags.get(
+		"day21_kittens_adopted", false
+	)):
+		kitten_summary = "Pantera and Galleta"
+
+	var dulce_summary: String = "No catch-up"
+
+	if bool(story_flags.get(
+		"caught_up_with_dulce", false
+	)):
+		dulce_summary = "Caught up"
+
+	elif bool(story_flags.get(
+		"day27_kitten_visit_seen", false
+	)):
+		dulce_summary = "Visited the kittens"
 
 	# Describe the exam outcome.
 	var exam_summary: String = "Not completed"
@@ -3949,6 +7301,20 @@ func _on_month_completed() -> void:
 			study_sessions,
 			exam_summary,
 			club_summary
+		]
+	},
+	{
+		"title": "LIFE & FUTURE",
+		"body": (
+			"Internship: %s\n"
+			+ "Kittens: %s\n"
+			+ "Pet spending: $%.2f\n"
+			+ "Dulce: %s"
+		) % [
+			internship_summary,
+			kitten_summary,
+			pet_spending,
+			dulce_summary
 		]
 	},
 	{
@@ -4172,35 +7538,48 @@ func make_club_invitation_event() -> Dictionary:
 
 	if bool(story_flags.get("day4_club_links_saved", false)):
 		message = (
-			"Dulce texted me! A club from those free "
-			+ "listings I saved needs a fundraiser signup "
-			+ "page. She and Steve want my help."
+			"That club from my saved links needs a "
+			+ "fundraiser signup page. Dulce and Steve "
+			+ "asked for help."
 		)
+
 	elif bool(story_flags.get("attend_campus", false)):
 		message = (
-			"Dulce just texted me. That student club we "
-			+ "saw at the fair is organizing a fundraiser. "
-			+ "She and Steve asked for my help."
+			"The club from the fair needs a fundraiser "
+			+ "signup page. Dulce and Steve want my help."
 		)
+
 	else:
 		message = (
-			"Dulce just texted me. She's helping Steve "
-			+ "with a club fundraiser, and they need "
-			+ "someone to build a signup page."
+			"Dulce and Steve need a signup page for "
+			+ "a club fundraiser. Should I help?"
 		)
+
+
 	return {
 		"id": "fry_club_invitation",
 		"speaker": "FRY",
 		"message": message,
 		"choices": [
+
 			{
 				"text": "Build it myself - $0",
 				"energy": -12,
 				"mood": 4,
+				"consumes_period": true,
 				"set_flag": "club_helped",
 				"flag_value": true,
-				"reaction": "I can build something simple. It'll take some work, but I think I can do it."
+				"reaction": (
+					"I'll build the signup page myself. "
+					+ "Time to get to work!"
+				),
+				"after_period_reaction": (
+					"I finished the club signup page "
+					+ "and sent it to Dulce. "
+					+ "Hopefully everything works!"
+				)
 			},
+
 			{
 				"text": "Use a website template - $12",
 				"money": -12,
@@ -4225,67 +7604,127 @@ func make_club_invitation_event() -> Dictionary:
 
 
 func make_club_preparation_event() -> Dictionary:
+	var test_reaction: String = (
+		"I found a few broken links and fixed them. "
+		+ "Glad I checked before the fundraiser!"
+	)
+
+	# The professor's advice adds a personal callback.
+	if bool(story_flags.get("day22_office_hours", false)):
+		test_reaction = (
+			"The professor said to save my best work. "
+			+ "Good thing I fixed those broken links!"
+		)
+
+	elif bool(story_flags.get("day22_emailed_professor", false)):
+		test_reaction = (
+			"Professor mentioned building a portfolio. "
+			+ "I'll fix these links before saving the page."
+		)
+
+	# Fry helped create the fundraiser website.
 	if bool(story_flags.get("club_helped", false)):
 		return {
 			"id": "fry_club_preparation",
 			"speaker": "FRY",
-			"message": "Dulce says the signup page looks good. The fundraiser is coming up, though, and we should probably test everything first.",
+			"message": (
+				"Dulce says the fundraiser signup page "
+				+ "is ready. Should we test it first?"
+			),
 			"choices": [
 				{
-					"text": "Test the page myself",
-					"energy": -10,
+					"text": "Test the page myself - $0",
+					"energy": -12,
+					"mood": 5,
+					"consumes_period": true,
+					"set_flag": "club_ready",
+					"flag_value": true,
+					"reaction": test_reaction,
+					"after_period_reaction": (
+						"The signup page is tested and "
+						+ "ready. Hope the fundraiser "
+						+ "goes well!"
+					)
+				},
+				{
+					"text": "Ask Steve to test - $0",
+					"reaction_emotion": "excited",
+					"energy": -4,
 					"mood": 3,
 					"set_flag": "club_ready",
 					"flag_value": true,
-					"reaction": "Found a couple of broken links and fixed them. Glad I checked."
+					"reaction_speaker": "STEVE",
+					"reaction": (
+						"Found two broken links! "
+						+ "Fixed them for you. "
+						+ "You owe me a rematch!"
+					)
 				},
 				{
-					"text": "Ask Steve to help test it",
-					"energy": -4,
-					"mood": 2,
-					"set_flag": "club_ready",
-					"flag_value": true,
-					"reaction": "Steve caught a few things I missed. We make a pretty good team."
-				},
-				{
-					"text": "Send it without checking",
+					"text": "Skip testing - $0",
 					"energy": 4,
-					"mood": -1,
+					"mood": -2,
 					"set_flag": "club_ready",
 					"flag_value": false,
-					"reaction": "It looked fine last time I checked. Hopefully nothing goes wrong."
+					"reaction": (
+						"The page looks fine. "
+						+ "Hopefully nothing breaks "
+						+ "during the fundraiser."
+					)
 				}
 			]
 		}
 
-	# Fry declined the website work but can still help.
+	# Fry declined the website work on Day 17.
+	# He can still contribute in other ways.
 	return {
 		"id": "fry_club_preparation",
 		"speaker": "FRY",
-		"message": "Steve and Dulce finished the signup page themselves. They're looking for a little help promoting the fundraiser tonight.",
+		"message": (
+			"Steve and Dulce finished the website. "
+			+ "They need help spreading the word. "
+			+ "Should I pitch in?"
+		),
 		"choices": [
 			{
-				"text": "Help write promotional posts",
-				"energy": -8,
-				"mood": 4,
+				"text": "Make promotional posts - $0",
+				"energy": -10,
+				"mood": 5,
+				"consumes_period": true,
 				"set_flag": "club_supported",
 				"flag_value": true,
-				"reaction": "I put together a few posts for them. At least I could help with something."
+				"reaction": (
+					"I put together some posters "
+					+ "and social posts. Dulce "
+					+ "really liked them!"
+				),
+				"after_period_reaction": (
+					"The fundraiser posts are ready. "
+					+ "Hopefully they reach "
+					+ "more people!"
+				)
 			},
 			{
-				"text": "Share their fundraiser link",
+				"text": "Share fundraiser link - $0",
 				"energy": -2,
 				"mood": 2,
 				"set_flag": "club_supported",
 				"flag_value": true,
-				"reaction": "Shared! Hopefully a few more people see it."
+				"reaction": (
+					"I shared their signup link "
+					+ "with classmates. "
+					+ "Hope it helps!"
+				)
 			},
 			{
-				"text": "Sit this one out",
+				"text": "Sit this one out - $0",
 				"energy": 5,
 				"set_flag": "club_supported",
 				"flag_value": false,
-				"reaction": "They've got things under control. I'll focus on my own stuff tonight."
+				"reaction": (
+					"They've got things under control. "
+					+ "I'll focus on my own work tonight."
+				)
 			}
 		]
 	}
@@ -4294,102 +7733,190 @@ func make_club_preparation_event() -> Dictionary:
 func make_club_result_event() -> Dictionary:
 	var message: String = ""
 	var choices: Array[Dictionary] = []
+	var social_choice: Dictionary = {}
 
-	var helped: bool = bool(story_flags.get("club_helped", false))
-	var club_is_ready: bool = bool(story_flags.get("club_ready", false))
-	var supported: bool = bool(story_flags.get("club_supported", false))
+	var helped: bool = bool(
+		story_flags.get("club_helped", false)
+	)
+	var club_is_ready: bool = bool(
+		story_flags.get("club_ready", false)
+	)
+	var supported: bool = bool(
+		story_flags.get("club_supported", false)
+	)
 
+	# Remember rent without overcrowding
+	# the main fundraiser dialogue.
+	var rent_paid: bool = bool(
+		bills.get("rent", {}).get("paid", false)
+	)
+
+	var rent_note: String = (
+		" I still need to sort out rent."
+	)
+	if rent_paid:
+		rent_note = " Glad my rent is paid."
+
+	# Route 1: Fry built and tested the website.
 	if helped and club_is_ready:
 		message = (
-			"Dulce just texted! The fundraiser went really well, "
-			+ "and our signup page worked perfectly. Steve says "
-			+ "we should celebrate!"
+			"[wave amp=8 freq=4]The fundraiser went great![/wave] "
+			+ "Our signup page worked, and "
+			+ "Steve wants to celebrate!"
 		)
 
-		choices = [
-			{
-				"text": "Go get snacks with them - $8",
-				"money": -8,
+		if money >= 8.0:
+			social_choice = {
+				"text": "Get snacks together - $8",
+				"money": -8.0,
 				"energy": -3,
 				"mood": 8,
-				"finance_label": "Celebration with friends",
+				"consumes_period": true,
+				"finance_label": "Fundraiser celebration",
 				"finance_category": "Social",
-				"reaction": "That was a great night. I'm glad I helped them out."
-			},
-			{
-				"text": "Celebrate over messages - $0",
+				"reaction": (
+					"That was a fun night!" + rent_note
+				)
+			}
+		else:
+			social_choice = {
+				"text": "Meet up for free - $0",
+				"energy": -3,
 				"mood": 5,
-				"reaction": "I'm pretty proud of what we accomplished. And I didn't even have to go out."
+				"consumes_period": true,
+				"reaction": (
+					"We hung out without spending "
+					+ "anything. Still had a great time!"
+				)
+			}
+
+		choices = [
+			social_choice,
+			{
+				"text": "Celebrate by text - $0",
+				"mood": 5,
+				"reaction": (
+					"I'm proud of what we built. "
+					+ "Dulce sent a bunch of "
+					+ "celebration emojis!"
+				)
 			}
 		]
 
+	# Route 2: Fry built the website but
+	# didn't test it properly.
 	elif helped:
 		message = (
-			"Dulce said the fundraiser went alright, but a few "
-			+ "links on our page weren't working. Some people had "
-			+ "trouble signing up. I probably should've checked it."
+			"The fundraiser happened, but some "
+			+ "signup links broke. I should've "
+			+ "tested the page."
 		)
 
 		choices = [
 			{
-				"text": "Fix the page for future events",
+				"text": "Fix broken links - $0",
 				"energy": -8,
 				"mood": 4,
-				"reaction": "Fixed the links and sent Dulce the updated page. Better late than never."
+				"consumes_period": true,
+				"reaction": (
+					"I fixed the links and sent "
+					+ "Dulce the updated page. "
+					+ "Better late than never."
+				),
+				"after_period_reaction": (
+					"The website is working now. "
+					+ "I'll remember to test "
+					+ "my projects next time."
+				)
 			},
 			{
-				"text": "Leave it for now",
+				"text": "Leave it for now - $0",
 				"energy": 3,
 				"mood": -2,
-				"reaction": "At least they still managed to hold the fundraiser. I'll be more careful next time."
+				"reaction": (
+					"At least the fundraiser happened. "
+					+ "I'll be more careful next time."
+				)
 			}
 		]
 
+	# Route 3: Fry didn't build the website,
+	# but helped promote the fundraiser.
 	elif supported:
 		message = (
-			"Dulce said the fundraiser went pretty well! "
-			+ "She thanked me for helping spread the word. "
-			+ "It's nice knowing I still contributed something."
+			"The fundraiser went well! Dulce "
+			+ "thanked me for helping "
+			+ "spread the word."
 		)
 
-		choices = [
-			{
+		if money >= 9.0:
+			social_choice = {
 				"text": "Meet up with them - $9",
-				"money": -9,
+				"money": -9.0,
 				"energy": -3,
 				"mood": 6,
+				"consumes_period": true,
 				"finance_label": "Meeting friends",
 				"finance_category": "Social",
-				"reaction": "It was nice catching up with everyone. Glad the event worked out."
-			},
+				"reaction": (
+					"Nice catching up with everyone!"
+					+ rent_note
+				)
+			}
+		else:
+			social_choice = {
+				"text": "Meet at the park - $0",
+				"energy": -3,
+				"mood": 4,
+				"consumes_period": true,
+				"reaction": (
+					"We caught up at the park. "
+					+ "Didn't cost a thing!"
+				)
+			}
+
+		choices = [
+			social_choice,
 			{
-				"text": "Send them congratulations",
+				"text": "Send congratulations - $0",
 				"mood": 3,
-				"reaction": "Dulce sent a bunch of happy emojis. Sounds like everyone's in a good mood."
+				"reaction": (
+					"Dulce seemed really happy. "
+					+ "Glad I could help a little!"
+				)
 			}
 		]
 
+	# Route 4: Fry didn't participate.
 	else:
 		message = (
-			"I saw some pictures of the fundraiser Steve and "
-			+ "Dulce worked on. Looks like they managed to pull it off."
+			"Steve and Dulce's fundraiser is over. "
+			+ "Looks like they managed "
+			+ "to pull it off!"
 		)
 
 		choices = [
 			{
-				"text": "Congratulate them",
+				"text": "Congratulate them - $0",
 				"mood": 2,
-				"reaction": "They seemed pretty happy. Maybe I'll join them for something next time."
+				"reaction": (
+					"They were happy to hear from me. "
+					+ "Maybe I'll join next time."
+				)
 			},
 			{
-				"text": "Focus on my own plans",
+				"text": "Focus on my plans - $0",
 				"energy": 4,
-				"reaction": "Glad things worked out for them. I've still got my own stuff to finish."
+				"reaction": (
+					"Glad things worked out for them. "
+					+ "I've got my own plans to finish."
+				)
 			}
 		]
 
 	return {
 		"id": "fry_club_result",
+		"emotion": "excited" if ((helped and club_is_ready) or supported) else ("sad" if helped else "neutral"),
 		"speaker": "FRY",
 		"message": message,
 		"choices": choices
@@ -4427,10 +7954,12 @@ func start_campus_story() -> void:
 	campus_lines = [
 		{
 			"speaker": "DULCE",
+			"emotion": "excited",
 			"message": "Fry! You made it! Come on, Steve's over by the student booths."
 		},
 		{
 			"speaker": "STEVE",
+			"emotion": "excited",
 			"message": "Hey! There are clubs, workshops, and food stalls everywhere."
 		},
 		{
@@ -4480,7 +8009,8 @@ func show_next_campus_line() -> void:
 	dialogue_manager.show_dialogue(
 		str(line.get("speaker", "FRY")),
 		str(line.get("message", "")),
-		["Continue"]
+		["Continue"],
+		str(line.get("emotion", "neutral"))
 	)
 
 
@@ -4542,7 +8072,8 @@ func start_textbook_story() -> void:
 	campus_lines = [
 		{
 			"speaker": "STEVE",
-			"message": "Hey, Fry! Dulce and I were just talking about textbook prices. Some of them are ridiculous."
+			"emotion": "dramatic",
+			"message": "Hey, Fry! Dulce and I were just talking about textbook prices. Some of them are [shake rate=12 level=2]ridiculous.[/shake]"
 		},
 		{
 			"speaker": "DULCE",
@@ -4558,6 +8089,7 @@ func start_textbook_story() -> void:
 		},
 		{
 			"speaker": "DULCE",
+			"emotion": "soft",
 			"message": "I found a few options. You can borrow it from the library, rent it, or buy a used copy. Each has its pros and cons."
 		},
 		{
@@ -4712,13 +8244,27 @@ func start_first_exam_story() -> void:
 	else:
 		textbook_line = "Not having the textbook probably wasn't my smartest decision."
 
+	# Dulce remembers helping Fry the night before.
+	var dulce_opening: String = (
+		"Hey, Fry! Ready for the exam? "
+		+ "I swear this week went by so fast."
+	)
+
+	if bool(story_flags.get("day11_asked_dulce", false)):
+		dulce_opening = (
+			"Hey, Fry! I hope those tips helped. "
+			+ "Ready for the exam? You've got this!"
+		)
+
 	campus_lines = [
 		{
 			"speaker": "DULCE",
-			"message": "Hey, Fry! Ready for the exam? I swear this week went by so fast."
+			"emotion": "soft",
+			"message": dulce_opening
 		},
 		{
 			"speaker": "FRY",
+			"emotion": "nervous",
 			"message": preparation_line
 		},
 		{
@@ -4727,6 +8273,7 @@ func start_first_exam_story() -> void:
 		},
 		{
 			"speaker": "DULCE",
+			"emotion": "soft",
 			"message": "Well, good luck! I'll catch up with you afterward."
 		}
 	]
@@ -4755,10 +8302,9 @@ func show_first_exam_choice() -> void:
 	dialogue_manager.show_dialogue(
 		"FRY",
 		str(active_event["message"]),
-		["Begin exam"]
+		["Begin exam"],
+		"nervous"
 	)
-
-
 
 #endregion
 
@@ -4865,9 +8411,20 @@ func update_location_characters(destination: String) -> void:
 
 
 
+
 func _on_dialogue_speaker_changed(speaker: String) -> void:
-	# Cinema characters are baked into the background; only campus sprites animate.
-	if current_location != "campus":
+	# Allow speaker animations on campus and during
+	# the Day 27 kitten visit in Fry's bedroom.
+	var is_campus_scene: bool = (
+		current_location == "campus"
+	)
+
+	var is_kitten_visit: bool = (
+		current_location == "bedroom"
+		and event_state == "day27_kitten_visit_line"
+	)
+
+	if not is_campus_scene and not is_kitten_visit:
 		return
 
 	var speaker_name: String = speaker.to_upper()
