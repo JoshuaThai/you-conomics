@@ -1,6 +1,10 @@
 extends CanvasLayer
 
-# Do NOT attach this script to either character's gameplay scene!!
+const SETTINGS_PANEL_SCENE: PackedScene = preload(
+	"res://Scenes/UI/settings_panel.tscn"
+)
+
+var settings_panel: Control
 
 const FRY_SCENE: String = "res://Scenes/fry_home.tscn"
 const STEVE_SCENE: String = "res://Scenes/steve_stage.tscn"
@@ -28,18 +32,27 @@ func _ready() -> void:
 	layer = 80  # Below SceneTransition (layer 100).
 	pause_root.hide()
 	confirm_root.hide()
-
+	
 	resume_button.pressed.connect(_resume_game)
 	main_menu_button.pressed.connect(_ask_to_return_to_menu)
 	quit_button.pressed.connect(_ask_to_quit)
 	confirm_yes_button.pressed.connect(_confirm_action)
 	confirm_cancel_button.pressed.connect(_cancel_confirmation)
-
-	settings_button.disabled = true
-	settings_button.tooltip_text = "Coming soon"
-
+	
 	# If a game scene changes for some other reason, never leave the next scene paused.
 	get_tree().scene_changed.connect(_on_scene_changed)
+	
+	settings_panel = SETTINGS_PANEL_SCENE.instantiate()
+	add_child(settings_panel)
+	settings_panel.set_anchors_and_offsets_preset(
+		Control.PRESET_FULL_RECT
+	)
+	settings_panel.connect("closed", _on_settings_closed)
+	
+	settings_button.disabled = false
+	settings_button.text = "SETTINGS"
+	settings_button.tooltip_text = ""
+	settings_button.pressed.connect(_on_settings_pressed)
 
 
 func _input(event: InputEvent) -> void:
@@ -49,7 +62,7 @@ func _input(event: InputEvent) -> void:
 		return
 	if not event.is_action_pressed("ui_cancel"):
 		return
-
+	
 	if not _paused_by_us and not _is_gameplay_scene():
 		return
 	
@@ -57,6 +70,8 @@ func _input(event: InputEvent) -> void:
 	
 	if confirm_root.visible:
 		_cancel_confirmation()
+	elif settings_panel != null and settings_panel.visible:
+		settings_panel.call("close_panel")
 	elif _paused_by_us:
 		_resume_game()
 	else:
@@ -95,6 +110,8 @@ func _clear_pause_state() -> void:
 	confirm_root.hide()
 	pause_root.hide()
 	get_tree().paused = false
+	if settings_panel != null:
+		settings_panel.hide()
 
 
 func _ask_to_return_to_menu() -> void:
@@ -158,3 +175,14 @@ func _confirm_action() -> void:
 func _on_scene_changed() -> void:
 	if _paused_by_us and not _navigation_busy:
 		_clear_pause_state()
+
+
+func _on_settings_pressed() -> void:
+	pause_root.hide()
+	settings_panel.call("open_panel")
+
+
+func _on_settings_closed() -> void:
+	if _paused_by_us:
+		pause_root.show()
+		settings_button.grab_focus()

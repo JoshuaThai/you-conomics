@@ -1,0 +1,157 @@
+[gd_scene format=3 uid="uid://dyuemwyht0kaw"]
+
+[ext_resource type="Script" uid="uid://b7rd5m0x32pro" path="res://Scripts/Shared/settings_panel.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="panel_style"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.109804, 0.156863, 0.211765, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.282353, 0.407843, 0.470588, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 16
+
+[node name="SettingsPanel" type="Control" unique_id=1203216221]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Shade" type="Control" parent="." unique_id=1085457416]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="Shade" unique_id=962415773]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.015686, 0.023529, 0.035294, 0.87)
+
+[node name="Center" type="CenterContainer" parent="Shade" unique_id=1190718808]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Shade/Center" unique_id=2104670228]
+custom_minimum_size = Vector2(650, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("panel_style")
+
+[node name="Contents" type="MarginContainer" parent="Shade/Center/Panel" unique_id=1135982615]
+layout_mode = 2
+theme_override_constants/margin_left = 44
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_right = 44
+theme_override_constants/margin_bottom = 38
+
+[node name="VBox" type="VBoxContainer" parent="Shade/Center/Panel/Contents" unique_id=1533198649]
+layout_mode = 2
+theme_override_constants/separation = 22
+
+[node name="Tag" type="Label" parent="Shade/Center/Panel/Contents/VBox" unique_id=1792518570]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.435294, 0.745098, 0.686275, 1)
+theme_override_font_sizes/font_size = 19
+text = "YOU-CONOMICS"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="Shade/Center/Panel/Contents/VBox" unique_id=1190875325]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.941176, 0.956863, 0.937255, 1)
+theme_override_font_sizes/font_size = 52
+text = "SETTINGS"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Shade/Center/Panel/Contents/VBox" unique_id=1334852563]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.647059, 0.729412, 0.74902, 1)
+theme_override_font_sizes/font_size = 20
+text = "Just the essentials. For now."
+horizontal_alignment = 1
+
+[node name="FullscreenRow" type="HBoxContainer" parent="Shade/Center/Panel/Contents/VBox" unique_id=1033559381]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="FullscreenLabel" type="Label" parent="Shade/Center/Panel/Contents/VBox/FullscreenRow" unique_id=1297076465]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.91, 0.94, 0.95, 1)
+theme_override_font_sizes/font_size = 26
+text = "Full Screen"
+vertical_alignment = 1
+
+[node name="FullscreenToggle" type="CheckButton" parent="Shade/Center/Panel/Contents/VBox/FullscreenRow" unique_id=1707390955]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.94, 0.95, 1)
+theme_override_font_sizes/font_size = 23
+text = "Enabled"
+
+[node name="VolumeRow" type="HBoxContainer" parent="Shade/Center/Panel/Contents/VBox" unique_id=13803565]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="VolumeLabel" type="Label" parent="Shade/Center/Panel/Contents/VBox/VolumeRow" unique_id=1218203686]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.94, 0.95, 1)
+theme_override_font_sizes/font_size = 26
+text = "Master Volume"
+vertical_alignment = 1
+
+[node name="VolumeSlider" type="HSlider" parent="Shade/Center/Panel/Contents/VBox/VolumeRow" unique_id=943049681]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+value = 100.0
+
+[node name="VolumeValue" type="Label" parent="Shade/Center/Panel/Contents/VBox/VolumeRow" unique_id=233144218]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.435294, 0.745098, 0.686275, 1)
+theme_override_font_sizes/font_size = 23
+text = "100%"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Hint" type="Label" parent="Shade/Center/Panel/Contents/VBox" unique_id=750899284]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.647059, 0.729412, 0.74902, 1)
+theme_override_font_sizes/font_size = 18
+text = "Volume controls all game audio, including dialogue blips."
+autowrap_mode = 3
+
+[node name="Gap" type="Control" parent="Shade/Center/Panel/Contents/VBox" unique_id=1731479264]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BackButton" type="Button" parent="Shade/Center/Panel/Contents/VBox" unique_id=1279736828]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.054902, 0.105882, 0.105882, 1)
+theme_override_font_sizes/font_size = 28
+text = "BACK"

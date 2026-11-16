@@ -22,6 +22,7 @@ EventManager="*uid://dup68nu4muwrf"
 SceneTransition="*uid://bkgjyq44im7l6"
 PauseMenu="*res://Scenes/UI/pause_menu.tscn"
 TutorialManager="*uid://ceukp5aqtqtxg"
+GameSettings="*uid://bq0x84yt36wf3"
 
 [display]
 

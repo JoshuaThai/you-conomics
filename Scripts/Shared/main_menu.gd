@@ -3,6 +3,12 @@ extends Control
 const FRY_SCENE: String = "res://Scenes/fry_home.tscn"
 const STEVE_SCENE: String = "res://Scenes/steve_stage.tscn"
 
+const SETTINGS_PANEL_SCENE: PackedScene = preload(
+	"res://Scenes/UI/settings_panel.tscn"
+)
+
+var settings_panel: Control
+
 @onready var main_page: Control = $MainPage
 @onready var story_page: Control = $StoryPage
 @onready var tutorial_page: Control = $TutorialPage
@@ -52,6 +58,19 @@ func _ready() -> void:
 	tutorial_button.tooltip_text = ""
 	
 	play_button.grab_focus()
+	
+	# Create the shared settings screen.
+	settings_panel = SETTINGS_PANEL_SCENE.instantiate()
+	add_child(settings_panel)
+	settings_panel.set_anchors_and_offsets_preset(
+		Control.PRESET_FULL_RECT
+	)
+	settings_panel.connect("closed", _on_settings_closed)
+	
+	settings_button.disabled = false
+	settings_button.tooltip_text = ""
+	settings_button.pressed.connect(_on_settings_pressed)
+
 
 
 func _on_play_pressed() -> void:
@@ -120,6 +139,12 @@ func _open_tutorial(scene_path: String) -> void:
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
+	if settings_panel != null and settings_panel.visible:
+		if event.is_action_pressed("ui_cancel"):
+			settings_panel.call("close_panel")
+			get_viewport().set_input_as_handled()
+		return
+	
 	if not event.is_action_pressed("ui_cancel"):
 		return
 	
@@ -130,3 +155,13 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	elif tutorial_page.visible:
 		_on_tutorial_back_pressed()
 		get_viewport().set_input_as_handled()
+
+
+func _on_settings_pressed() -> void:
+	main_page.hide()
+	settings_panel.call("open_panel")
+
+
+func _on_settings_closed() -> void:
+	main_page.show()
+	settings_button.grab_focus()
