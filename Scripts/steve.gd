@@ -64,6 +64,12 @@ var random_bills = {
 	}
 }
 
+var paydays = {
+	"amount": 75,
+	#"days": [7,14,21,28]
+	"days": [7,14,21,28]
+}
+
 # Player won't be able to move to next period until they interact 
 # with the necessary items
 var clickAllObjects = {
@@ -340,6 +346,8 @@ func _ready():
 	#print("Steve is ready!")
 	#set_task_label()
 	#print("Day Number: ", DayManager.find_next_day_number("Saturday"))
+	if TutorialManager.inTutorial:
+		%TutorialHUD.visible = true
 	%NextPeriodButton.hide()
 	%PhoneUI.phone_owner_name = "Steve"
 	%PhoneUI.change_phone_name()

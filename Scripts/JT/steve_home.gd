@@ -12,7 +12,8 @@ func _on_door_button_pressed():
 	#print("Home Steve ID: ", steve.get_instance_id(), " debounce: ", steve.debounce)
 	if (steve.debounce 
 	or steve.ongoingDialogue
-	or TutorialManager.noObjectInteraction): return
+	or (TutorialManager.noObjectInteraction 
+	and TutorialManager.inTutorial)): return
 	#print("BUTTON WAS PRESSED!")
 	var tween = get_tree().create_tween()
 	steve.pause_movement()
@@ -52,7 +53,8 @@ func _on_back_to_room_button_pressed():
 #	Player cannot click back to room if the player isn't supposed to be moving
 	if (steve.debounce 
 	or steve.ongoingDialogue
-	or TutorialManager.noObjectInteraction): return
+	or (TutorialManager.noObjectInteraction 
+	and TutorialManager.inTutorial)): return
 	#print(steve.debounce)
 	steve.pause_movement()
 	var tween = get_tree().create_tween()
@@ -63,19 +65,23 @@ func _on_back_to_room_button_pressed():
 	
 
 func _on_calendar_button_pressed():
-	if steve.ongoingDialogue or TutorialManager.noObjectInteraction: return
+	if (steve.ongoingDialogue or (TutorialManager.noObjectInteraction 
+	and TutorialManager.inTutorial)): return
 	steve.open_panel("Calendar")
 	steve.interact_with_object("Calendar")
 
 
 func _on_computer_button_pressed():
-	if steve.ongoingDialogue or TutorialManager.noObjectInteraction: return
+	if (steve.ongoingDialogue or (TutorialManager.noObjectInteraction 
+	and TutorialManager.inTutorial)): return
 	steve.open_panel("Computer")
-	steve.get_node("%TutorialHUD").visible = true
+	if TutorialManager.inTutorial:
+		steve.get_node("%TutorialHUD").visible = true
 
 
 func _on_fridge_button_pressed():
-	if steve.ongoingDialogue or TutorialManager.noObjectInteraction: return
+	if steve.ongoingDialogue or (TutorialManager.noObjectInteraction 
+	and TutorialManager.inTutorial): return
 	steve.open_panel("Fridge")
 	steve.interact_with_object("Fridge")
 

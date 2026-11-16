@@ -26,7 +26,7 @@ var steve_profile: Dictionary = {
 
 # These are the events that you expect to occur on a weekday
 var normal_morning_events = [
-	"Lunch"
+	"Lunch", "Payday"
 ]
 
 var normal_afternoon_events = [
@@ -68,6 +68,18 @@ var normal_morning_events_info = {
 			"mood": randi_range(-10, -5),
 			"reaction": "Lunch, Smunch! I will be fine without it."
 			}
+		]
+	},
+	"Payday" : {
+		"message": "Your paycheck from You-ville came in",
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Accept it (+$75)",
+			"money": 75,
+			"energy": 10,
+			"mood": randi_range(10, 15),
+			"reaction": "Yay! Money! Money!"
+			},
 		]
 	},
 }

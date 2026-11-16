@@ -54,6 +54,11 @@ func randomize_event():
 		steve_manager.steve_weekly_events.shuffle()
 		
 		steve.morningEvents.append(selectedMorning)
+#		Determine if payday is needed
+		for day in steve.paydays["days"]:
+			if day == DayManager.current_day:
+				steve.morningEvents.append("Payday")
+				break
 		steve.afternoonEvents.append(shuffledAfternoon)
 		if shuffledAfternoon == "Nap" and shuffledAfternoon == "Sleep":
 			steve.eveningEvents.append("Nothing")
