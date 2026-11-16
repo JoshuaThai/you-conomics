@@ -54,6 +54,41 @@ func randomize_event():
 		steve_manager.steve_weekly_events.shuffle()
 		
 		steve.morningEvents.append(selectedMorning)
+#		Determine if payday is needed
+		for day in steve.paydays["days"]:
+			if day == DayManager.current_day:
+				steve.morningEvents.append("Payday")
+				break
+				
+		if steve.money <= 30:
+			steve_manager.steve_low_money_events.shuffle()
+			var lowMoneyEvent = steve_manager.steve_low_money_events[0]
+			print(lowMoneyEvent)
+			if lowMoneyEvent == "Ask for Promotion":
+				var luck = randi_range(1,2)
+				if luck == 2:
+					steve_manager.steve_low_money_events_info[lowMoneyEvent]["choices"][0]["money"] = 10
+					steve_manager.steve_low_money_events_info[lowMoneyEvent]["choices"][0]["mood"] = 20
+					steve_manager.steve_low_money_events_info[lowMoneyEvent]["choices"][0]["reaction"] = "Yes! I got the promotion!"
+					steve.paydays["amount"] += 35
+					print("You got promoted!")
+				else:
+					steve_manager.steve_low_money_events_info[lowMoneyEvent]["choices"][0]["money"] = 0
+					steve_manager.steve_low_money_events_info[lowMoneyEvent]["choices"][0]["mood"] = -20
+					steve_manager.steve_low_money_events_info[lowMoneyEvent]["choices"][0]["reaction"] = "Ugh! No promotion!"
+					print("You did not get promoted!")
+			else:
+				var luck = randi_range(1,2)
+				if luck == 2:
+					steve_manager.steve_low_money_events_info[lowMoneyEvent]["choices"][0]["money"] = 75
+					steve_manager.steve_low_money_events_info[lowMoneyEvent]["choices"][0]["mood"] = 20
+					steve_manager.steve_low_money_events_info[lowMoneyEvent]["choices"][0]["reaction"] = "Phew!"
+				else:
+					steve_manager.steve_low_money_events_info[lowMoneyEvent]["choices"][0]["money"] = -75
+					steve_manager.steve_low_money_events_info[lowMoneyEvent]["choices"][0]["mood"] = -30
+					steve_manager.steve_low_money_events_info[lowMoneyEvent]["choices"][0]["reaction"] = "NOOOOOOOO! I made a bad bet!"
+			lowMoneyEvent = steve_manager.steve_low_money_events[0]
+			steve.morningEvents.append(lowMoneyEvent)
 		steve.afternoonEvents.append(shuffledAfternoon)
 		if shuffledAfternoon == "Nap" and shuffledAfternoon == "Sleep":
 			steve.eveningEvents.append("Nothing")
@@ -211,10 +246,20 @@ func _show_current_period_dialogue():
 						%Steve.get_node("%WithFriends").visible = false
 						steve.go_to_next_period()
 						return
+				elif(steve_manager.steve_low_money_events_info.has(event)):
+					eventData = steve_manager.steve_low_money_events_info[chosenMorningEvent]
 				else:
 					eventData = steve_manager.steve_weekly_events_info[chosenMorningEvent]
 				print(eventData)
+				#		Determine if random bill is going to happen
 				message = eventData["message"]
+				if event == "Random Bill":
+					steve.random_bills.shuffle()
+					var randomBill = steve.random_bills[0]
+					message = message + randomBill["from"] + "!"
+					eventData["choices"][0]["money"] = randomBill["amount"]
+					steve.random_bills[0]["last_day"] = DayManager.current_day
+					
 				options = find_options(eventData["choices"])
 				steve.available_choices_info = eventData["choices"]
 				

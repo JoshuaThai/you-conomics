@@ -45,5 +45,6 @@ func hide_tutorial_screen():
 	
 func reset():
 	dialogue_index = 0
+	emailTutorial = false
 	noObjectInteraction = true
 	

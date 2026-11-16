@@ -139,8 +139,10 @@ func check_if_correct_response(choice_selected_text: String) -> void:
 
 		# Original effects, money changes and time progression are kept.
 		owner.mood += choice["mood"]
+		owner.mood = clamp(owner.mood, 0 , 100)
 		if choice.has("energy"):
 			owner.energy += choice["energy"]
+			owner.energy = clamp(owner.energy, 0, 100)
 
 		close_dialogue()
 		var money = choice["money"]

@@ -53,15 +53,26 @@ var bills: Dictionary = {
 	}
 }
 
-var random_bills = {
-	"mechanic": {
+# Last day represent the last time that the bill was collected by random.
+var random_bills = [
+	{
 		"name": "Mechanic Bill",
-		"amount": 50,
+		"from": "The Mechanic",
+		"amount": -50,
+		"last_day": 0
 	},
-	"forgotten_debt" :{
+	{
 		"name": "Money owed to Fry",
-		"amount": 20
+		"from": "Fry",
+		"amount": -20,
+		"last_day": 0
 	}
+]
+
+var paydays = {
+	"amount": 75,
+	#"days": [7,14,21,28]
+	"days": [7,14,21,28]
 }
 
 # Player won't be able to move to next period until they interact 
@@ -340,6 +351,8 @@ func _ready():
 	#print("Steve is ready!")
 	#set_task_label()
 	#print("Day Number: ", DayManager.find_next_day_number("Saturday"))
+	if TutorialManager.inTutorial:
+		%TutorialHUD.visible = true
 	%NextPeriodButton.hide()
 	%PhoneUI.phone_owner_name = "Steve"
 	%PhoneUI.change_phone_name()
