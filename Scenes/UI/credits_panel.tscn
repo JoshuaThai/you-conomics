@@ -1,0 +1,164 @@
+[gd_scene format=3 uid="uid://d28f1283h4x4u"]
+
+[ext_resource type="Script" uid="uid://bppbm5dxhg4qd" path="res://Scripts/Shared/credits_panel.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="panel_style"]
+bg_color = Color(0.109804, 0.156863, 0.211765, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.282353, 0.407843, 0.470588, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 16
+
+[node name="CreditsPanel" type="Control" unique_id=2077014207]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Shade" type="ColorRect" parent="." unique_id=1992209970]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.015686, 0.023529, 0.035294, 0.91)
+
+[node name="Center" type="CenterContainer" parent="." unique_id=205463702]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center" unique_id=324679072]
+custom_minimum_size = Vector2(940, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("panel_style")
+
+[node name="Margins" type="MarginContainer" parent="Center/Panel" unique_id=456183054]
+layout_mode = 2
+theme_override_constants/margin_left = 55
+theme_override_constants/margin_top = 34
+theme_override_constants/margin_right = 55
+theme_override_constants/margin_bottom = 34
+
+[node name="Contents" type="VBoxContainer" parent="Center/Panel/Margins" unique_id=1664214450]
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[node name="Tag" type="Label" parent="Center/Panel/Margins/Contents" unique_id=598458571]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.435294, 0.745098, 0.686275, 1)
+theme_override_font_sizes/font_size = 18
+text = "YOU-CONOMICS  /  LIFE ON A BUDGET"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="Center/Panel/Margins/Contents" unique_id=2095831188]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.941176, 0.956863, 0.937255, 1)
+theme_override_font_sizes/font_size = 58
+text = "CREDITS"
+horizontal_alignment = 1
+
+[node name="Intro" type="Label" parent="Center/Panel/Margins/Contents" unique_id=1046751935]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.647059, 0.729412, 0.74902, 1)
+theme_override_font_sizes/font_size = 20
+text = "Two stories. One questionable financial future."
+horizontal_alignment = 1
+
+[node name="Gap1" type="Control" parent="Center/Panel/Margins/Contents" unique_id=72551006]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="FryHeading" type="Label" parent="Center/Panel/Margins/Contents" unique_id=1255171176]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.435294, 0.745098, 0.686275, 1)
+theme_override_font_sizes/font_size = 22
+text = "FRY'S STORY"
+horizontal_alignment = 1
+
+[node name="FryRoles" type="Label" parent="Center/Panel/Margins/Contents" unique_id=832869433]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.82, 0.84, 1)
+theme_override_font_sizes/font_size = 20
+text = "Story, dialogue, asset integration and dialogue blip setup"
+horizontal_alignment = 1
+
+[node name="FryName" type="Label" parent="Center/Panel/Margins/Contents" unique_id=331008152]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.941176, 0.956863, 0.937255, 1)
+theme_override_font_sizes/font_size = 31
+text = "Freddie Sanchez"
+horizontal_alignment = 1
+
+[node name="Gap2" type="Control" parent="Center/Panel/Margins/Contents" unique_id=947683898]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SteveHeading" type="Label" parent="Center/Panel/Margins/Contents" unique_id=1892958781]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.435294, 0.745098, 0.686275, 1)
+theme_override_font_sizes/font_size = 22
+text = "STEVE'S STORY / YOU-BO"
+horizontal_alignment = 1
+
+[node name="SteveRoles" type="Label" parent="Center/Panel/Margins/Contents" unique_id=367713535]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.82, 0.84, 1)
+theme_override_font_sizes/font_size = 20
+text = "Story, dialogue, asset integration and You-Bo"
+horizontal_alignment = 1
+
+[node name="SteveName" type="Label" parent="Center/Panel/Margins/Contents" unique_id=99396779]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.941176, 0.956863, 0.937255, 1)
+theme_override_font_sizes/font_size = 31
+text = "Joshua Thaisananikone"
+horizontal_alignment = 1
+
+[node name="Gap3" type="Control" parent="Center/Panel/Margins/Contents" unique_id=1763331579]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="PublisherHeading" type="Label" parent="Center/Panel/Margins/Contents" unique_id=1475166627]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.647059, 0.729412, 0.74902, 1)
+theme_override_font_sizes/font_size = 20
+text = "PUBLISHED BY"
+horizontal_alignment = 1
+
+[node name="PublisherName" type="Label" parent="Center/Panel/Margins/Contents" unique_id=204750994]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.435294, 0.745098, 0.686275, 1)
+theme_override_font_sizes/font_size = 30
+text = "Undead Signal Studios"
+horizontal_alignment = 1
+
+[node name="Gap4" type="Control" parent="Center/Panel/Margins/Contents" unique_id=1802294852]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BackButton" type="Button" parent="Center/Panel/Margins/Contents" unique_id=1931034983]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.91, 0.94, 0.95, 1)
+theme_override_font_sizes/font_size = 27
+text = "BACK"

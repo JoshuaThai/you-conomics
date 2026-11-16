@@ -137,6 +137,20 @@ func randomize_event():
 			steve.email.append(steve_email.steve_emails[0])
 		steve.print_all_events()
 
+
+# Wait for Steve's dialogue without continuing after
+# Steve's scene has been unloaded.
+func _wait_for_steve_dialogue() -> bool:
+	while (
+		is_inside_tree()
+		and is_instance_valid(steve)
+		and steve.ongoingDialogue
+	):
+		await get_tree().process_frame
+
+	return is_inside_tree() and is_instance_valid(steve)
+
+
 func find_options(choices):
 	var options = []
 	for choice in choices:
@@ -182,6 +196,7 @@ func check_house_objects(currentPeriod):
 	check_mail(currentPeriod)
 
 # Show the current period's event dialogue
+
 func _show_current_period_dialogue():
 	var current_period = DayManager.get_period()
 	print(current_period)
@@ -208,10 +223,12 @@ func _show_current_period_dialogue():
 		steve.load_necessary_data("Fridge", {})
 		
 		steve.show_dialogue(speaker, message, options)
-		while steve.ongoingDialogue:
-			await get_tree().process_frame
+		if not (await _wait_for_steve_dialogue()):
+			return
 		#print("No more dialogue occuring")
 		await get_tree().create_timer(3.0).timeout
+		if not is_inside_tree():
+			return
 #		If it is the weekday, the player will always have lunch
 		if not DayManager.isWeekend:
 			for event in steve.morningEvents:
@@ -226,6 +243,8 @@ func _show_current_period_dialogue():
 					eventData = steve_manager.steve_special_events_info[chosenMorningEvent]
 					if chosenMorningEvent == "Hanging out with friends":
 						await %SteveHome.halfway_transition()
+						if not is_inside_tree():
+							return
 						%Steve.get_node("%WithFriends").visible = true
 						var dialogues = steve_dialogue.steve_hang_out_with_friends["dialogues"]
 						for dialogue in dialogues:
@@ -240,8 +259,8 @@ func _show_current_period_dialogue():
 							
 							steve.show_dialogue(dialogue["speaker"], 
 							dialogue["text"], options)
-							while steve.ongoingDialogue:
-								await get_tree().process_frame
+							if not (await _wait_for_steve_dialogue()):
+								return
 						
 						%Steve.get_node("%WithFriends").visible = false
 						steve.go_to_next_period()
@@ -264,8 +283,8 @@ func _show_current_period_dialogue():
 				steve.available_choices_info = eventData["choices"]
 				
 				steve.show_dialogue(speaker, message, options)
-				while steve.ongoingDialogue:
-					await get_tree().process_frame
+				if not (await _wait_for_steve_dialogue()):
+					return
 			if TutorialManager.inTutorial:
 				steve.get_node("%TutorialHUD").visible = true
 			steve.set_task_label()
@@ -283,8 +302,8 @@ func _show_current_period_dialogue():
 					steve.available_choices_info = eventData["choices"]
 					
 					steve.show_dialogue(speaker, message, options)
-					while steve.ongoingDialogue:
-						await get_tree().process_frame
+					if not (await _wait_for_steve_dialogue()):
+						return
 			
 			steve.set_task_label()
 	elif current_period == "Afternoon":
@@ -310,10 +329,12 @@ func _show_current_period_dialogue():
 			steve.available_choices_info = eventData["choices"]
 			
 			steve.show_dialogue(speaker, message, options)
-			while steve.ongoingDialogue:
-				await get_tree().process_frame
+			if not (await _wait_for_steve_dialogue()):
+				return
 			#print("No more dialogue occuring")
 			await get_tree().create_timer(3.0).timeout
+			if not is_inside_tree():
+				return
 		if (TutorialManager.inTutorial 
 		and not steve.get_node("%TutorialLabel").text == "Sometimes, you will have to interact with objects in the house to get to next period."):
 			steve.get_node("%TutorialHUD").visible = true
@@ -364,11 +385,12 @@ func _show_current_period_dialogue():
 			steve.available_choices_info = eventData["choices"]
 			
 			steve.show_dialogue(speaker, message, options)
-			while steve.ongoingDialogue:
-				await get_tree().process_frame
+			if not (await _wait_for_steve_dialogue()):
+				return
 			#print("No more dialogue occuring")
 			await get_tree().create_timer(3.0).timeout
+			if not is_inside_tree():
+				return
 		if TutorialManager.inTutorial:
 			steve.get_node("%TutorialHUD").visible = true
 		steve.set_task_label()
-			

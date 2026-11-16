@@ -209,6 +209,16 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_muted")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_muted")
 text = "CREDITS"
 
+[node name="QuitButton" type="Button" parent="MainPage/MainCenter/MainVBox" unique_id=1771558457]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.792157, 0.835294, 0.847059, 1)
+theme_override_colors/font_disabled_color = Color(0.615686, 0.67451, 0.709804, 1)
+theme_override_font_sizes/font_size = 27
+theme_override_styles/normal = SubResource("StyleBoxFlat_muted")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_muted")
+text = "QUIT"
+
 [node name="StoryPage" type="Control" parent="." unique_id=208302565]
 visible = false
 layout_mode = 1

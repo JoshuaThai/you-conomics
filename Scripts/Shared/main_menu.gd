@@ -7,6 +7,11 @@ const SETTINGS_PANEL_SCENE: PackedScene = preload(
 	"res://Scenes/UI/settings_panel.tscn"
 )
 
+const CREDITS_PANEL_SCENE: PackedScene = preload(
+	"res://Scenes/UI/credits_panel.tscn"
+)
+
+var credits_panel: Control
 var settings_panel: Control
 
 @onready var main_page: Control = $MainPage
@@ -17,6 +22,7 @@ var settings_panel: Control
 @onready var settings_button: Button = $MainPage/MainCenter/MainVBox/SettingsButton
 @onready var tutorial_button: Button = $MainPage/MainCenter/MainVBox/TutorialButton
 @onready var credits_button: Button = $MainPage/MainCenter/MainVBox/CreditsButton
+@onready var quit_button: Button = $MainPage/MainCenter/MainVBox/QuitButton
 
 @onready var fry_button: Button = $StoryPage/StoryCenter/StoryVBox/CharacterCards/FryButton
 @onready var steve_button: Button = $StoryPage/StoryCenter/StoryVBox/CharacterCards/SteveButton
@@ -70,7 +76,20 @@ func _ready() -> void:
 	settings_button.disabled = false
 	settings_button.tooltip_text = ""
 	settings_button.pressed.connect(_on_settings_pressed)
-
+	credits_panel = CREDITS_PANEL_SCENE.instantiate()
+	add_child(credits_panel)
+	
+	credits_panel.set_anchors_and_offsets_preset(
+		Control.PRESET_FULL_RECT
+	)
+	
+	credits_panel.closed.connect(_on_credits_closed)
+	
+	credits_button.disabled = false
+	credits_button.tooltip_text = ""
+	
+	credits_button.pressed.connect(_on_credits_pressed)
+	quit_button.pressed.connect(_on_quit_pressed)
 
 
 func _on_play_pressed() -> void:
@@ -139,6 +158,11 @@ func _open_tutorial(scene_path: String) -> void:
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
+	if credits_panel != null and credits_panel.visible:
+		if event.is_action_pressed("ui_cancel"):
+			credits_panel.close_panel()
+			get_viewport().set_input_as_handled()
+		return
 	if settings_panel != null and settings_panel.visible:
 		if event.is_action_pressed("ui_cancel"):
 			settings_panel.call("close_panel")
@@ -165,3 +189,16 @@ func _on_settings_pressed() -> void:
 func _on_settings_closed() -> void:
 	main_page.show()
 	settings_button.grab_focus()
+
+func _on_credits_pressed() -> void:
+	main_page.hide()
+	credits_panel.open_panel()
+
+
+func _on_credits_closed() -> void:
+	main_page.show()
+	credits_button.grab_focus()
+
+
+func _on_quit_pressed() -> void:
+	get_tree().quit()
