@@ -45,7 +45,7 @@ var bills: Dictionary = {
 	
 	"student debt": {
 		"name": "Student Loans",
-		"amount": 250,
+		"amount": 50,
 		"due_day": 20,
 		"late_fee": 50,
 		"paid": false,
@@ -484,6 +484,8 @@ func clear_events():
 	nightEvents.clear()
 	
 func go_to_next_period():
+	if %TutorialLabel.text == "You can also move around by clicking. Try it!":
+		return
 	var current_day = DayManager.current_day
 	%NextPeriodButton.hide()
 	%MoneyLabel.hide()
@@ -494,8 +496,13 @@ func go_to_next_period():
 	%PeriodLabel.hide()
 	house_object.emailInteractedWith = false
 	await steve_Home.trigger_transition()
+#	Game completed!
 	if current_day == 30 and DayManager.get_period() == "Evening":
 		%MonthRecapOverlay.visible = true
+		return
+#	Tutorial completed!
+	if %TutorialLabel.text == "":
+		%TutorialCompleteOverlay.visible = true
 		return
 	DayManager.advance_period()
 	

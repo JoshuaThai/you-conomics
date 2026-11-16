@@ -5,6 +5,23 @@ extends Control
 @onready var steve_dialogue = %SteveEventDialogue
 @onready var steve = %Steve
 
+func load_tutorial():
+#		Load the events
+		var selectedMorning = steve_manager.normal_morning_events[0]
+		var shuffledAfternoon = "Work a extra shift"
+		var shuffledEvening = "Scam Email"
+		
+		steve_email.steve_scam_emails.shuffle()
+		steve.email.append(steve_email.steve_scam_emails[0])
+		
+		steve.morningEvents.append(selectedMorning)
+		steve.afternoonEvents.append(shuffledAfternoon)
+		steve.eveningEvents.append(shuffledEvening)
+		
+		steve.print_all_events()
+
+		
+
 # Randomize the events for each day
 func randomize_event():
 	if steve_manager.normal_evening_events_info["Sleep"]["cooldown"]:
@@ -93,7 +110,7 @@ func find_options(choices):
 
 # Determine if checking fridge is necessary
 func check_fridge():
-	if steve.grocery_meals <= 0:
+	if steve.grocery_meals <= 0 and not TutorialManager.inTutorial:
 		steve.clickAllObjects["Fridge"] = false
 	else:
 		steve.clickAllObjects["Fridge"] = true
@@ -163,6 +180,9 @@ func _show_current_period_dialogue():
 #		If it is the weekday, the player will always have lunch
 		if not DayManager.isWeekend:
 			for event in steve.morningEvents:
+				if TutorialManager.inTutorial:
+					steve.get_node("%TutorialHUD").visible = true
+					print("Tutorial HUD should come back!")
 				var chosenMorningEvent = event
 				steve.currentEvent = chosenMorningEvent.capitalize()
 				if(steve_manager.normal_morning_events_info.has(event)):
@@ -201,6 +221,8 @@ func _show_current_period_dialogue():
 				steve.show_dialogue(speaker, message, options)
 				while steve.ongoingDialogue:
 					await get_tree().process_frame
+			if TutorialManager.inTutorial:
+				steve.get_node("%TutorialHUD").visible = true
 			steve.set_task_label()
 #			Handle weekend dialogue
 		else:
@@ -226,6 +248,8 @@ func _show_current_period_dialogue():
 		print("Afternoon: ", steve.afternoonEvents)
 		for event in steve.afternoonEvents:
 			print("event: ", event)
+			if TutorialManager.inTutorial:
+				steve.get_node("%TutorialHUD").visible = true
 			if(event == "Nothing"): continue
 			var eventData = ""
 			steve.currentEvent = event.capitalize()
@@ -245,6 +269,9 @@ func _show_current_period_dialogue():
 				await get_tree().process_frame
 			#print("No more dialogue occuring")
 			await get_tree().create_timer(3.0).timeout
+		if (TutorialManager.inTutorial 
+		and not steve.get_node("%TutorialLabel").text == "Sometimes, you will have to interact with objects in the house to get to next period."):
+			steve.get_node("%TutorialHUD").visible = true
 		steve.set_task_label()
 	elif current_period == "Evening":
 		steve.nappingOrSleep = false
@@ -252,6 +279,8 @@ func _show_current_period_dialogue():
 		print("Evening: ", steve.eveningEvents)
 		for event in steve.eveningEvents:
 			print("event: ", event)
+			if TutorialManager.inTutorial:
+				steve.get_node("%TutorialHUD").visible = true
 			if(event == "Nothing"): continue
 			var eventData = ""
 			steve.currentEvent = event.capitalize()
@@ -294,5 +323,7 @@ func _show_current_period_dialogue():
 				await get_tree().process_frame
 			#print("No more dialogue occuring")
 			await get_tree().create_timer(3.0).timeout
+		if TutorialManager.inTutorial:
+			steve.get_node("%TutorialHUD").visible = true
 		steve.set_task_label()
 			

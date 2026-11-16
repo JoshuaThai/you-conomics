@@ -10,6 +10,7 @@ var grocery_Cost = 35
 
 # Close the panel
 func _on_close_button_pressed():
+	if not TutorialManager.emailTutorial: return
 	hide()
 
 func close_all_other_panels(panelName: String):
@@ -71,6 +72,8 @@ func _on_report_button_pressed():
 	if (currentRelevantEmailData.is_empty() 
 	or emailInteractedWith): return
 	owner.interact_with_object("Computer")
+	TutorialManager.emailTutorial = true
+	owner.get_node("%TutorialHUD").visible = true
 	
 	if (currentRelevantEmailData["type"] == "scam"):
 		owner.mood += randi_range(2,4)
@@ -121,6 +124,8 @@ func _on_respond_button_pressed():
 	if (currentRelevantEmailData.is_empty() 
 	or emailInteractedWith): return
 	owner.interact_with_object("Computer")
+	TutorialManager.emailTutorial = true
+	owner.get_node("%TutorialHUD").visible = true
 	
 	if (currentRelevantEmailData["type"] == "legit"):
 		if currentRelevantEmailData["subject"] == "Hang out Saturday?":
