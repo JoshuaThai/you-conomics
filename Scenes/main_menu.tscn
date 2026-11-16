@@ -383,3 +383,178 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_back_hover")
 theme_override_styles/hover = SubResource("StyleBoxFlat_back_hover")
 theme_override_styles/focus = SubResource("StyleBoxFlat_focus")
 text = "BACK"
+
+[node name="TutorialPage" type="Control" parent="." unique_id=1555361390]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="StoryCenter" type="CenterContainer" parent="TutorialPage" unique_id=1747294865]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StoryVBox" type="VBoxContainer" parent="TutorialPage/StoryCenter" unique_id=301745607]
+custom_minimum_size = Vector2(1010, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="StoryTitle" type="Label" parent="TutorialPage/StoryCenter/StoryVBox" unique_id=146137713]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.941176, 0.956863, 0.937255, 1)
+theme_override_font_sizes/font_size = 60
+text = "CHOOSE YOUR TUTORIAL"
+horizontal_alignment = 1
+
+[node name="StorySubtitle" type="Label" parent="TutorialPage/StoryCenter/StoryVBox" unique_id=749855139]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.647059, 0.729412, 0.74902, 1)
+theme_override_font_sizes/font_size = 25
+text = "Learn the basics before starting your story."
+horizontal_alignment = 1
+
+[node name="StorySpacer" type="Control" parent="TutorialPage/StoryCenter/StoryVBox" unique_id=191590805]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="CharacterCards" type="HBoxContainer" parent="TutorialPage/StoryCenter/StoryVBox" unique_id=810396125]
+layout_mode = 2
+theme_override_constants/separation = 34
+alignment = 1
+
+[node name="FryButton" type="Button" parent="TutorialPage/StoryCenter/StoryVBox/CharacterCards" unique_id=1615736053]
+custom_minimum_size = Vector2(434, 465)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_card")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_card_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_card_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_focus")
+
+[node name="FrySprite" type="TextureRect" parent="TutorialPage/StoryCenter/StoryVBox/CharacterCards/FryButton" unique_id=888920488]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 38.0
+offset_top = 28.0
+offset_right = -38.0
+offset_bottom = -93.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_fry")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FryName" type="Label" parent="TutorialPage/StoryCenter/StoryVBox/CharacterCards/FryButton" unique_id=894540973]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -88.0
+offset_bottom = -42.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.94902, 0.960784, 0.94902, 1)
+theme_override_font_sizes/font_size = 35
+text = "FRY"
+horizontal_alignment = 1
+
+[node name="FryDetail" type="Label" parent="TutorialPage/StoryCenter/StoryVBox/CharacterCards/FryButton" unique_id=1233658913]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -43.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.592157, 0.772549, 0.745098, 1)
+theme_override_font_sizes/font_size = 19
+text = "Movement • Events • Budgeting"
+horizontal_alignment = 1
+
+[node name="SteveButton" type="Button" parent="TutorialPage/StoryCenter/StoryVBox/CharacterCards" unique_id=1831054316]
+custom_minimum_size = Vector2(434, 465)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_card")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_card_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_card_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_focus")
+
+[node name="SteveSprite" type="TextureRect" parent="TutorialPage/StoryCenter/StoryVBox/CharacterCards/SteveButton" unique_id=626183598]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 83.0
+offset_top = 88.0
+offset_right = 7.0
+offset_bottom = -33.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.825, 0.825)
+mouse_filter = 2
+texture = ExtResource("3_steve")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SteveName" type="Label" parent="TutorialPage/StoryCenter/StoryVBox/CharacterCards/SteveButton" unique_id=1456572944]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -88.0
+offset_bottom = -42.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.94902, 0.960784, 0.94902, 1)
+theme_override_font_sizes/font_size = 35
+text = "STEVE"
+horizontal_alignment = 1
+
+[node name="SteveDetail" type="Label" parent="TutorialPage/StoryCenter/StoryVBox/CharacterCards/SteveButton" unique_id=64491974]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -43.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.592157, 0.772549, 0.745098, 1)
+theme_override_font_sizes/font_size = 19
+text = "Learn Steve's gameplay"
+horizontal_alignment = 1
+
+[node name="BackButton" type="Button" parent="TutorialPage/StoryCenter/StoryVBox" unique_id=398728165]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.792157, 0.835294, 0.847059, 1)
+theme_override_colors/font_hover_color = Color(0.94902, 0.960784, 0.94902, 1)
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_back")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_back_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_back_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_focus")
+text = "BACK"

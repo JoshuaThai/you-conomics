@@ -323,6 +323,39 @@ var after_campus_lines: String = ""
 var current_location: String = "bedroom"
 var transitioning: bool = false
 
+#region Fry - Tutorial
+
+var fry_tutorial_stage: String = ""
+var fry_tutorial_intro_index: int = 0
+var fry_tutorial_walk_start_x: float = 0.0
+
+# Tracks You-bo's two movement interruptions.
+# 0 = first attempt, 1 = second attempt,
+# 2 = second interruption, 3 = final apology shown.
+var fry_tutorial_movement_joke_step: int = 0
+var fry_tutorial_movement_key_armed: bool = true
+
+# Tracks whether the player actually opened Finances.
+var fry_tutorial_finances_seen: bool = false
+
+var fry_tutorial_intro_lines: Array[String] = [
+	"Hey there! Welcome to You-conomics! I'm You-bo, and I'll be your guide today.",
+	
+	"This is Fry. He's a college student trying to survive the month without completely destroying his bank account. Relatable, right?",
+	
+	"At the top of your screen, you'll see your Money, Mood, and Energy. You'll want to keep an eye on all three.",
+	
+	"Each day usually has Morning, Afternoon, and Evening. Sometimes there's a Night period too. Because apparently three periods weren't enough.",
+	
+	"Alright, first things first. Use A to walk left and D to walk right.",
+	
+	"And before you ask, yes, Fry just slides across the floor. Walking animations weren't in the budget. He's doing his best, okay?",
+	
+	"Go ahead! Move Fry around a little. I'll know when you've done it.",
+]
+
+#endregion
+
 # Classroom / campus positions.
 const FRY_CAMPUS_POSITION: Vector2 = Vector2(650, 770)
 const DULCE_CAMPUS_POSITION: Vector2 = Vector2(1220, 770)
@@ -4249,6 +4282,8 @@ func finish_movie_night() -> void:
 
 @onready var dialogue_manager: DialogueManager = $UI/HUD/DialoguePanel
 
+@onready var you_bo_portrait: TextureRect = $UI/HUD/YouBoPortrait
+
 @onready var campus_backdrop: ColorRect = $CampusBackdrop
 @onready var classroom_set: TextureRect = $CampusBackdrop/ClassroomSet
 @onready var bedroom_camera: Camera2D = $Camera2D
@@ -4396,12 +4431,37 @@ func _physics_process(_delta: float) -> void:
 		room_interaction_prompt.hide()
 		return
 
+	# You-bo interrupts each new movement attempt.
+	if (
+		TutorialManager.inTutorial
+		and fry_tutorial_stage == "movement"
+		and fry_tutorial_movement_joke_step < 3
+	):
+		var movement_pressed: bool = (
+			Input.is_key_pressed(KEY_A)
+			or Input.is_key_pressed(KEY_D)
+		)
+		
+		if not movement_pressed:
+			fry_tutorial_movement_key_armed = true
+		
+		elif fry_tutorial_movement_key_armed:
+			fry_tutorial_movement_key_armed = false
+			start_fry_tutorial_movement_joke()
+			return
+		
+		else:
+			# Wait for the keys to be released.
+			fry_room_body.velocity = Vector2.ZERO
+			return
+		
+	
 	var direction: float = 0.0
 	if Input.is_key_pressed(KEY_A):
 		direction -= 1.0
 	if Input.is_key_pressed(KEY_D):
 		direction += 1.0
-
+	
 	fry_room_body.velocity = Vector2(direction * FRY_BEDROOM_WALK_SPEED, 0.0)
 	fry_room_body.move_and_slide()
 	
@@ -4422,8 +4482,19 @@ func _physics_process(_delta: float) -> void:
 	# Follow Fry horizontally while exploring the bedroom.
 	bedroom_camera.position.x = fry_room_body.position.x
 	update_room_interaction_prompt()
+	
+	# Tutorial: the player must actually move Fry.
+	if TutorialManager.inTutorial and fry_tutorial_stage == "movement":
+		var distance_walked: float = absf(
+			fry_room_body.position.x - fry_tutorial_walk_start_x
+		)
+		
+		if distance_walked >= 130.0:
+			complete_fry_tutorial_movement()
+
 
 #endregion
+
 
 #region Fry - Bedroom Interaction Prompts
 
@@ -4555,6 +4626,220 @@ func _unhandled_key_input(event: InputEvent) -> void:
 #endregion
 
 
+#region Fry - Tutorial Functions
+
+
+func _process(_delta: float) -> void:
+	if not TutorialManager.inTutorial:
+		return
+		
+	var phone_open: bool = bool(phone_ui.get("phone_is_open"))
+	
+	match fry_tutorial_stage:
+		"phone_finances":
+			var finances_screen: Control = phone_ui.get("finances_app") as Control
+			
+			if finances_screen != null and finances_screen.visible:
+				fry_tutorial_finances_seen = true
+			
+			# Wait until the player closes the phone.
+			if fry_tutorial_finances_seen and not phone_open:
+				fry_tutorial_stage = "finances_complete"
+				event_state = "fry_tutorial_finances_checked"
+				
+				dialogue_manager.show_dialogue(
+					"YOU-BO",
+					"Nice! Finances shows your balance, upcoming bills, and spending history. That school-supplies expense is already in there.",
+					["Continue"],
+					"neutral"
+				)
+		
+		"phone_fooddash":
+			# A successful FoodDash delivery creates a pending order.
+			# Wait for the player to close the phone before speaking.
+			if not pending_grocery_delivery.is_empty() and not phone_open:
+				fry_tutorial_stage = "fooddash_complete"
+				event_state = "fry_tutorial_order_placed"
+
+				dialogue_manager.show_dialogue(
+					"YOU-BO",
+					"Order placed! Four meals cost $24, plus a $7 delivery fee. That's $31 for the luxury of not leaving the house.",
+					["Continue"],
+					"neutral"
+				)
+
+
+func start_fry_tutorial() -> void:
+	
+	fry_tutorial_movement_joke_step = 0
+	fry_tutorial_movement_key_armed = true
+	fry_tutorial_finances_seen = false
+	
+	# Give the tutorial its own Night period.
+	DayManager.schedule_night_for_day(1)
+	
+	fry_tutorial_stage = "intro"
+	fry_tutorial_intro_index = 0
+	event_state = "fry_tutorial_intro"
+	
+	active_event.clear()
+	period_queue.clear()
+	
+	you_bo_portrait.show()
+	next_day_button.hide()
+	
+	show_next_fry_tutorial_intro()
+
+
+func show_next_fry_tutorial_intro() -> void:
+	if fry_tutorial_intro_index < fry_tutorial_intro_lines.size():
+		var line: String = fry_tutorial_intro_lines[fry_tutorial_intro_index]
+		fry_tutorial_intro_index += 1
+	
+		event_state = "fry_tutorial_intro"
+	
+		dialogue_manager.show_dialogue(
+			"YOU-BO",
+			line,
+			["Continue"],
+			"neutral"
+		)
+		return
+	
+	# The introduction is over. Allow Fry to walk.
+	fry_tutorial_stage = "movement"
+	event_state = ""
+	fry_tutorial_walk_start_x = fry_room_body.position.x
+	
+	dialogue_manager.close_dialogue()
+	next_day_button.hide()
+
+
+func start_fry_tutorial_movement_joke() -> void:
+	fry_tutorial_stage = "movement_joke"
+	event_state = "fry_tutorial_movement_joke"
+	
+	fry_room_body.velocity = Vector2.ZERO
+	next_day_button.hide()
+	
+	if fry_tutorial_movement_joke_step == 0:
+		# First attempt to move.
+		fry_tutorial_movement_joke_step = 1
+	
+		dialogue_manager.show_dialogue(
+			"YOU-BO",
+			"Remember, it's A and D.",
+			["Continue"],
+			"neutral"
+		)
+	
+	elif fry_tutorial_movement_joke_step == 1:
+		# Second attempt to move.
+		fry_tutorial_movement_joke_step = 2
+	
+		dialogue_manager.show_dialogue(
+			"YOU-BO",
+			"So just move now.",
+			["Continue"],
+			"neutral"
+		)
+	
+	elif fry_tutorial_movement_joke_step == 2:
+		# Third attempt to move.
+		fry_tutorial_movement_joke_step = 3
+	
+		dialogue_manager.show_dialogue(
+			"YOU-BO",
+			"Yep, oh wait. I'm interrupting.",
+			["Continue"],
+			"neutral"
+		)
+
+
+func show_next_fry_tutorial_movement_joke() -> void:
+	# You-bo finally realizes what he's been doing.
+	if fry_tutorial_movement_joke_step == 3:
+		fry_tutorial_movement_joke_step = 4
+	
+		dialogue_manager.show_dialogue(
+			"YOU-BO",
+			"Oops, lol.",
+			["Continue"],
+			"neutral"
+		)
+		return
+	
+	# Let the player try moving again.
+	dialogue_manager.close_dialogue()
+	event_state = ""
+	fry_tutorial_stage = "movement"
+	
+	fry_tutorial_walk_start_x = fry_room_body.position.x
+
+
+func complete_fry_tutorial_movement() -> void:
+	fry_tutorial_stage = "movement_complete"
+	event_state = "fry_tutorial_movement_result"
+	
+	next_day_button.hide()
+	
+	dialogue_manager.show_dialogue(
+		"YOU-BO",
+		"Hey, look at that! Fry can move! No walking animation, but hey, we take what we can get.",
+		["Continue"],
+		"happy"
+	)
+
+
+func start_fry_tutorial_afternoon() -> void:
+	fry_tutorial_stage = "afternoon_intro"
+	event_state = "fry_tutorial_afternoon_intro"
+	next_day_button.hide()
+	
+	dialogue_manager.show_dialogue(
+		"YOU-BO",
+		"Sometimes unexpected events pop up during your day. You might earn a little money, lose some, or have to make a tough decision. Let's try one!",
+		["Continue"],
+		"neutral"
+	)
+
+
+func show_fry_tutorial_small_event() -> void:
+	fry_tutorial_stage = "small_event_choice"
+	
+	# Uses a real Fry random event, but marked as a tutorial
+	# so the normal 30-day story is not involved.
+	active_event = make_fry_random_event("fry_rand_supplies")
+	active_event["id"] = "fry_tutorial_supplies"
+	
+	event_state = "event_choice"
+	next_day_button.hide()
+	
+	var options: Array[String] = []
+	
+	for choice in active_event.get("choices", []):
+		options.append(str(choice.get("text", "Choose")))
+	
+	dialogue_manager.show_dialogue(
+		str(active_event.get("speaker", "FRY")),
+		str(active_event.get("message", "")),
+		options,
+		"neutral"
+	)
+
+
+func finish_fry_tutorial() -> void:
+	# Turn off tutorial mode before starting the real story.
+	TutorialManager.inTutorial = false
+	TutorialManager.reset()
+	
+	# Play You-bo's special loading transition.
+	get_node("/root/SceneTransition").fade_to_fry_story_with_youbo()
+
+
+#endregion
+
+
 #region Fry - Initialization
 
 func _ready() -> void:
@@ -4578,6 +4863,10 @@ func _ready() -> void:
 	dulce_campus.hide()
 	steve_campus.hide()
 	build_cinema_background()
+	
+	# You-bo only appears during the tutorial.
+	you_bo_portrait.hide()
+
 	screen_fade.color = Color.BLACK
 	screen_fade.modulate.a = 0.0
 	screen_fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -4644,9 +4933,14 @@ func _ready() -> void:
 	# Optional bedroom interactions. Does not interfere with the dialogue signals.
 	bed_area.input_event.connect(_on_bed_input_event)
 	desk_area.input_event.connect(_on_desk_input_event)
-
+	
 	update_ui()
-	start_current_period()
+	
+	if TutorialManager.inTutorial:
+		start_fry_tutorial()
+	else:
+		start_current_period()
+
 
 #endregion
 
@@ -5250,6 +5544,10 @@ func can_use_room_activity() -> bool:
 		and event_state == ""
 		and active_event.is_empty()
 		and period_queue.is_empty()
+		and (
+			not TutorialManager.inTutorial
+			or fry_tutorial_stage == "night_bed"
+		)
 	)
 
 
@@ -5473,21 +5771,46 @@ func resolve_room_activity_choice(index: int) -> void:
 	)
 
 
-
 func cancel_room_activity() -> void:
 	active_room_activity = ""
 	event_state = ""
 	dialogue_manager.close_dialogue()
-	next_day_button.show()
+	
+	if TutorialManager.inTutorial and fry_tutorial_stage == "night_bed":
+		# The player can try the bed again.
+		next_day_button.hide()
+	else:
+		next_day_button.show()
 
 
 func complete_room_activity() -> void:
-	# An activity consumes this period. Reset the dialogue state first,
-	# so Fry's existing advance_time() method is allowed to run.
+	# Detect the tutorial sleep before clearing the activity.
+	var completed_tutorial_bed: bool = (
+		TutorialManager.inTutorial
+		and fry_tutorial_stage == "night_bed"
+		and active_room_activity == "sleep"
+	)
+	
 	active_room_activity = ""
 	event_state = ""
 	dialogue_manager.close_dialogue()
+	
+	if completed_tutorial_bed:
+		fry_tutorial_stage = "night_complete"
+		event_state = "fry_tutorial_night_rest_finished"
+		next_day_button.hide()
+	
+		dialogue_manager.show_dialogue(
+			"YOU-BO",
+			"There we go! Fry got some Energy back. Sleep does wonders. Almost like it's an actual human requirement.",
+			["Continue"],
+			"neutral"
+		)
+		return
+	
+	# Preserve normal behavior outside the tutorial.
 	advance_time(true)
+
 
 #endregion
 
@@ -6322,25 +6645,78 @@ func load_period_event() -> void:
 func advance_time(force_fade: bool = false) -> void:
 	if event_state != "" or transitioning:
 		return
-
+	
+	# Tutorial periods run separately from Fry's regular story.
+	if TutorialManager.inTutorial:
+		if fry_tutorial_stage not in [
+			"afternoon_ready",
+			"evening_ready",
+			"night_ready"
+		]:
+			return
+		
+		DayManager.advance_period()
+		
+		if DayManager.finished:
+			return
+		
+		change_energy(-PERIOD_ENERGY_COST)
+		update_ui()
+		next_day_button.hide()
+		
+		match DayManager.get_period():
+			"Afternoon":
+				start_fry_tutorial_afternoon()
+			
+			"Evening":
+				fry_tutorial_stage = "evening_intro"
+				event_state = "fry_tutorial_evening_intro"
+				dialogue_manager.show_dialogue(
+					"YOU-BO",
+					"Evening already? Let's check Fry's phone. Open it at the bottom-right and select Finances. That's where your money goes to confess its crimes.",
+					["Continue"],
+					"neutral"
+				)
+			
+			"Night":
+				# Deliver the tutorial's FoodDash order if due.
+				if not pending_grocery_delivery.is_empty():
+					if (
+						int(pending_grocery_delivery["day"]) == DayManager.current_day
+						and str(pending_grocery_delivery["period"]) == "Night"
+					):
+						grocery_meals += int(pending_grocery_delivery["meals"])
+						pending_grocery_delivery.clear()
+				
+				fry_tutorial_stage = "night_intro"
+				event_state = "fry_tutorial_night_intro"
+				
+				dialogue_manager.show_dialogue(
+					"YOU-BO",
+					"Well, it's Night! Those FoodDash groceries should be here. Now let's teach Fry the ancient art of going to bed.",
+					["Continue"],
+					"neutral"
+				)
+		return
+	
 	var previous_day: int = DayManager.current_day
 	DayManager.advance_period()
-
+	
 	if DayManager.finished:
 		return
-
+	
 	# Time passing is not completely free, even when skipping an event.
 	change_energy(-PERIOD_ENERGY_COST)
-
+	
 	# A new day restores some Energy; sleeping early restores more.
 	if DayManager.current_day > previous_day:
 		change_energy(OVERNIGHT_ENERGY_GAIN)
 		if energy <= 20:
 			change_mood(-2) # Prolonged fatigue starts affecting Fry's mood.
-
+	
 	var day: int = DayManager.current_day
 	var period: String = DayManager.get_period()
-
+	
 	var going_to_campus: bool = (
 		(
 			day == 4
@@ -6356,9 +6732,7 @@ func advance_time(force_fade: bool = false) -> void:
 			and period == "Afternoon"
 		)
 	)
-
-
-
+	
 	var destination: String = "campus" if going_to_campus else "bedroom"
 	var story_overnight: bool = (
 		previous_day != day
@@ -6366,11 +6740,11 @@ func advance_time(force_fade: bool = false) -> void:
 		and period == "Morning"
 		and bool(story_flags.get("attend_campus", false))
 	)
-
+	
 	# Fade overnight for the story, and whenever the place changes.
 	if destination != current_location or story_overnight or force_fade:
 		await fade_to_location(destination)
-
+	
 	start_current_period()
 
 
@@ -6637,14 +7011,30 @@ func resolve_event_choice(index: int) -> void:
 func finish_event() -> void:
 	var finished_id: String = str(active_event.get("id", ""))
 	var should_advance: bool = event_consumes_period
-
+	
 	event_consumes_period = false
 	active_event.clear()
-
-
+	
+	# Return to You-bo after the tutorial's example event.
+	if (
+		TutorialManager.inTutorial
+		and finished_id == "fry_tutorial_supplies"
+	):
+		fry_tutorial_stage = "afternoon_debrief"
+		event_state = "fry_tutorial_afternoon_debrief"
+		next_day_button.hide()
+	
+		dialogue_manager.show_dialogue(
+			"YOU-BO",
+			"See how that worked? Your decision affected Fry's Money, Mood, or Energy. Small events can happen throughout the month, and some are more expensive than others. There's not always one perfect answer. Anyway, let's head to the Evening!",
+			["Continue"],
+			"neutral"
+		)
+		return
+	
 	if finished_id == "fry_textbook_choice":
 		var dulce_reaction: String = ""
-
+	
 		match textbook_choice:
 			"library":
 				dulce_reaction = "That's a good way to save money. Just remember to pick it up tomorrow!"
@@ -6988,6 +7378,141 @@ func finish_event() -> void:
 func _on_dialogue_choice_selected(index: int) -> void:
 
 	match event_state:
+
+		"fry_tutorial_intro":
+			show_next_fry_tutorial_intro()
+
+		"fry_tutorial_movement_joke":
+			show_next_fry_tutorial_movement_joke()
+
+		"fry_tutorial_movement_result":
+			fry_tutorial_stage = "movement_finished"
+			event_state = "fry_tutorial_to_afternoon"
+
+			dialogue_manager.show_dialogue(
+				"YOU-BO",
+				"Next, let's talk about the little surprises life throws at you. And by surprises, I usually mean bills. Click TO AFTERNOON when you're ready.",
+				["Continue"],
+				"neutral"
+			)
+
+		"fry_tutorial_to_afternoon":
+			fry_tutorial_stage = "afternoon_ready"
+			event_state = ""
+			dialogue_manager.close_dialogue()
+			update_ui()
+			next_day_button.show()
+
+		"fry_tutorial_afternoon_intro":
+			show_fry_tutorial_small_event()
+
+		"fry_tutorial_afternoon_debrief":
+			event_state = "fry_tutorial_ui_joke"
+
+			dialogue_manager.show_dialogue(
+				"YOU-BO",
+				"Oh, and yes. I can see the text trying to escape that dialogue box down there. Apparently, I'm too powerful for the UI.",
+				["Continue"],
+				"neutral"
+			)
+
+		"fry_tutorial_ui_joke":
+			event_state = "fry_tutorial_ui_joke_end"
+
+			dialogue_manager.show_dialogue(
+				"YOU-BO",
+				"Don't worry. It'll behave during the actual game. Probably. Anyway, on to Evening!",
+				["Continue"],
+				"neutral"
+			)
+
+		"fry_tutorial_ui_joke_end":
+			fry_tutorial_stage = "evening_ready"
+			event_state = ""
+			dialogue_manager.close_dialogue()
+			update_ui()
+			next_day_button.show()
+
+		"fry_tutorial_evening_intro":
+			# Let the player open the phone and inspect Finances.
+			fry_tutorial_stage = "phone_finances"
+			event_state = ""
+			dialogue_manager.close_dialogue()
+			next_day_button.hide()
+
+		"fry_tutorial_finances_checked":
+			fry_tutorial_stage = "fooddash_intro"
+			event_state = "fry_tutorial_fooddash_intro"
+
+			dialogue_manager.show_dialogue(
+				"YOU-BO",
+				"See the bills and transactions? Keep an eye on those! Now open FoodDash and order groceries for delivery. Let's see what convenience costs.",
+				["Continue"],
+				"neutral"
+			)
+
+		"fry_tutorial_fooddash_intro":
+			# Wait until the player places a real delivery order.
+			fry_tutorial_stage = "phone_fooddash"
+			event_state = ""
+			dialogue_manager.close_dialogue()
+			next_day_button.hide()
+
+		"fry_tutorial_order_placed":
+			event_state = "fry_tutorial_evening_wrap"
+
+			dialogue_manager.show_dialogue(
+				"YOU-BO",
+				"The groceries arrive next period. Finances also keeps a record of what you spent. Useful when you wonder where all your money went.",
+				["Continue"],
+				"neutral"
+			)
+
+		"fry_tutorial_evening_wrap":
+			fry_tutorial_stage = "night_ready"
+			event_state = ""
+			dialogue_manager.close_dialogue()
+			update_ui()
+			next_day_button.show()
+
+		"fry_tutorial_night_intro":
+			event_state = "fry_tutorial_night_instruction"
+
+			dialogue_manager.show_dialogue(
+				"YOU-BO",
+				"Walk over to Fry's bed using A and D. Once you're close, press E. Pretty simple, right?",
+				["Continue"],
+				"neutral"
+			)
+
+		"fry_tutorial_night_instruction":
+			fry_tutorial_stage = "night_bed"
+			event_state = ""
+			dialogue_manager.close_dialogue()
+			next_day_button.hide()
+
+		"fry_tutorial_night_rest_finished":
+			event_state = "fry_tutorial_night_final"
+
+			dialogue_manager.show_dialogue(
+				"YOU-BO",
+				"Your desk is for studying during Afternoon or Evening. Studying uses Energy, but helps Fry prepare for exams.",
+				["Continue"],
+				"neutral"
+			)
+
+		"fry_tutorial_night_final":
+			event_state = "fry_tutorial_begin_story"
+
+			dialogue_manager.show_dialogue(
+				"YOU-BO",
+				"And that's the basics! Your real 30-day adventure starts fresh. Nothing you spent here follows you. Ready?",
+				["Begin Story"],
+				"happy"
+			)
+
+		"fry_tutorial_begin_story":
+			finish_fry_tutorial()
 
 		"movie_intro":
 			choose_movie_night_plan(index)

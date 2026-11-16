@@ -24,7 +24,7 @@ const Dialogues = [
 	"Click 'To Morning' to end the tutorial!"
 	]
 
-var inTutorial: bool = true
+var inTutorial: bool = false
 var noObjectInteraction = true
 var emailTutorial = false
 var dialogue_index: int = 0
