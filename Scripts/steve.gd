@@ -53,16 +53,21 @@ var bills: Dictionary = {
 	}
 }
 
-var random_bills = {
-	"mechanic": {
+# Last day represent the last time that the bill was collected by random.
+var random_bills = [
+	{
 		"name": "Mechanic Bill",
-		"amount": 50,
+		"from": "The Mechanic",
+		"amount": -50,
+		"last_day": 0
 	},
-	"forgotten_debt" :{
+	{
 		"name": "Money owed to Fry",
-		"amount": 20
+		"from": "Fry",
+		"amount": -20,
+		"last_day": 0
 	}
-}
+]
 
 var paydays = {
 	"amount": 75,

@@ -26,7 +26,7 @@ var steve_profile: Dictionary = {
 
 # These are the events that you expect to occur on a weekday
 var normal_morning_events = [
-	"Lunch", "Payday"
+	"Lunch", "Payday", "Random Bill"
 ]
 
 var normal_afternoon_events = [
@@ -82,6 +82,19 @@ var normal_morning_events_info = {
 			},
 		]
 	},
+#	This random bill will populate with the correct info
+	"Random Bill": {
+		"message": "Oh no! You got a bill from ",
+		#"Options": ["Yes", "No"],
+		"choices": [
+			{"text" :"Pay it",
+			"money": -75,
+			"energy": -2,
+			"mood": randi_range(-15, 10),
+			"reaction": "Ugh! I hate bills!"
+			},
+		]
+	}
 }
 
 var normal_afternoon_events_info = {

@@ -59,6 +59,7 @@ func randomize_event():
 			if day == DayManager.current_day:
 				steve.morningEvents.append("Payday")
 				break
+				
 		steve.afternoonEvents.append(shuffledAfternoon)
 		if shuffledAfternoon == "Nap" and shuffledAfternoon == "Sleep":
 			steve.eveningEvents.append("Nothing")
@@ -219,7 +220,15 @@ func _show_current_period_dialogue():
 				else:
 					eventData = steve_manager.steve_weekly_events_info[chosenMorningEvent]
 				print(eventData)
+				#		Determine if random bill is going to happen
 				message = eventData["message"]
+				if event == "Random Bill":
+					steve.random_bills.shuffle()
+					var randomBill = steve.random_bills[0]
+					message = message + randomBill["from"] + "!"
+					eventData["choices"][0]["money"] = randomBill["amount"]
+					steve.random_bills[0]["last_day"] = DayManager.current_day
+					
 				options = find_options(eventData["choices"])
 				steve.available_choices_info = eventData["choices"]
 				
