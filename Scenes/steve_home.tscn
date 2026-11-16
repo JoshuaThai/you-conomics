@@ -3,6 +3,10 @@
 [ext_resource type="Script" uid="uid://b26bhi3goqfgb" path="res://Scripts/JT/steve_home.gd" id="1_co4oi"]
 [ext_resource type="Texture2D" uid="uid://cf85nylwsq4vv" path="res://Images/SteveHouse.png" id="1_fg468"]
 [ext_resource type="Texture2D" uid="uid://cw40u64gk7i4u" path="res://Images/Green-Arrow.png" id="3_o68pl"]
+[ext_resource type="AudioStream" uid="uid://tofa7dlaawjx" path="res://Audios/sfx/door-opening.mp3" id="4_4ga4n"]
+[ext_resource type="AudioStream" uid="uid://m0xt5uba3bc4" path="res://Audios/sfx/paper-rustle.mp3" id="5_h5lkh"]
+[ext_resource type="AudioStream" uid="uid://enjrfb5fdayp" path="res://Audios/sfx/keyboard-typing.mp3" id="6_dr8mt"]
+[ext_resource type="AudioStream" uid="uid://dv6u64peximh1" path="res://Audios/sfx/fridge-opening.mp3" id="7_njiju"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fg468"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -96,6 +100,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_h5lkh")
 theme_override_styles/hover = SubResource("StyleBoxFlat_dr8mt")
 
 [node name="BedButton" type="Button" parent="." unique_id=1297906385]
+visible = false
 layout_mode = 0
 offset_left = 206.0
 offset_top = 368.0
@@ -104,6 +109,7 @@ offset_bottom = 399.0
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_njiju")
 theme_override_styles/hover = SubResource("StyleBoxFlat_fmbli")
+disabled = true
 
 [node name="FridgeButton" type="Button" parent="." unique_id=667555851]
 layout_mode = 0
@@ -179,6 +185,22 @@ offset_bottom = 14.6666565
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_m6swd")
 theme_override_styles/hover = SubResource("StyleBoxFlat_fikte")
+
+[node name="DoorSFX" type="AudioStreamPlayer" parent="." unique_id=1903980107]
+unique_name_in_owner = true
+stream = ExtResource("4_4ga4n")
+
+[node name="CalendarSFX" type="AudioStreamPlayer" parent="." unique_id=18271564]
+unique_name_in_owner = true
+stream = ExtResource("5_h5lkh")
+
+[node name="ComputerSFX" type="AudioStreamPlayer" parent="." unique_id=1128629928]
+unique_name_in_owner = true
+stream = ExtResource("6_dr8mt")
+
+[node name="FridgeSFX" type="AudioStreamPlayer" parent="." unique_id=1721738567]
+unique_name_in_owner = true
+stream = ExtResource("7_njiju")
 
 [connection signal="pressed" from="DoorButton" to="." method="_on_door_button_pressed"]
 [connection signal="pressed" from="CalendarButton" to="." method="_on_calendar_button_pressed"]
