@@ -323,14 +323,14 @@ var after_campus_lines: String = ""
 var current_location: String = "bedroom"
 var transitioning: bool = false
 
-# Original two-character campus positions.
-const FRY_CAMPUS_POSITION: Vector2 = Vector2(650, 690)
-const DULCE_CAMPUS_POSITION: Vector2 = Vector2(1220, 690)
+# Classroom / campus positions.
+const FRY_CAMPUS_POSITION: Vector2 = Vector2(650, 770)
+const DULCE_CAMPUS_POSITION: Vector2 = Vector2(1220, 770)
 
 # Group positions for scenes featuring all three friends.
-const FRY_GROUP_POSITION: Vector2 = Vector2(430, 690)
-const STEVE_GROUP_POSITION: Vector2 = Vector2(950, 720)
-const DULCE_GROUP_POSITION: Vector2 = Vector2(1470, 690)
+const FRY_GROUP_POSITION: Vector2 = Vector2(430, 770)
+const STEVE_GROUP_POSITION: Vector2 = Vector2(950, 800)
+const DULCE_GROUP_POSITION: Vector2 = Vector2(1470, 770)
 
 # Speaker presentation.
 const SPEAKER_SIZE_MULTIPLIER: float = 1.08
@@ -941,6 +941,24 @@ var fry_random_uses: Dictionary = {}
 var fry_random_last_day: Dictionary = {}
 var fry_last_random_day: int = -100
 
+# Remember the last dialogue used for Fry's smaller events.
+var fry_last_small_event_line: Dictionary = {}
+
+
+func fry_small_event_line(event_id: String, variants: Array) -> String:
+	if variants.is_empty():
+		return ""
+
+	var previous_index: int = int(fry_last_small_event_line.get(event_id, -1))
+	var next_index: int = fry_random_rng.randi_range(0, variants.size() - 1)
+
+	# Avoid repeating the same variation twice in a row.
+	if variants.size() > 1 and next_index == previous_index:
+		next_index = (next_index + fry_random_rng.randi_range(1, variants.size() - 1)) % variants.size()
+
+	fry_last_small_event_line[event_id] = next_index
+	return str(variants[next_index])
+
 
 func roll_fry_random_event(day: int, period: String) -> Dictionary:
 	if period not in ["Afternoon", "Evening"]:
@@ -1085,7 +1103,11 @@ func make_fry_random_event(event_id: String) -> Dictionary:
 		"fry_rand_supplies":
 			return {
 				"id": event_id, "speaker": "FRY",
-				"message": "A class project needs materials I didn't budget for. Should I buy everything new or find another way?",
+				"message": fry_small_event_line(event_id, [
+					"A class project needs materials I didn't budget for. Should I buy everything new or find another way?",
+					"Great, I need more supplies for class. Should I pay full price or try to save a little?",
+					"Didn't see that coming. My project needs extra materials, and I'm trying not to spend too much."
+				]),
 				"choices": [
 					{
 						"text": "Buy new supplies - $36", "money": -36, "mood": 3,
@@ -1105,21 +1127,34 @@ func make_fry_random_event(event_id: String) -> Dictionary:
 			}
 
 		"fry_rand_gig":
+			var full_pay: int = fry_random_rng.randi_range(30, 45)
+			var small_pay: int = fry_random_rng.randi_range(14, 22)
 			return {
 				"id": event_id, "speaker": "FRY",
-				"message": "Someone on the campus job board needs a quick website update. I could earn some extra money today.",
+				"message": fry_small_event_line(event_id, [
+					"Someone on the campus job board needs a quick website update. I could earn some extra money today.",
+					"Oh, there's a small web job posted on campus. A little extra cash wouldn't hurt.",
+					"Someone needs help fixing a website. I could take the whole job or just do a quick task."
+				]),
 				"choices": [
 					{
-						"text": "Take the full job (+$38)", "money": 38, "energy": -19,
-						"mood": -3, "consumes_period": true,
-						"finance_label": "Campus website gig", "finance_category": "Income",
-						"reaction": "It's a lot of work, but that $38 will help with the bills."
+						"text": "Take the full job (+$%d)" % full_pay,
+						"money": full_pay,
+						"energy": -19,
+						"mood": -3,
+						"consumes_period": true,
+						"finance_label": "Campus website gig",
+						"finance_category": "Income",
+						"reaction": "It's a lot of work, but that $%d will help with the bills." % full_pay
 					},
 					{
-						"text": "Do a smaller task (+$18)", "money": 18, "energy": -10,
-						"consumes_period": true, "finance_label": "Small campus web task",
+						"text": "Do a smaller task (+$%d)" % small_pay,
+						"money": small_pay,
+						"energy": -10,
+						"consumes_period": true,
+						"finance_label": "Small campus web task",
 						"finance_category": "Income",
-						"reaction": "Quick and manageable. An extra $18 isn't bad."
+						"reaction": "Quick and manageable. An extra $%d isn't bad." % small_pay
 					},
 					{
 						"text": "Pass and take a break", "energy": 6, "mood": 2,
@@ -1129,27 +1164,42 @@ func make_fry_random_event(event_id: String) -> Dictionary:
 			}
 
 		"fry_rand_refund":
+			var refund_amount: int = fry_random_rng.randi_range(10, 25)
+			var treat_cost: int = mini(11, refund_amount - 1)
+			var kept_amount: int = refund_amount - treat_cost
+
 			return {
-				"id": event_id, "speaker": "FRY",
-				"message": "An old store order was overcharged. They approved a $16 refund I can claim today!",
+				"id": event_id,
+				"speaker": "FRY",
+				"message": fry_small_event_line(event_id, [
+					"An old store order was overcharged. They approved a $%d refund I can claim today!",
+					"Wait, the store owes me $%d from that old order? I should probably claim it.",
+					"Hey, I got an email saying I can get $%d back for an overcharge. Nice."
+				]) % refund_amount,
 				"choices": [
 					{
-						"text": "Claim the full refund (+$16)", "money": 16, "mood": 2,
-						"finance_label": "Store overcharge refund", "finance_category": "Refund",
-						"reaction": "Nice. I'm putting that $16 back into my budget."
+						"text": "Claim the full refund (+$%d)" % refund_amount,
+						"money": refund_amount,
+						"mood": 2,
+						"finance_label": "Store overcharge refund",
+						"finance_category": "Refund",
+						"reaction": "Nice. I'm putting that $%d back into my budget." % refund_amount
 					},
 					{
-						"text": "Claim it and spend $11 (+$5 net)", "money": 5, "mood": 7,
-						"finance_label": "Refund after treating myself", "finance_category": "Refund",
-						"reaction": "A little treat felt good, and I still got $5 back."
+						"text": "Claim it and spend $%d (+$%d net)" % [treat_cost, kept_amount],
+						"money": kept_amount,
+						"mood": 7,
+						"finance_label": "Refund after treating myself",
+						"finance_category": "Refund",
+						"reaction": "A little treat felt good, and I still got $%d back." % kept_amount
 					},
 					{
-						"text": "Ignore the refund", "mood": -1,
+						"text": "Ignore the refund",
+						"mood": -1,
 						"reaction": "I guess I'll let that one go... maybe not my smartest decision."
 					}
 				]
 			}
-
 	return {}
 
 #endregion
@@ -4198,7 +4248,9 @@ func finish_movie_night() -> void:
 @onready var next_day_button: Button = $UI/HUD/NextDayButton
 
 @onready var dialogue_manager: DialogueManager = $UI/HUD/DialoguePanel
+
 @onready var campus_backdrop: ColorRect = $CampusBackdrop
+@onready var classroom_set: TextureRect = $CampusBackdrop/ClassroomSet
 @onready var bedroom_camera: Camera2D = $Camera2D
 
 @onready var dulce_campus: Sprite2D = $DulceCampus
@@ -4547,12 +4599,13 @@ func _ready() -> void:
 	#story_flags["day21_kittens_adopted"] = true
 	#story_flags["day27_kitten_visit_seen"] = false
 	#=========================== DEBUG ======================================== #
-	add_late_month_events()
+
 	fry_random_rng.randomize()
 	fry_random_uses.clear()
 	fry_random_last_day.clear()
 	fry_last_random_day = -100
-	
+	fry_last_small_event_line.clear()
+
 	# Connect Fry's financial information to the phone.
 	phone_ui.call("set_finance_source", self)
 	
@@ -4981,6 +5034,64 @@ var pending_home_delivery_meals: int = 0
 
 # Show the shopping trip reaction once Fry returns home.
 var pending_store_trip_notice: String = ""
+
+
+func customize_fry_shared_small_event() -> void:
+	var event_id: String = str(active_event.get("id", ""))
+	var choices: Array = active_event.get("choices", [])
+
+	match event_id:
+		"wishlist_sale":
+			if choices.size() < 1:
+				return
+
+			var sale_price: int = fry_random_rng.randi_range(12, 28)
+
+			active_event["message"] = fry_small_event_line(event_id, [
+				"Something on my wishlist is on sale for $%d. Do I get it?",
+				"Oh, that thing I wanted is only $%d right now. Is it really worth buying?",
+				"A $%d sale price sounds tempting, but I've got bills to think about."
+			]) % sale_price
+
+			var buy_choice: Dictionary = choices[0]
+			buy_choice["text"] = "Buy it - $%d" % sale_price
+			buy_choice["money"] = -sale_price
+			buy_choice["finance_label"] = "Wishlist sale purchase"
+			buy_choice["finance_category"] = "Shopping"
+
+			choices[0] = buy_choice
+			active_event["choices"] = choices
+
+		"small_refund":
+			if choices.size() < 2:
+				return
+
+			var refund_amount: int = fry_random_rng.randi_range(15, 35)
+			var spend_amount: int = int(round(float(refund_amount) * 0.80))
+			var net_amount: int = refund_amount - spend_amount
+
+			active_event["message"] = fry_small_event_line(event_id, [
+				"A $%d refund just arrived. Nice! What should I do with it?",
+				"Huh, I got $%d back from a store. That's a nice surprise.",
+				"Wait, is that a $%d refund? I wasn't expecting that today."
+			]) % refund_amount
+
+			var keep_choice: Dictionary = choices[0]
+			keep_choice["text"] = "Keep the $%d" % refund_amount
+			keep_choice["money"] = refund_amount
+			keep_choice["finance_label"] = "Small store refund"
+			keep_choice["finance_category"] = "Refund"
+			choices[0] = keep_choice
+
+			var spend_choice: Dictionary = choices[1]
+			spend_choice["text"] = "Spend $%d of it (keep $%d)" % [spend_amount, net_amount]
+			spend_choice["money"] = net_amount
+			spend_choice["reaction"] = "A little treat, and I still have $%d left." % net_amount
+			spend_choice["finance_label"] = "Refund after small treat"
+			spend_choice["finance_category"] = "Refund"
+			choices[1] = spend_choice
+
+			active_event["choices"] = choices
 
 
 func customize_fry_breakfast_event() -> void:
@@ -6152,6 +6263,9 @@ func load_period_event() -> void:
 		next_day_button.show()
 		return
 
+	# Apply small refund and sale variations only to Fry.
+	customize_fry_shared_small_event()
+
 	# Customize Fry's breakfast regardless of how it was triggered.
 	var is_breakfast: bool = (
 		str(active_event.get("id", "")).to_lower().contains("breakfast")
@@ -6169,9 +6283,15 @@ func load_period_event() -> void:
 			):
 				is_breakfast = true
 				break
-
 	if is_breakfast:
 		active_event["fry_pantry_breakfast"] = true
+		
+		active_event["message"] = fry_small_event_line("breakfast", [
+			"I'm starving. Should I order breakfast or just make something at home?",
+			"I'm hungry. Should I order something or make some good food at home?",
+			"I could really go for breakfast right now. Do I cook or just order something?"
+		])
+		
 		customize_fry_breakfast_event()
 
 	EventManager.record_event_shown(
@@ -8343,9 +8463,11 @@ func fade_to_location(destination: String) -> void:
 	)
 	cinema_set.visible = (destination == "cinema")
 
+	# Show the classroom whenever Fry is at school.
+	classroom_set.visible = (destination == "campus")
+
 	# Place and reveal only the characters needed here.
 	update_location_characters(destination)
-
 
 	var fade_in: Tween = create_tween()
 	fade_in.tween_property(screen_fade, "modulate:a", 0.0, 0.45)
