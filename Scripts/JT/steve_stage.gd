@@ -4,6 +4,7 @@ extends Node
 
 # Randomly generate load in the character's info
 func _ready():
+	DayManager.reset_calendar()
 	if TutorialManager.inTutorial:
 		%SteveEventHandler.load_tutorial()
 		%SteveEventHandler._show_current_period_dialogue()
