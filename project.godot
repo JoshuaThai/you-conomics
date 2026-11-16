@@ -21,6 +21,7 @@ DayManager="*uid://c0sdfo6d7nbvv"
 EventManager="*uid://dup68nu4muwrf"
 SceneTransition="*uid://bkgjyq44im7l6"
 PauseMenu="*res://Scenes/UI/pause_menu.tscn"
+TutorialManager="*uid://ceukp5aqtqtxg"
 
 [display]
 

@@ -45,7 +45,7 @@ var bills: Dictionary = {
 	
 	"student debt": {
 		"name": "Student Loans",
-		"amount": 250,
+		"amount": 50,
 		"due_day": 20,
 		"late_fee": 50,
 		"paid": false,
@@ -64,12 +64,13 @@ var random_bills = {
 	}
 }
 
-# Player won't be able to move to next period until they interact with all items in house
+# Player won't be able to move to next period until they interact 
+# with the necessary items
 var clickAllObjects = {
-	"Calendar": false,
-	"Computer": false,
-	"Fridge": false,
-	"HouseDoor": false
+	"Calendar": true,
+	"Computer": true,
+	"Fridge": true,
+	"HouseDoor": true
 }
 
 var objectsLeft = []
@@ -261,7 +262,7 @@ func interact_with_object(objectName):
 
 func load_next_period():
 	for object in clickAllObjects:
-		clickAllObjects[object] = false
+		clickAllObjects[object] = true
 	return true
 
 func set_task_label():
@@ -349,18 +350,25 @@ func _ready():
 	%UI.visible = false
 	await steve_Home._trigger_transition_on_start()
 	%UI.visible = true
-
+	
+func update_recap_body():
+	%RecapBodyLabel.text = ("Starting balance: $100.00\n" +
+	"Total earned: $" + str("%.2f" % total_income) + "\n" +
+	"Total spent: $" + str("%.2f" % total_spending) + "\n" +
+	"Remaining cash: $" + str("%.2f" % money) )
+	
 func _process(delta):
 	#set_task_label()
 	var nextTime = DayManager.get_next_time()
-	if nextTime["period"] == "Afternoon":
-		%NextPeriodButton.text = "To Work"
+	if nextTime.is_empty():
+		%NextPeriodButton.text = "Finish" 
 	else:
 		%NextPeriodButton.text = "To " + nextTime["period"]
 		
 	%DayLabel.text = "DAY %s / 30" % DayManager.current_day
 	var weekdayName = DayManager.get_weekday_name(DayManager.current_day).to_upper()
 	%PeriodLabel.text = weekdayName + " " + DayManager.get_period().to_upper()
+	update_recap_body()
 	
 func pause_movement():
 	debounce = true
@@ -476,6 +484,8 @@ func clear_events():
 	nightEvents.clear()
 	
 func go_to_next_period():
+	if %TutorialLabel.text == "You can also move around by clicking. Try it!":
+		return
 	var current_day = DayManager.current_day
 	%NextPeriodButton.hide()
 	%MoneyLabel.hide()
@@ -486,6 +496,14 @@ func go_to_next_period():
 	%PeriodLabel.hide()
 	house_object.emailInteractedWith = false
 	await steve_Home.trigger_transition()
+#	Game completed!
+	if current_day == 30 and DayManager.get_period() == "Evening":
+		%MonthRecapOverlay.visible = true
+		return
+#	Tutorial completed!
+	if %TutorialLabel.text == "":
+		%TutorialCompleteOverlay.visible = true
+		return
 	DayManager.advance_period()
 	
 	%MoneyLabel.show()
