@@ -156,8 +156,17 @@ func _set_voice_for_speaker(speaker: String) -> void:
 			current_character_delay = steve_character_delay
 			current_characters_per_blip = steve_characters_per_blip
 			voice_blip.volume_db = steve_blip_volume_db
+		"YOU-BO":
+			# Reuse Fry's blip with a higher-pitched, robotic personality.
+			voice_blip.stream = fry_voice if fry_voice != null else default_voice
+			current_voice_pitch = 1.45
+			current_character_delay = 0.028
+			current_characters_per_blip = 2
+			voice_blip.volume_db = -15.0
+
 		_:
 			voice_blip.stream = default_voice
+
 
 
 func _apply_emotion(emotion: String) -> void:

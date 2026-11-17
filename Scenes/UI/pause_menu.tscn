@@ -20,55 +20,63 @@ corner_radius_bottom_left = 20
 shadow_color = Color(0, 0, 0, 0.45)
 shadow_size = 16
 
-[sub_resource type="StyleBoxFlat" id="primary"]
-bg_color = Color(0.286275, 0.713725, 0.619608, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-
-[sub_resource type="StyleBoxFlat" id="primary_hover"]
-bg_color = Color(0.352941, 0.819608, 0.701961, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-
-[sub_resource type="StyleBoxFlat" id="focus"]
-bg_color = Color(0, 0, 0, 0)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_muted"]
+bg_color = Color(0.109804, 0.156863, 0.211765, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.647059, 0.937255, 0.831373, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
+border_color = Color(0.211765, 0.278431, 0.337255, 1)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
 
-[sub_resource type="StyleBoxFlat" id="secondary"]
-bg_color = Color(0.137255, 0.2, 0.266667, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.254902, 0.341176, 0.407843, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ce3w2"]
+bg_color = Color(0.078431375, 0.13725491, 0.1882353, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.21176471, 0.2784314, 0.3372549, 1)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
 
-[sub_resource type="StyleBoxFlat" id="secondary_hover"]
-bg_color = Color(0.184314, 0.266667, 0.321569, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.352941, 0.819608, 0.701961, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ehe0"]
+bg_color = Color(0.16862746, 0.2627451, 0.33333334, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.21176471, 0.2784314, 0.3372549, 1)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rrvs5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n45e2"]
+bg_color = Color(0.13333334, 0.21568628, 0.2784314, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.21176471, 0.2784314, 0.3372549, 1)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8rf44"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r2i2h"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oykix"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kdnb7"]
 
 [node name="PauseMenu" type="CanvasLayer" unique_id=412937743]
 process_mode = 3
@@ -139,26 +147,24 @@ mouse_filter = 2
 [node name="ResumeButton" type="Button" parent="PauseRoot/Center/Panel/Contents" unique_id=1794841628]
 custom_minimum_size = Vector2(0, 67)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.054902, 0.105882, 0.105882, 1)
-theme_override_colors/font_pressed_color = Color(0.054902, 0.105882, 0.105882, 1)
-theme_override_colors/font_hover_color = Color(0.054902, 0.105882, 0.105882, 1)
 theme_override_font_sizes/font_size = 27
-theme_override_styles/normal = SubResource("primary")
-theme_override_styles/pressed = SubResource("primary_hover")
-theme_override_styles/hover = SubResource("primary_hover")
-theme_override_styles/focus = SubResource("focus")
+theme_override_styles/normal = SubResource("StyleBoxFlat_muted")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ce3w2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_1ehe0")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_rrvs5")
 text = "RESUME"
 
 [node name="SettingsButton" type="Button" parent="PauseRoot/Center/Panel/Contents" unique_id=1058224129]
 custom_minimum_size = Vector2(0, 67)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.91, 0.94, 0.95, 1)
-theme_override_colors/font_disabled_color = Color(0.47, 0.54, 0.59, 1)
 theme_override_font_sizes/font_size = 27
-theme_override_styles/normal = SubResource("secondary")
-theme_override_styles/disabled = SubResource("secondary")
+theme_override_styles/normal = SubResource("StyleBoxFlat_muted")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ce3w2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_1ehe0")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_n45e2")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_8rf44")
 disabled = true
-text = "SETTINGS  (SOON)"
+text = "SETTINGS"
 
 [node name="MainMenuButton" type="Button" parent="PauseRoot/Center/Panel/Contents" unique_id=1279239741]
 custom_minimum_size = Vector2(0, 67)
@@ -166,10 +172,10 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.91, 0.94, 0.95, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 27
-theme_override_styles/normal = SubResource("secondary")
-theme_override_styles/pressed = SubResource("secondary_hover")
-theme_override_styles/hover = SubResource("secondary_hover")
-theme_override_styles/focus = SubResource("focus")
+theme_override_styles/normal = SubResource("StyleBoxFlat_muted")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ce3w2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_1ehe0")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_r2i2h")
 text = "MAIN MENU"
 
 [node name="QuitButton" type="Button" parent="PauseRoot/Center/Panel/Contents" unique_id=1590051498]
@@ -178,10 +184,10 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.91, 0.94, 0.95, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 27
-theme_override_styles/normal = SubResource("secondary")
-theme_override_styles/pressed = SubResource("secondary_hover")
-theme_override_styles/hover = SubResource("secondary_hover")
-theme_override_styles/focus = SubResource("focus")
+theme_override_styles/normal = SubResource("StyleBoxFlat_muted")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ce3w2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_1ehe0")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_oykix")
 text = "QUIT GAME"
 
 [node name="Footer" type="Label" parent="PauseRoot/Center/Panel/Contents" unique_id=1302912058]
@@ -248,24 +254,20 @@ theme_override_constants/separation = 15
 custom_minimum_size = Vector2(0, 65)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.054902, 0.105882, 0.105882, 1)
-theme_override_colors/font_hover_color = Color(0.054902, 0.105882, 0.105882, 1)
 theme_override_font_sizes/font_size = 25
-theme_override_styles/normal = SubResource("primary")
-theme_override_styles/pressed = SubResource("primary_hover")
-theme_override_styles/hover = SubResource("primary_hover")
-theme_override_styles/focus = SubResource("focus")
+theme_override_styles/normal = SubResource("StyleBoxFlat_muted")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ce3w2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ce3w2")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_kdnb7")
 text = "YES"
 
 [node name="CancelButton" type="Button" parent="PauseRoot/ConfirmationRoot/Center/Panel/Contents/ConfirmButtons" unique_id=1046113795]
 custom_minimum_size = Vector2(0, 65)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.91, 0.94, 0.95, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 25
-theme_override_styles/normal = SubResource("secondary")
-theme_override_styles/pressed = SubResource("secondary_hover")
-theme_override_styles/hover = SubResource("secondary_hover")
-theme_override_styles/focus = SubResource("focus")
+theme_override_styles/normal = SubResource("StyleBoxFlat_muted")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ce3w2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ce3w2")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_kdnb7")
 text = "CANCEL"

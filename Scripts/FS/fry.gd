@@ -4877,8 +4877,8 @@ func _ready() -> void:
 	DayManager.reset_calendar()
 	
 	#=========================== DEBUG ======================================== #
-	# DAY DEBUG: Choose which day and period to start on. DEVELOPER DELETE
-	#DayManager.current_day = 1
+	 #DAY DEBUG: Choose which day and period to start on. DEVELOPER DELETE
+	#DayManager.current_day = 27
 	#DayManager.period_index = 3
 	#DayManager.isWeekend = DayManager.is_weekend_day(DayManager.current_day)
 	## Register the special Night period.

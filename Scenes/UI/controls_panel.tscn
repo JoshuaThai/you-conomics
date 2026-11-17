@@ -1,0 +1,231 @@
+[gd_scene format=3 uid="uid://b6o0dsdbnov7a"]
+
+[ext_resource type="Script" uid="uid://5e2py6d7cnyy" path="res://Scripts/Shared/controls_panel.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="panel_style"]
+bg_color = Color(0.109804, 0.156863, 0.211765, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.282353, 0.407843, 0.470588, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_muted"]
+bg_color = Color(0.109804, 0.156863, 0.211765, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.211765, 0.278431, 0.337255, 1)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ce3w2"]
+bg_color = Color(0.078431375, 0.13725491, 0.1882353, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.21176471, 0.2784314, 0.3372549, 1)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ehe0"]
+bg_color = Color(0.16862746, 0.2627451, 0.33333334, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.21176471, 0.2784314, 0.3372549, 1)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n45e2"]
+bg_color = Color(0.13333334, 0.21568628, 0.2784314, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.21176471, 0.2784314, 0.3372549, 1)
+corner_radius_top_left = 13
+corner_radius_top_right = 13
+corner_radius_bottom_right = 13
+corner_radius_bottom_left = 13
+
+[sub_resource type="StyleBoxEmpty" id="empty_focus"]
+
+[node name="ControlsPanel" type="Control" unique_id=755777647]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Shade" type="Control" parent="." unique_id=224259326]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="Shade" unique_id=2133982722]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.015686, 0.023529, 0.035294, 0.9)
+
+[node name="Center" type="CenterContainer" parent="Shade" unique_id=1192588883]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Shade/Center" unique_id=1151447541]
+custom_minimum_size = Vector2(740, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("panel_style")
+
+[node name="Margins" type="MarginContainer" parent="Shade/Center/Panel" unique_id=696980281]
+layout_mode = 2
+theme_override_constants/margin_left = 42
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 42
+theme_override_constants/margin_bottom = 24
+
+[node name="VBox" type="VBoxContainer" parent="Shade/Center/Panel/Margins" unique_id=854643228]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Tag" type="Label" parent="Shade/Center/Panel/Margins/VBox" unique_id=2093050216]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.435294, 0.745098, 0.686275, 1)
+theme_override_font_sizes/font_size = 17
+text = "YOU-CONOMICS"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="Shade/Center/Panel/Margins/VBox" unique_id=324965441]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.941176, 0.956863, 0.937255, 1)
+theme_override_font_sizes/font_size = 44
+text = "CONTROLS"
+horizontal_alignment = 1
+
+[node name="Intro" type="Label" parent="Shade/Center/Panel/Margins/VBox" unique_id=1909103511]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.647059, 0.729412, 0.74902, 1)
+theme_override_font_sizes/font_size = 18
+text = "A quick guide before the bills arrive."
+horizontal_alignment = 1
+
+[node name="Gap1" type="Control" parent="Shade/Center/Panel/Margins/VBox" unique_id=508978358]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="FryTitle" type="Label" parent="Shade/Center/Panel/Margins/VBox" unique_id=1113380982]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.435294, 0.745098, 0.686275, 1)
+theme_override_font_sizes/font_size = 22
+text = "FRY'S STORY"
+
+[node name="FryMove" type="Label" parent="Shade/Center/Panel/Margins/VBox" unique_id=1890268072]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.94, 0.95, 1)
+theme_override_font_sizes/font_size = 20
+text = "A / D    Move left / right"
+
+[node name="FryInteract" type="Label" parent="Shade/Center/Panel/Margins/VBox" unique_id=731069410]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.94, 0.95, 1)
+theme_override_font_sizes/font_size = 20
+text = "E           Use bed / desk when nearby"
+
+[node name="FryPhone" type="Label" parent="Shade/Center/Panel/Margins/VBox" unique_id=432024003]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.94, 0.95, 1)
+theme_override_font_sizes/font_size = 20
+text = "PHONE   Click the phone button to open apps"
+
+[node name="Gap2" type="Control" parent="Shade/Center/Panel/Margins/VBox" unique_id=573686266]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SteveTitle" type="Label" parent="Shade/Center/Panel/Margins/VBox" unique_id=1760317066]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.435294, 0.745098, 0.686275, 1)
+theme_override_font_sizes/font_size = 22
+text = "STEVE'S STORY"
+
+[node name="SteveMouse" type="Label" parent="Shade/Center/Panel/Margins/VBox" unique_id=6056705]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.94, 0.95, 1)
+theme_override_font_sizes/font_size = 20
+text = "MOUSE   Click interactive room objects and buttons"
+
+[node name="SteveHint" type="Label" parent="Shade/Center/Panel/Margins/VBox" unique_id=476686486]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.647059, 0.729412, 0.74902, 1)
+theme_override_font_sizes/font_size = 17
+text = "Use on-screen prompts to progress through Steve's day."
+
+[node name="Gap3" type="Control" parent="Shade/Center/Panel/Margins/VBox" unique_id=597654829]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BothTitle" type="Label" parent="Shade/Center/Panel/Margins/VBox" unique_id=1462753837]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.435294, 0.745098, 0.686275, 1)
+theme_override_font_sizes/font_size = 22
+text = "BOTH STORIES"
+
+[node name="BothChoose" type="Label" parent="Shade/Center/Panel/Margins/VBox" unique_id=898949064]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.94, 0.95, 1)
+theme_override_font_sizes/font_size = 20
+text = "MOUSE   Select dialogue choices and on-screen actions"
+
+[node name="BothPause" type="Label" parent="Shade/Center/Panel/Margins/VBox" unique_id=53659097]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.94, 0.95, 1)
+theme_override_font_sizes/font_size = 20
+text = "ESC          Pause / resume; go back in menus"
+
+[node name="Gap4" type="Control" parent="Shade/Center/Panel/Margins/VBox" unique_id=1252148658]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BackButton" type="Button" parent="Shade/Center/Panel/Margins/VBox" unique_id=1856252183]
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_muted")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ce3w2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_1ehe0")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_n45e2")
+theme_override_styles/focus = SubResource("empty_focus")
+text = "BACK"
